@@ -1,8 +1,9 @@
 import React from 'react'
+import LoginUI from './LoginUI'
 
-const Login = () => {
+const Login: React.FC<any> = () => {
   return (
-    <div>Login</div>
+    <LoginUI />
   )
 }
 

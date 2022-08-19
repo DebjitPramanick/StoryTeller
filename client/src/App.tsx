@@ -1,10 +1,10 @@
-import { Login } from '@mui/icons-material';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import PageLayout from './layouts/PageLayout';
 import Editor from './pages/Editor';
 import Feeds from './pages/Feeds';
+import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
 import Story from './pages/Story';
