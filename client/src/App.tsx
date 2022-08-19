@@ -11,12 +11,15 @@ import Story from './pages/Story';
 
 function App() {
 
+  const curPath = window.location.pathname;
+  const isAuthPage = curPath.includes('register') || curPath.includes('login')
+
   return (
     <div className="App">
       <Router>
         <Header />
-        <PageLayout>
-          <Sidebar />
+        <PageLayout isAuthPage={isAuthPage}>
+          <Sidebar hide={isAuthPage}/>
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />

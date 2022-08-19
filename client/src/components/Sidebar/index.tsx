@@ -2,7 +2,7 @@ import { AccountCircle, CreateRounded, FeedRounded, Logout } from '@mui/icons-ma
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Sidebar = () => {
+const Sidebar: React.FC<any> = ({hide}) => {
 
     const items: { name: string, icon: any, path: string }[] = [
         {
@@ -26,6 +26,8 @@ const Sidebar = () => {
             path: '/logout'
         },
     ]
+
+    if(hide) return null;
 
     return (
         <div className='fixed'>

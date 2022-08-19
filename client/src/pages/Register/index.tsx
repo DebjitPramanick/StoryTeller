@@ -1,8 +1,9 @@
 import React from 'react'
+import RegitserUI from './RegitserUI'
 
 const Register = () => {
   return (
-    <div>Register</div>
+    <RegitserUI />
   )
 }
 
