@@ -1,6 +1,17 @@
 import React from 'react'
 
-const InputField: React.FC<any> = ({
+interface InputProps {
+    label: string,
+    value: string | number,
+    setValue: (val: any) => void,
+    leftIcon?: React.ReactNode,
+    rightIcon?: React.ReactNode,
+    type?: string,
+    placeholder?: string,
+    required?: boolean
+}
+
+const InputField: React.FC<InputProps> = ({
     label,
     value,
     setValue,

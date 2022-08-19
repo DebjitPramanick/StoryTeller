@@ -6,6 +6,11 @@ import AuthLayout from '../../layouts/AuthLayout'
 import FormLayout from '../../layouts/FormLayout'
 
 const RegitserUI = () => {
+
+    const handleRegister = async() => {
+
+    }
+
     return (
         <AuthLayout>
             <FormLayout>
@@ -49,7 +54,7 @@ const RegitserUI = () => {
                         required={true}
                     />
 
-                    <Button label="Register" type="submit" rightAligned={true}/>
+                    <Button label="Register" type="submit" rightAligned={true} onClick={handleRegister}/>
 
                     <Link to="/login" className='block mt-4 text-sm'>Already an user? Login</Link>
                 </form>

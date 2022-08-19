@@ -6,6 +6,11 @@ import AuthLayout from '../../layouts/AuthLayout'
 import FormLayout from '../../layouts/FormLayout'
 
 const LoginUI = () => {
+
+    const handleLogin = async() => {
+
+    }
+
     return (
         <AuthLayout>
             <FormLayout>
@@ -29,7 +34,7 @@ const LoginUI = () => {
                         required={true}
                     />
 
-                    <Button label="Login" type="submit" rightAligned={true} />
+                    <Button label="Login" type="submit" rightAligned={true} onClick={handleLogin}/>
 
                     <Link to="/register" className='block mt-4 text-sm'>Not an user? Login</Link>
                 </form>
