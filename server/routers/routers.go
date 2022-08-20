@@ -1,16 +1,15 @@
 package routers
 
 import (
-	"server/controllers/userControllers"
-	"server/controllers/testControllers"
+	"server/controllers"
+
 	"github.com/gofiber/fiber/v2"
 )
 
 func Setup(app *fiber.App) {
 	
-	app.Get("/api/health", testcontrollers.CheckHealth)
+	app.Get("/api/health", controllers.CheckHealth)
 
-	app.Get("/api/user", usercontrollers.GetUser)
-	app.Get("/api/login", usercontrollers.GetUser)
-	app.Get("/api/login", usercontrollers.GetUser)
+	app.Get("/api/user", controllers.GetUser)
+	app.Get("/api/register", controllers.RegisterUser)
 }
