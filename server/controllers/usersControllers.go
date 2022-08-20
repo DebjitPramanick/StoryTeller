@@ -108,3 +108,26 @@ func LoginUser(c *fiber.Ctx) error {
 		"token": token,
 	})
 }
+
+func GetUserByID(c *fiber.Ctx) error {
+	userID, _ := primitive.ObjectIDFromHex(c.Params("id"));
+	var user models.User
+
+	queryError := database.Users.FindOne(context.TODO(), bson.M{"_id": userID}).Decode(&user)
+
+	if queryError == mongo.ErrNoDocuments {
+		c.Status(fiber.StatusNotFound)
+		return c.JSON(fiber.Map{
+			"message": "User not found",
+		})
+	}
+
+	data := fiber.Map{
+		"_id": user.ID,
+		"name": user.Name,
+		"bio": user.Bio,
+		"avatar": user.Avatar,
+	}
+
+	return c.JSON(data)
+}
