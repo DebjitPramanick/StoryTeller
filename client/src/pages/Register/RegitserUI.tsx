@@ -5,11 +5,11 @@ import InputField from '../../components/FormFields/InputField'
 import AuthLayout from '../../layouts/AuthLayout'
 import FormLayout from '../../layouts/FormLayout'
 
-const RegitserUI = () => {
-
-    const handleRegister = async() => {
-
-    }
+const RegitserUI: React.FC<any> = ({
+    handleRegister,
+    data,
+    handleChangeData
+}) => {
 
     return (
         <AuthLayout>
@@ -19,8 +19,8 @@ const RegitserUI = () => {
                     <InputField
                         label='Your name'
                         placeholder='Enter name'
-                        value={''}
-                        setValue={() => { }}
+                        value={data.name}
+                        setValue={(val: string) => handleChangeData('name', val)}
                         type='text'
                         required={true}
                     />
@@ -28,8 +28,8 @@ const RegitserUI = () => {
                     <InputField
                         label='Your email'
                         placeholder='Enter email'
-                        value={''}
-                        setValue={() => { }}
+                        value={data.email}
+                        setValue={(val: string) => handleChangeData('email', val)}
                         type='email'
                         required={true}
                     />
@@ -38,8 +38,8 @@ const RegitserUI = () => {
                     <InputField
                         label='Your username'
                         placeholder='Enter username'
-                        value={''}
-                        setValue={() => { }}
+                        value={data.username}
+                        setValue={(val: string) => handleChangeData('username', val)}
                         type='text'
                         required={true}
                     />
@@ -48,13 +48,13 @@ const RegitserUI = () => {
                     <InputField
                         label='Your password'
                         placeholder='Enter password'
-                        value={''}
-                        setValue={() => { }}
+                        value={data.password}
+                        setValue={(val: string) => handleChangeData('password', val)}
                         type='password'
                         required={true}
                     />
 
-                    <Button label="Register" type="submit" rightAligned={true} onClick={handleRegister}/>
+                    <Button label="Register" type="submit" rightAligned={true} onClick={(e: any) => handleRegister(e)}/>
 
                     <Link to="/login" className='block mt-4 text-sm'>Already an user? Login</Link>
                 </form>

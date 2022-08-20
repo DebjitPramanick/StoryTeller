@@ -1,5 +1,15 @@
 import React, { useContext, createContext, useState } from "react";
 
+export interface UserDetailsType {
+  _id?: string,
+  name: string,
+  email: string,
+  username: string,
+  password?: string,
+  bio?: string,
+  avatar?: string
+}
+
 export interface UserContextProps {
   user: any,
   saveGlobalUser: (data: any) => void
