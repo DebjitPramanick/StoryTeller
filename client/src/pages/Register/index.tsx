@@ -17,10 +17,10 @@ const Register = () => {
   const handleRegister = async (e: any) => {
     e.preventDefault();
     try {
-      const res = await registerUser(data);
-      console.log(res.data)
-    } catch (err) {
-      alert(data)
+      await registerUser(data);
+      window.location.href = "/login"
+    } catch (err: any) {
+      alert(err.message)
     }
   }
 

@@ -2,7 +2,10 @@ import { AccountCircle, CreateRounded, FeedRounded, Logout } from '@mui/icons-ma
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Sidebar: React.FC<any> = ({hide}) => {
+const Sidebar: React.FC<any> = () => {
+
+    const curPath = window.location.pathname;
+    const hide = curPath.includes('register') || curPath.includes('login')
 
     const items: { name: string, icon: any, path: string }[] = [
         {

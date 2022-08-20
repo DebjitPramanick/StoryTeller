@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useUser } from '../../contexts/UserContext'
 import { loginUser } from '../../helpers/auth.helper'
 import LoginUI from './LoginUI'
 
@@ -14,6 +15,8 @@ const initialData: LoginDataType = {
 
 const Login: React.FC<any> = () => {
 
+  const {saveGlobalUser} = useUser();
+
   const [data, setData] = useState<LoginDataType>(initialData)
 
   const handleLogin = async (e: any) => {
@@ -23,10 +26,11 @@ const Login: React.FC<any> = () => {
       const payload = hasEmail ? {email: data.name_email, password: data.password} 
       : {username: data.name_email, password: data.password};
       const res = await loginUser(payload);
-      console.log(res.data)
+      saveGlobalUser(res.data);
+      window.location.href = "/"
     } catch (err: any) {
       console.log(err)
-      alert(err.message)
+      alert(err)
     }
   }
 
