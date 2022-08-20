@@ -16,3 +16,9 @@ func GetEnvVariable(key string) string {
 
 	return os.Getenv(key);
 }
+
+
+func IsKeyPresent(data map[string]string, key string) bool {
+	_, isPresent := data[key]
+	return isPresent;
+}
