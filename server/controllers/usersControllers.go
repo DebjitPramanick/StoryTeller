@@ -51,3 +51,17 @@ func RegisterUser(c *fiber.Ctx) error {
 	fmt.Println("Created user with email & ID: ", user.Email, result.InsertedID)
 	return c.JSON(user)
 }
+
+func LoginUser(c *fiber.Ctx) error {
+	
+	var data map[string]string
+
+	err := c.BodyParser(&data)
+
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	return c.JSON(data)
+}
