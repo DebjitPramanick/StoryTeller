@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
+import ProtectedRoutes from './components/ProtectedRoutes';
 import Sidebar from './components/Sidebar';
 import PageLayout from './layouts/PageLayout';
 import Editor from './pages/Editor';
@@ -17,14 +18,34 @@ function App() {
       <Router>
         <Header />
         <PageLayout>
-          <Sidebar/>
+          <Sidebar />
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/' element={<Feeds />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/story/:id' element={<Story />} />
-            <Route path='/editor' element={<Editor />} />
+
+            <Route path='/' element={
+              <ProtectedRoutes>
+                <Feeds />
+              </ProtectedRoutes>
+            } />
+
+            <Route path='/profile' element={
+              <ProtectedRoutes>
+                <Profile />
+              </ProtectedRoutes>
+            } />
+
+            <Route path='/story/:id' element={
+              <ProtectedRoutes>
+                <Story />
+              </ProtectedRoutes>
+            } />
+
+            <Route path='/editor' element={
+              <ProtectedRoutes>
+                <Editor />
+              </ProtectedRoutes>
+            } />
           </Routes>
         </PageLayout>
       </Router>

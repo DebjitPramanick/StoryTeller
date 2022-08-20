@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import { useUser } from '../../contexts/UserContext'
 import { loginUser } from '../../helpers/auth.helper'
 import LoginUI from './LoginUI'
@@ -15,7 +16,7 @@ const initialData: LoginDataType = {
 
 const Login: React.FC<any> = () => {
 
-  const {saveGlobalUser} = useUser();
+  const {saveGlobalUser, user} = useUser();
 
   const [data, setData] = useState<LoginDataType>(initialData)
 
@@ -37,6 +38,8 @@ const Login: React.FC<any> = () => {
   const handleChangeData = (field: string, value: string) => {
     setData({ ...data, [field]: value })
   }
+
+  if(user) return <Navigate to={"/"}/>
 
   return (
     <LoginUI
