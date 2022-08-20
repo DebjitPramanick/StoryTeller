@@ -13,3 +13,9 @@ go get golang.org/x/crypto/bcrypt
 ```
 go get -u github.com/gofiber/fiber/v2
 ```
+
+### Godotenv
+
+```
+go get github.com/joho/godotenv
+```

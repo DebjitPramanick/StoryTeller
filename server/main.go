@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"server/database"
 	"server/routers"
 
 	"github.com/gofiber/fiber/v2"
@@ -17,6 +18,8 @@ func main() {
 		AllowOrigins: "*",
 		AllowMethods: "*",
 	}))
+
+	database.ConnectDB()
 
 	app.Use(logger.New())
 
