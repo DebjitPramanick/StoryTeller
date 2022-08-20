@@ -33,6 +33,7 @@ func RegisterUser(c *fiber.Ctx) error {
 	user := models.User{
 		ID: primitive.NewObjectID(),
 		Name: data["name"],
+		Bio: data["bio"],
 		Email: data["email"],
 		Password: pass,
 		Username: data["username"],

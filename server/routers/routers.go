@@ -11,5 +11,5 @@ func Setup(app *fiber.App) {
 	app.Get("/api/health", controllers.CheckHealth)
 
 	app.Get("/api/user", controllers.GetUser)
-	app.Get("/api/register", controllers.RegisterUser)
+	app.Post("/api/register", controllers.RegisterUser)
 }
