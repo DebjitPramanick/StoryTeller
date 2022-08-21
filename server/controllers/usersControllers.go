@@ -17,10 +17,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func GetUser(c *fiber.Ctx) error {
-	return c.SendString("User found.")
-}
-
 func RegisterUser(c *fiber.Ctx) error {
 	
 	var data map[string]string
