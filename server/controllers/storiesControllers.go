@@ -3,11 +3,10 @@ package controllers
 import (
 	"context"
 	"fmt"
-	// "fmt"
 	"server/database"
 	"server/models"
 
-	// "time"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,7 +15,7 @@ import (
 )
 
 func CreateStory(c *fiber.Ctx) error {
-	var data map[string]string
+	var data = new(models.Story)
 
 	err := c.BodyParser(&data)
 
@@ -27,31 +26,47 @@ func CreateStory(c *fiber.Ctx) error {
 		})
 	}
 
-	// story := models.Story{
-	// 	ID: primitive.NewObjectID(),
-	// 	Title: data["title"],
-	// 	Content: data["content"],
-	// 	Cover: data["cover"],
-	// 	Tags: data["tags"],
-	// 	Likes: data["likes"],
-	// 	CreatedAt: time.Now(),
-	// }
+	authorID, _ := primitive.ObjectIDFromHex(c.Params("authorId"));
+	var author models.User
 
-	// result, err := database.Stories.InsertOne(context.TODO(), story)
+	queryError := database.Users.FindOne(context.TODO(), bson.M{"_id": authorID}).Decode(&author)
 
-	// if err != nil {
-	// 	log.Fatal(err)
-	// 	return err
-	// }
+	if queryError == mongo.ErrNoDocuments {
+		c.Status(fiber.StatusNotFound)
+		return c.JSON(fiber.Map{
+			"message": "Author not found",
+		})
+	}
 
-	// fmt.Println("Created story with ID: ", result.InsertedID)
-	return c.JSON(data)
+	story := models.Story{
+		ID: primitive.NewObjectID(),
+		Author: author,
+		Title: data.Title,
+		Content: data.Content,
+		Cover: data.Cover,
+		Tags: data.Tags,
+		Likes: data.Likes,
+		CreatedAt: time.Now(),
+	}
+
+	result, err := database.Stories.InsertOne(context.TODO(), story)
+
+	if err != nil {
+		c.Status(fiber.StatusInternalServerError)
+		return c.JSON(fiber.Map{
+			"message": "Something went wrong when creating story. Please try again later.",
+		})
+	}
+
+	fmt.Println("Created story with ID: ", result.InsertedID)
+	return c.JSON(story)
 }
 
-func GetStories(c *fiber.Ctx) error {
+func GetAuthorStories(c *fiber.Ctx) error {
 	var stories []models.Story
 
-	cur, queryError := database.Stories.Find(context.TODO(), bson.D{{}})
+	authorID, _ := primitive.ObjectIDFromHex(c.Params("authorId"));
+	cur, queryError := database.Stories.Find(context.TODO(), bson.M{"author._id": authorID})
 
 	if queryError == mongo.ErrNoDocuments {
 		c.Status(fiber.StatusNotFound)
@@ -98,4 +113,37 @@ func GetStoryByID(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(story)
+}
+
+func DeleteStory(c *fiber.Ctx) error {
+	storyID, _ := primitive.ObjectIDFromHex(c.Params("storyId"));
+
+	_, queryError := database.Stories.DeleteOne(context.Background(), bson.M{"_id": storyID})
+
+	if queryError == mongo.ErrNoDocuments {
+		c.Status(fiber.StatusNotFound)
+		return c.JSON(fiber.Map{
+			"message": "Story not found",
+		})
+	}
+	return c.JSON(fiber.Map{
+		"message": "Deleted story successfully.",
+	})
+}
+
+func UpdateStory(c *fiber.Ctx) error {
+	storyID, _ := primitive.ObjectIDFromHex(c.Params("storyId"));
+	update := bson.M{"$set": bson.M{}}
+
+	_, queryError := database.Stories.UpdateOne(context.Background(), bson.M{"_id": storyID}, update)
+
+	if queryError == mongo.ErrNoDocuments {
+		c.Status(fiber.StatusNotFound)
+		return c.JSON(fiber.Map{
+			"message": "Story not found",
+		})
+	}
+	return c.JSON(fiber.Map{
+		"message": "Updated story successfully.",
+	})
 }
