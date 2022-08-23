@@ -131,6 +131,22 @@ func DeleteStory(c *fiber.Ctx) error {
 	})
 }
 
+func DeleteAllUserStories(c *fiber.Ctx) error {
+	userID, _ := primitive.ObjectIDFromHex(c.Params("userId"));
+
+	_, queryError := database.Stories.DeleteMany(context.Background(), bson.M{"author._id": userID})
+
+	if queryError == mongo.ErrNoDocuments {
+		c.Status(fiber.StatusNotFound)
+		return c.JSON(fiber.Map{
+			"message": "Story not found",
+		})
+	}
+	return c.JSON(fiber.Map{
+		"message": "Deleted stories successfully.",
+	})
+}
+
 func UpdateStory(c *fiber.Ctx) error {
 	storyID, _ := primitive.ObjectIDFromHex(c.Params("storyId"));
 	update := bson.M{"$set": bson.M{}}

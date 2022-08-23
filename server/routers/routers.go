@@ -20,6 +20,7 @@ func Setup(app *fiber.App) {
 	app.Get("/api/story/author/:authorId", controllers.GetAuthorStories)
 	app.Get("/api/story/:storyId", controllers.GetStoryByID)
 	app.Delete("/api/story/delete/:storyId", controllers.DeleteStory)
+	app.Delete("/api/story/delete/all/:userId", controllers.DeleteAllUserStories)
 	app.Delete("/api/story/update/:storyId", controllers.UpdateStory)
 
 	// Feed APIs
