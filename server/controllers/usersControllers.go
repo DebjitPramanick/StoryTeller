@@ -3,7 +3,6 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"log"
 	"server/database"
 	"server/helpers"
 	"server/models"
@@ -24,8 +23,9 @@ func RegisterUser(c *fiber.Ctx) error {
 	err := c.BodyParser(&data)
 
 	if err != nil {
-		log.Fatal(err)
-		return err
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
 	}
 
 	pass, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
@@ -44,8 +44,9 @@ func RegisterUser(c *fiber.Ctx) error {
 	result, err := database.Users.InsertOne(context.TODO(), user)
 
 	if err != nil {
-		log.Fatal(err)
-		return err
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error occurred when creating user. Please try again later.",
+		})
 	}
 
 	fmt.Println("Created user with email & ID: ", user.Email, result.InsertedID)
@@ -57,8 +58,9 @@ func LoginUser(c *fiber.Ctx) error {
 	var data map[string]string
 	err := c.BodyParser(&data)
 	if err != nil {
-		log.Fatal(err)
-		return err
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
 	}
 
 	var user models.User
@@ -72,15 +74,13 @@ func LoginUser(c *fiber.Ctx) error {
 	queryError := database.Users.FindOne(context.TODO(), query).Decode(&user)
 
 	if queryError == mongo.ErrNoDocuments {
-		c.Status(fiber.StatusNotFound)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "User not found",
 		})
 	}
 
 	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(data["password"])); err != nil {
-		c.Status(fiber.StatusBadRequest)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Password is not correct.",
 		})
 	}
@@ -93,8 +93,7 @@ func LoginUser(c *fiber.Ctx) error {
 	token, tokenError := claim.SignedString([]byte("Secret key"))
 
 	if tokenError != nil {
-		c.Status(fiber.StatusInternalServerError)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Could not login.",
 		})
 	}
@@ -112,8 +111,7 @@ func GetUserByID(c *fiber.Ctx) error {
 	queryError := database.Users.FindOne(context.TODO(), bson.M{"_id": userID}).Decode(&user)
 
 	if queryError == mongo.ErrNoDocuments {
-		c.Status(fiber.StatusNotFound)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "User not found",
 		})
 	}

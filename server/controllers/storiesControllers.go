@@ -20,10 +20,9 @@ func CreateStory(c *fiber.Ctx) error {
 	err := c.BodyParser(&data)
 
 	if err != nil {
-		c.Status(fiber.StatusInternalServerError)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
-		})
+		});
 	}
 
 	authorID, _ := primitive.ObjectIDFromHex(c.Params("authorId"));
@@ -32,10 +31,9 @@ func CreateStory(c *fiber.Ctx) error {
 	queryError := database.Users.FindOne(context.TODO(), bson.M{"_id": authorID}).Decode(&author)
 
 	if queryError == mongo.ErrNoDocuments {
-		c.Status(fiber.StatusNotFound)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "Author not found",
-		})
+		});
 	}
 
 	story := models.Story{
@@ -52,10 +50,9 @@ func CreateStory(c *fiber.Ctx) error {
 	result, err := database.Stories.InsertOne(context.TODO(), story)
 
 	if err != nil {
-		c.Status(fiber.StatusInternalServerError)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Something went wrong when creating story. Please try again later.",
-		})
+		});
 	}
 
 	fmt.Println("Created story with ID: ", result.InsertedID)
@@ -69,8 +66,7 @@ func GetAuthorStories(c *fiber.Ctx) error {
 	cur, queryError := database.Stories.Find(context.TODO(), bson.M{"author._id": authorID})
 
 	if queryError == mongo.ErrNoDocuments {
-		c.Status(fiber.StatusNotFound)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "Stories not found.",
 		})
 	}
@@ -79,8 +75,7 @@ func GetAuthorStories(c *fiber.Ctx) error {
 		var story models.Story
 		err := cur.Decode(&story)
 		if err != nil {
-			c.Status(fiber.StatusInternalServerError)
-			return c.JSON(fiber.Map{
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Something went wrong. Please try again later.",
 			})
 		}
@@ -88,8 +83,7 @@ func GetAuthorStories(c *fiber.Ctx) error {
 	}
 
 	if err := cur.Err(); err != nil {
-		c.Status(fiber.StatusInternalServerError)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Something went wrong. Please try again later.",
 		})
 	}
@@ -106,8 +100,7 @@ func GetStoryByID(c *fiber.Ctx) error {
 	queryError := database.Stories.FindOne(context.TODO(), bson.M{"_id": storyID}).Decode(&story)
 
 	if queryError == mongo.ErrNoDocuments {
-		c.Status(fiber.StatusNotFound)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "Story not found",
 		})
 	}
@@ -121,8 +114,7 @@ func DeleteStory(c *fiber.Ctx) error {
 	_, queryError := database.Stories.DeleteOne(context.Background(), bson.M{"_id": storyID})
 
 	if queryError == mongo.ErrNoDocuments {
-		c.Status(fiber.StatusNotFound)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "Story not found",
 		})
 	}
@@ -137,9 +129,8 @@ func DeleteAllUserStories(c *fiber.Ctx) error {
 	_, queryError := database.Stories.DeleteMany(context.Background(), bson.M{"author._id": userID})
 
 	if queryError == mongo.ErrNoDocuments {
-		c.Status(fiber.StatusNotFound)
-		return c.JSON(fiber.Map{
-			"message": "Story not found",
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Stories not found",
 		})
 	}
 	return c.JSON(fiber.Map{
@@ -154,8 +145,7 @@ func UpdateStory(c *fiber.Ctx) error {
 	_, queryError := database.Stories.UpdateOne(context.Background(), bson.M{"_id": storyID}, update)
 
 	if queryError == mongo.ErrNoDocuments {
-		c.Status(fiber.StatusNotFound)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "Story not found",
 		})
 	}

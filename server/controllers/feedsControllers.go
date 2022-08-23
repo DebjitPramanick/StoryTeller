@@ -17,9 +17,8 @@ func GetFeeds(c *fiber.Ctx) error {
 	cur, queryError := database.Stories.Find(context.TODO(), bson.M{})
 
 	if queryError == mongo.ErrNoDocuments {
-		c.Status(fiber.StatusNotFound)
-		return c.JSON(fiber.Map{
-			"message": "Stories not found.",
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Feeds not found.",
 		})
 	}
 
@@ -27,8 +26,7 @@ func GetFeeds(c *fiber.Ctx) error {
 		var story models.Story
 		err := cur.Decode(&story)
 		if err != nil {
-			c.Status(fiber.StatusInternalServerError)
-			return c.JSON(fiber.Map{
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Something went wrong. Please try again later.",
 			})
 		}
@@ -36,8 +34,7 @@ func GetFeeds(c *fiber.Ctx) error {
 	}
 
 	if err := cur.Err(); err != nil {
-		c.Status(fiber.StatusInternalServerError)
-		return c.JSON(fiber.Map{
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Something went wrong. Please try again later.",
 		})
 	}
@@ -54,9 +51,8 @@ func GetFeedByID(c *fiber.Ctx) error {
 	queryError := database.Stories.FindOne(context.TODO(), bson.M{"_id": storyID}).Decode(&story)
 
 	if queryError == mongo.ErrNoDocuments {
-		c.Status(fiber.StatusNotFound)
-		return c.JSON(fiber.Map{
-			"message": "Story not found",
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Feed not found",
 		})
 	}
 
