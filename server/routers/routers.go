@@ -18,9 +18,11 @@ func Setup(app *fiber.App) {
 	// Story APIs
 	app.Post("/api/story/create/:authorId", controllers.CreateStory)
 	app.Get("/api/story/author/:authorId", controllers.GetAuthorStories)
-	app.Get("/api/story/:id", controllers.GetStoryByID)
+	app.Get("/api/story/:storyId", controllers.GetStoryByID)
+	app.Delete("/api/story/delete/:storyId", controllers.DeleteStory)
+	app.Delete("/api/story/update/:storyId", controllers.UpdateStory)
 
 	// Feed APIs
 	app.Get("/api/feeds", controllers.GetFeeds)
-	app.Get("/api/feeds/:id", controllers.GetFeedByID)
+	app.Get("/api/feeds/:feedId", controllers.GetFeedByID)
 }

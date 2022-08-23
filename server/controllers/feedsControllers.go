@@ -48,7 +48,7 @@ func GetFeeds(c *fiber.Ctx) error {
 }
 
 func GetFeedByID(c *fiber.Ctx) error {
-	storyID, _ := primitive.ObjectIDFromHex(c.Params("id"))
+	storyID, _ := primitive.ObjectIDFromHex(c.Params("feedId"))
 	var story models.Story
 
 	queryError := database.Stories.FindOne(context.TODO(), bson.M{"_id": storyID}).Decode(&story)
