@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import ProtectedRoutes from './components/ProtectedRoutes';
-import Sidebar from './components/Sidebar';
 import PageLayout from './layouts/PageLayout';
 import Editor from './pages/Editor';
 import Feeds from './pages/Feeds';
@@ -18,7 +17,6 @@ function App() {
       <Router>
         <Header />
         <PageLayout>
-          <Sidebar />
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
