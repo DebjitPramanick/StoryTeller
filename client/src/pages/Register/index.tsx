@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { UserDetailsType, useUser } from '../../contexts/UserContext'
+import { useUser } from '../../contexts/UserContext'
 import { registerUser } from '../../helpers/auth.helper'
+import { UserDetailsType } from '../../utils/types'
 import RegitserUI from './RegitserUI'
 
 const initialData: UserDetailsType = {

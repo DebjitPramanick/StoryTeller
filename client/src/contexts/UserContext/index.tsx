@@ -1,17 +1,8 @@
 import React, { useContext, createContext, useState } from "react";
-
-export interface UserDetailsType {
-  _id?: string,
-  name: string,
-  email: string,
-  username: string,
-  password?: string,
-  bio?: string,
-  avatar?: string
-}
+import { UserDetailsType } from "../../utils/types";
 
 export interface UserContextProps {
-  user: any,
+  user: UserDetailsType | null,
   saveGlobalUser: (data: any) => void,
   logoutUser: () => void
 }
@@ -32,7 +23,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({children}
   const cacheTokenKey = 'story-teller-user-token';
   const cachedUser = JSON.parse(localStorage.getItem(cacheUserKey) || 'null');
 
-  const [user, setUser] = useState<any | null>(cachedUser || null);
+  const [user, setUser] = useState<UserDetailsType | null>(cachedUser || null);
 
   const saveGlobalUser = (data: any) => {
     const userData = data.user;

@@ -3,8 +3,14 @@ import { Editor, EditorState, RichUtils } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import { FormatBoldRounded, FormatItalicRounded, FormatQuoteRounded, FormatUnderlinedRounded } from '@mui/icons-material';
 import InputField from '../../components/FormFields/InputField';
+import TextAreaField from '../../components/FormFields/TextAreaField';
+import Button from '../../components/FormFields/Button';
 
-const EditorUI = () => {
+const EditorUI: React.FC<any> = ({
+    handleCreateStory,
+    handleChangeData,
+    data
+}) => {
 
     const [editorState, setEditorState] = React.useState(
         () => EditorState.createEmpty(),
@@ -16,7 +22,7 @@ const EditorUI = () => {
 
             <div className='flex gap-2'>
                 <div style={{
-                    width: 'calc(100% - 260px)'
+                    width: 'calc(100% - 360px)'
                 }}>
                     <InputField label={'Enter Title'} value={''} setValue={function (val: any): void {
                         throw new Error('Function not implemented.');
@@ -33,11 +39,15 @@ const EditorUI = () => {
                             placeholder="Type your content" />
                     </div>
                 </div>
-                <div className='bg-gray-50' style={{width: '250px'}}>
-                    <h1 className='mb-5 text-lg font-bold text-gray-900'>Choose Tags</h1>
-                    <div className='mt-2 border shadow-md w-full px-2 py-2 rounded'>
-
-                    </div>
+                <div className='bg-gray-50 px-4' style={{ width: '350px' }}>
+                    <TextAreaField
+                        value={''}
+                        setValue={function (val: any): void {
+                            throw new Error('Function not implemented.');
+                        }}
+                        rows={2}
+                        label="Enter tags" />
+                    <Button onClick={undefined} label={"Create"} rightAligned/>
                 </div>
             </div>
 

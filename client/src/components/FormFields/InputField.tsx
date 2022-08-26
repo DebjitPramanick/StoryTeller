@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface InputProps {
-    label: string,
+    label?: string,
     value: string | number,
     setValue: (val: any) => void,
     leftIcon?: React.ReactNode,
