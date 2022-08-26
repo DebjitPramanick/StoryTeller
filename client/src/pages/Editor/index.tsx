@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useUser } from '../../contexts/UserContext';
+import { createStory } from '../../helpers/editor.helper';
 import { StoryDetailsType } from '../../utils/types';
 import EditorUI from './EditorUI'
 
@@ -12,15 +13,15 @@ const initialData: StoryDetailsType = {
 
 const Editor = () => {
 
-  const {user} = useUser();
+  const { user } = useUser();
 
   const [data, setData] = useState<StoryDetailsType>(initialData);
 
   const handleCreateStory = async (e: any) => {
     e.preventDefault();
     try {
-      //   await registerUser(data);
-      window.location.href = "/"
+      const authorId = user?._id || '';
+      await createStory(data, authorId);
     } catch (err: any) {
       alert(err.message)
     }
@@ -28,15 +29,18 @@ const Editor = () => {
 
   const handleChangeData = (field: string, value: string) => {
     if (field === 'tags') {
-
+      let newTags = value.split(" ")
+      setData({ ...data, [field]: newTags })
+    } else {
+      setData({ ...data, [field]: value })
     }
-    setData({ ...data, [field]: value })
   }
 
   return (
     <EditorUI
       handleChangeData={handleChangeData}
-      handleCreateStory={handleCreateStory} />
+      handleCreateStory={handleCreateStory}
+      data={data} />
   )
 }
 

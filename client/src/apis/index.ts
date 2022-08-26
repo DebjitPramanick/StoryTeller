@@ -11,5 +11,5 @@ export const feedsAPI = axios.create({
 })
 
 export const storyAPI = axios.create({
-    baseURL: `${BASE_URL}/api/auth`
+    baseURL: `${BASE_URL}/api/story`
 })
