@@ -26,5 +26,6 @@ export interface FeedDetailsType {
     tags?: string[],
     likes?: string,
     cover?: string,
-    created_at?: string
+    created_at?: string,
+    author?: UserDetailsType
 }
