@@ -1,9 +1,11 @@
 import { feedsAPI } from "../apis";
+import { getError } from "./error.helper";
 
 export const getFeeds = async () => {
-    const res = await feedsAPI.post('/')
+    const res = await feedsAPI.get('/')
         .catch(err => {
-            throw new Error(err)
+            const error = getError(err);
+            throw new Error(error);
         })
 
     return res;

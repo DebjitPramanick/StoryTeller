@@ -1,12 +1,18 @@
 import React from 'react'
+import { FeedDetailsType } from '../../utils/types'
 import FeedUI from './FeedUI'
 
-const Feed: React.FC<any> = () => {
+export interface FeedProps {
+    feed: FeedDetailsType
+}
 
-    const sampleImg = 'https://kathakids.com/static/story-images/2020/10/Four_Friends_01-800x600.jpg'
+const Feed: React.FC<FeedProps> = ({
+    feed
+}) => {
 
     return (
-        <FeedUI sampleImg={sampleImg}/>
+        <FeedUI
+            feed={feed} />
     )
 }
 

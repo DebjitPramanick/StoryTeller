@@ -1,7 +1,5 @@
 export const getError = (error: any) => {
-    if (error.response) {
-        return error.response.data.message;
-    } else {
-        return error.message
-    }
+    const res = error.response;
+    if (res.data.message) return res.data.message;
+    else return res.data;
 }
