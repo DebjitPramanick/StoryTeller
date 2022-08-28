@@ -11,9 +11,10 @@ func Setup(app *fiber.App) {
 	app.Get("/api/health", controllers.CheckHealth)
 
 	// User & Auth APIs
-	app.Get("/api/user/:id", controllers.GetUserByID)
 	app.Post("/api/auth/register", controllers.RegisterUser)
 	app.Post("/api/auth/login", controllers.LoginUser)
+	app.Get("/api/user/:userId", controllers.GetUserByID)
+	app.Delete("/api/user/delete/:userId", controllers.RemoveUserByID)
 
 	// Story APIs
 	app.Post("/api/story/create/:authorId", controllers.CreateStory)

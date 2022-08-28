@@ -105,7 +105,7 @@ func LoginUser(c *fiber.Ctx) error {
 }
 
 func GetUserByID(c *fiber.Ctx) error {
-	userID, _ := primitive.ObjectIDFromHex(c.Params("id"));
+	userID, _ := primitive.ObjectIDFromHex(c.Params("userId"));
 	var user models.User
 
 	queryError := database.Users.FindOne(context.TODO(), bson.M{"_id": userID}).Decode(&user)
@@ -124,4 +124,23 @@ func GetUserByID(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(data)
+}
+
+func RemoveUserByID(c *fiber.Ctx) error {
+	userID, _ := primitive.ObjectIDFromHex(c.Params("userId"));
+
+	_, queryError := database.Users.DeleteOne(context.Background(), bson.M{"_id": userID})
+
+	if queryError == mongo.ErrNoDocuments {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "User not found",
+		})
+	}
+
+	res, _ := database.Stories.DeleteMany(context.Background(), bson.M{"author._id": userID})
+	fmt.Println(res)
+
+	return c.JSON(fiber.Map{
+		"message": "Removed user successfully.",
+	})
 }
