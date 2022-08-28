@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"server/database"
 	"server/helpers"
+	"server/middleware"
 	"server/models"
 	"time"
 
@@ -90,7 +91,7 @@ func LoginUser(c *fiber.Ctx) error {
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 	}) 
 
-	token, tokenError := claim.SignedString([]byte("Secret key"))
+	token, tokenError := claim.SignedString([]byte(middleware.JWTSECRET))
 
 	if tokenError != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
