@@ -15,6 +15,7 @@ func Setup(app *fiber.App) {
 	app.Post("/api/auth/login", controllers.LoginUser)
 	app.Get("/api/user/:userId", controllers.GetUserByID)
 	app.Delete("/api/user/delete/:userId", controllers.RemoveUserByID)
+	app.Put("/api/user/update/:userId", controllers.UpdateUserByID)
 
 	// Story APIs
 	app.Post("/api/story/create/:authorId", controllers.CreateStory)

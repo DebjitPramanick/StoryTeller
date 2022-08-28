@@ -144,3 +144,37 @@ func RemoveUserByID(c *fiber.Ctx) error {
 		"message": "Removed user successfully.",
 	})
 }
+
+func UpdateUserByID(c *fiber.Ctx) error {
+	userID, _ := primitive.ObjectIDFromHex(c.Params("userId"));
+
+	var data map[string]string
+
+	err := c.BodyParser(&data)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	filter := bson.M{"_id": userID}
+	update := bson.M{"$set": bson.M{
+		"name": data["name"],
+		"bio": data["bio"],
+		"email": data["email"],
+		"avatar": data["avatar"],
+	}}
+
+	_, queryError := database.Users.UpdateOne(context.Background(), filter, update)
+
+	if queryError == mongo.ErrNoDocuments {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "User not found",
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Updated user successfully.",
+	})
+}
