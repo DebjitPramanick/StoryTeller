@@ -178,3 +178,35 @@ func UpdateUserByID(c *fiber.Ctx) error {
 		"message": "Updated user successfully.",
 	})
 }
+
+func GetUsersByUserName(c *fiber.Ctx) error {
+
+	var users []models.User
+
+	username := c.Params("username");
+
+	filter := bson.D{{Key: "username", Value: primitive.Regex{Pattern: username, Options: ""}}}
+
+	cur, _ := database.Users.Find(context.TODO(), filter)
+
+	for cur.Next(context.TODO()) {
+		var user models.User
+		err := cur.Decode(&user)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Something went wrong. Please try again later.",
+			})
+		}
+		users = append(users, user)
+	}
+
+	if err := cur.Err(); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	defer cur.Close(context.TODO())
+
+	return c.JSON(users)
+}
