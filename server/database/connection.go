@@ -29,5 +29,7 @@ func ConnectDB() {
 	Users = client.Database(dbName).Collection("users")
 	Stories = client.Database(dbName).Collection("stories")
 
+	helpers.CreateUserIndex(Users)
+
 	fmt.Println("Collection instances are ready.")
 }
