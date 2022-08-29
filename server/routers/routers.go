@@ -18,6 +18,7 @@ func Setup(app *fiber.App) {
 	app.Delete("/api/user/delete/:userId", middleware.IsAuthorized(), controllers.RemoveUserByID)
 	app.Put("/api/user/update/:userId", middleware.IsAuthorized(), controllers.UpdateUserByID)
 	app.Get("/api/user/collection/:username", middleware.IsAuthorized(), controllers.GetUsersByUserName)
+	app.Get("/api/user/check/:username", controllers.CheckUsername)
 
 	// Story APIs
 	app.Post("/api/story/create/:authorId", middleware.IsAuthorized(), controllers.CreateStory)

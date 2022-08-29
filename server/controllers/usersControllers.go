@@ -211,3 +211,24 @@ func GetUsersByUserName(c *fiber.Ctx) error {
 
 	return c.JSON(users)
 }
+
+func CheckUsername(c *fiber.Ctx) error {
+
+	var user models.User
+
+	username := c.Params("username");
+
+	queryError := database.Users.FindOne(context.TODO(), bson.M{"username": username}).Decode(&user)
+
+	if queryError == mongo.ErrNoDocuments {
+		return c.JSON(fiber.Map{
+			"message": "Username is available.",
+			"status": 0,
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Username is already taken.",
+		"status": 1,
+	})
+}
