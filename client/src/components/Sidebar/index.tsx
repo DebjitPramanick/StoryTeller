@@ -1,4 +1,4 @@
-import { AccountCircle, CreateRounded, FeedRounded, Logout } from '@mui/icons-material'
+import { AccountCircle, BookmarkRounded, CreateRounded, ExploreRounded, FeedRounded, Logout } from '@mui/icons-material'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -22,6 +22,16 @@ const Sidebar: React.FC<any> = () => {
             name: 'Create Story',
             icon: <CreateRounded />,
             path: '/editor'
+        },
+        {
+            name: 'Saved Items',
+            icon: <BookmarkRounded />,
+            path: '/saved'
+        },
+        {
+            name: 'Explore',
+            icon: <ExploreRounded />,
+            path: '/explore'
         },
         {
             name: 'Logout',

@@ -1,8 +1,14 @@
 import React from 'react'
+import { useUser } from '../../contexts/UserContext'
+import ProfileUI from './ProfileUI'
 
 const Profile = () => {
+
+  const {user} = useUser()
+
   return (
-    <div>Profile</div>
+    <ProfileUI 
+    user={user}/>
   )
 }
 

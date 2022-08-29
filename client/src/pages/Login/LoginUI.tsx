@@ -36,7 +36,7 @@ const LoginUI: React.FC<any> = ({
 
                     <Button label="Login" type="submit" rightAligned={true} onClick={(e: any) => handleLogin(e)}/>
 
-                    <Link to="/register" className='block mt-4 text-sm'>Not an user? Login</Link>
+                    <Link to="/register" className='block mt-4 text-sm'>Not an user? Register</Link>
                 </form>
             </FormLayout>
         </AuthLayout>

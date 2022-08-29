@@ -10,6 +10,7 @@ import Register from './pages/Register';
 import Story from './pages/Story';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Logout from './pages/Logout';
 
 function App() {
 
@@ -18,36 +19,40 @@ function App() {
       <ToastContainer />
       <Router>
         <Header />
-        <PageLayout>
-          <Routes>
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
 
-            <Route path='/' element={
-              <ProtectedRoutes>
-                <Feeds />
-              </ProtectedRoutes>
-            } />
+          <Route path='/' element={
+            <ProtectedRoutes>
+              <Feeds />
+            </ProtectedRoutes>
+          } />
 
-            <Route path='/profile' element={
-              <ProtectedRoutes>
-                <Profile />
-              </ProtectedRoutes>
-            } />
+          <Route path='/profile' element={
+            <ProtectedRoutes>
+              <Profile />
+            </ProtectedRoutes>
+          } />
 
-            <Route path='/story/:id' element={
-              <ProtectedRoutes>
-                <Story />
-              </ProtectedRoutes>
-            } />
+          <Route path='/story/:id' element={
+            <ProtectedRoutes>
+              <Story />
+            </ProtectedRoutes>
+          } />
 
-            <Route path='/editor' element={
-              <ProtectedRoutes>
-                <Editor />
-              </ProtectedRoutes>
-            } />
-          </Routes>
-        </PageLayout>
+          <Route path='/editor' element={
+            <ProtectedRoutes>
+              <Editor />
+            </ProtectedRoutes>
+          } />
+
+          <Route path='/logout' element={
+            <ProtectedRoutes>
+              <Logout />
+            </ProtectedRoutes>
+          } />
+        </Routes>
       </Router>
     </div >
   );

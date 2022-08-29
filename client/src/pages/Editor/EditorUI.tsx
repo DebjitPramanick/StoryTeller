@@ -6,6 +6,7 @@ import TextAreaField from '../../components/FormFields/TextAreaField';
 import Button from '../../components/FormFields/Button';
 import { convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import PageLayout from '../../layouts/PageLayout';
 
 const EditorUI: React.FC<any> = ({
     handleCreateStory,
@@ -39,7 +40,7 @@ const EditorUI: React.FC<any> = ({
     }
 
     return (
-        <div className='w-full'>
+        <PageLayout>
             <h1 className='mb-5 text-2xl font-bold text-gray-900'>Create Story</h1>
 
             <div className='flex gap-2'>
@@ -74,7 +75,7 @@ const EditorUI: React.FC<any> = ({
                 </div>
             </div>
 
-        </div>
+        </PageLayout>
     )
 }
 
