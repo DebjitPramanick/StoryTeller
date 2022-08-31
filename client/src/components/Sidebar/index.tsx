@@ -44,7 +44,7 @@ const Sidebar: React.FC<any> = () => {
 
     return (
         <div className='fixed'>
-            <aside className="w-64" aria-label="Sidebar">
+            <aside className="w-72" aria-label="Sidebar">
                 <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
                     <ul className="space-y-2">
                         {items.map((item) => (
