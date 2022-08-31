@@ -168,6 +168,24 @@ func UpdateUserByID(c *fiber.Ctx) error {
 		})
 	}
 
+	var user models.User
+
+	e := database.Users.FindOne(context.TODO(), bson.M{"_id": userID}).Decode(&user)
+
+	if e == mongo.ErrNoDocuments {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "User not found",
+		})
+	}
+
+	storyFilter := bson.M{"author._id": userID}
+	soryUpdate := bson.M{"$set": bson.M{
+		"author": user,
+	}}
+
+	r, _ := database.Stories.UpdateMany(context.Background(), storyFilter, soryUpdate)
+	fmt.Println("Updated: ", r.ModifiedCount)
+
 	return c.JSON(fiber.Map{
 		"message": "Updated user successfully.",
 	})
