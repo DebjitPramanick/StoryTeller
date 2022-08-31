@@ -10,7 +10,8 @@ import FormLayout from '../../../layouts/FormLayout';
 import { UserDetailsType } from '../../../utils/types';
 
 const EditProfileTab: React.FC<any> = ({
-  user
+  user,
+  fetchUserStories
 }) => {
 
   const {refetchUser} = useUser();
@@ -27,6 +28,7 @@ const EditProfileTab: React.FC<any> = ({
     try {
       await updateUser(user._id, data);
       await refetchUser();
+      await fetchUserStories()
     } catch (err: any) {
       toast.error(err.message, {
         autoClose: 3500,
