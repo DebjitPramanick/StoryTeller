@@ -43,9 +43,6 @@ const ProfileUI: React.FC<any> = ({
         }
     }
 
-    console.log(userStories)
-
-
     return (
         <PageLayout>
             <div className='flex flex-col items-center gap-6 shadow px-4 py-4 '>
@@ -64,10 +61,12 @@ const ProfileUI: React.FC<any> = ({
                 tabs={tabs}
                 currentTab={curTab}
                 selectTab={(index: number) => setCurTab(index)} />
-            <div className='mt-4'>
-                {curTab === 0 ? <StoriesTab
-                    stories={userStories} />
-                    : curTab === 1 ? <EditProfileTab />
+
+            <div className='mt-4 mx-auto' style={{width: 'fit-content'}}>
+                {curTab === 0 ?
+                    <StoriesTab
+                        stories={userStories} />
+                    : curTab === 1 ? <EditProfileTab user={user} />
                         : null}
             </div>
         </PageLayout>

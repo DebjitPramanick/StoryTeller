@@ -2,7 +2,7 @@ export interface UserDetailsType {
     _id?: string,
     name: string,
     email: string,
-    username: string,
+    username?: string,
     password?: string,
     bio?: string,
     avatar?: string,

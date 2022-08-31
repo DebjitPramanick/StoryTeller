@@ -10,6 +10,13 @@ export const authAPI = axios.create({
     }
 })
 
+export const userAPI = axios.create({
+    baseURL: `${BASE_URL}/api/user`,
+    headers: {
+        Authorization: `Bearer ${USER_TOKEN}`
+    }
+})
+
 export const feedsAPI = axios.create({
     baseURL: `${BASE_URL}/api/feeds`,
     headers: {

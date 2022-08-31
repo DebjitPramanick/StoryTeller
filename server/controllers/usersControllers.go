@@ -117,14 +117,7 @@ func GetUserByID(c *fiber.Ctx) error {
 		})
 	}
 
-	data := fiber.Map{
-		"_id": user.ID,
-		"name": user.Name,
-		"bio": user.Bio,
-		"avatar": user.Avatar,
-	}
-
-	return c.JSON(data)
+	return c.JSON(user)
 }
 
 func RemoveUserByID(c *fiber.Ctx) error {
