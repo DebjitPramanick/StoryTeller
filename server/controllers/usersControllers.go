@@ -40,6 +40,9 @@ func RegisterUser(c *fiber.Ctx) error {
 		Username: data["username"],
 		Avatar: data["avatar"],
 		CreatedAt: time.Now(),
+		Country: data["country"],
+		Dob: data["dob"],
+		Gender: data["gender"],
 	}
 
 	result, err := database.Users.InsertOne(context.TODO(), user)
@@ -142,7 +145,7 @@ func RemoveUserByID(c *fiber.Ctx) error {
 func UpdateUserByID(c *fiber.Ctx) error {
 	userID, _ := primitive.ObjectIDFromHex(c.Params("userId"));
 
-	var data map[string]string
+	var data map[string]any
 
 	err := c.BodyParser(&data)
 
@@ -158,6 +161,9 @@ func UpdateUserByID(c *fiber.Ctx) error {
 		"bio": data["bio"],
 		"email": data["email"],
 		"avatar": data["avatar"],
+		"country": data["country"],
+		"dob": data["dob"],
+		"gender": data["gender"],
 	}}
 
 	_, queryError := database.Users.UpdateOne(context.Background(), filter, update)

@@ -43,7 +43,6 @@ func CreateStory(c *fiber.Ctx) error {
 		Content: data.Content,
 		Cover: data.Cover,
 		Tags: data.Tags,
-		Likes: data.Likes,
 		CreatedAt: time.Now(),
 	}
 
