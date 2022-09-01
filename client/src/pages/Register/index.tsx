@@ -9,7 +9,10 @@ const initialData: UserDetailsType = {
   name: '',
   email: '',
   password: '',
-  username: ''
+  username: '',
+  country: 'India',
+  dob: new Date().toDateString(),
+  gender: 'M'
 }
 
 const Register = () => {

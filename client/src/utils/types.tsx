@@ -6,6 +6,9 @@ export interface UserDetailsType {
     password?: string,
     bio?: string,
     avatar?: string,
+    country?: string,
+    dob?: string,
+    gender?: 'M' | 'F' | 'T',
     created_at?: string
 }
 
@@ -14,9 +17,9 @@ export interface StoryDetailsType {
     title: string,
     content: string,
     tags?: string[],
-    likes?: string,
     cover?: string,
-    created_at?: string
+    created_at?: string,
+    author?: UserDetailsType
 }
 
 export interface FeedDetailsType {
@@ -24,7 +27,6 @@ export interface FeedDetailsType {
     title: string,
     content: string,
     tags?: string[],
-    likes?: string,
     cover?: string,
     created_at?: string,
     author?: UserDetailsType

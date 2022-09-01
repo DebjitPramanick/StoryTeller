@@ -12,6 +12,9 @@ import (
 
 var Users *mongo.Collection
 var Stories *mongo.Collection
+var Followers *mongo.Collection
+var SavedStories *mongo.Collection
+var StoryLikes *mongo.Collection
 
 func ConnectDB() {
 	connectionURL := helpers.GetEnvVariable("MONGO_URI")
@@ -28,6 +31,9 @@ func ConnectDB() {
 
 	Users = client.Database(dbName).Collection("users")
 	Stories = client.Database(dbName).Collection("stories")
+	Followers = client.Database(dbName).Collection("followers")
+	SavedStories = client.Database(dbName).Collection("savedstories")
+	StoryLikes = client.Database(dbName).Collection("storylikes")
 
 	helpers.CreateUserIndex(Users)
 

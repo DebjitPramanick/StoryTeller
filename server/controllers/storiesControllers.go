@@ -138,8 +138,24 @@ func DeleteAllUserStories(c *fiber.Ctx) error {
 }
 
 func UpdateStory(c *fiber.Ctx) error {
+
+	var data = new(models.Story)
+
+	err := c.BodyParser(&data)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
 	storyID, _ := primitive.ObjectIDFromHex(c.Params("storyId"));
-	update := bson.M{"$set": bson.M{}}
+	update := bson.M{"$set": bson.M{
+		"title": data.Title,
+		"content": data.Content,
+		"tags": data.Tags,
+		"cover": data.Cover,
+	}}
 
 	_, queryError := database.Stories.UpdateOne(context.Background(), bson.M{"_id": storyID}, update)
 
@@ -150,5 +166,57 @@ func UpdateStory(c *fiber.Ctx) error {
 	}
 	return c.JSON(fiber.Map{
 		"message": "Updated story successfully.",
+	})
+}
+
+func LikeStory(c *fiber.Ctx) error {
+
+	var data map[string]string
+
+	storyID, _ := primitive.ObjectIDFromHex(data["storyId"])
+	userID, _ := primitive.ObjectIDFromHex(data["userId"])
+
+	likeData := models.StoryLikes{
+		ID: primitive.NewObjectID(),
+		StoryID: storyID,
+		UserID: userID,
+	}
+
+	_, err := database.StoryLikes.InsertOne(context.TODO(), likeData)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Something went wrong when creating story. Please try again later.",
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Liked story successfully.",
+	})
+}
+
+func SaveStory(c *fiber.Ctx) error {
+
+	var data map[string]string
+
+	storyID, _ := primitive.ObjectIDFromHex(data["storyId"])
+	userID, _ := primitive.ObjectIDFromHex(data["userId"])
+
+	savedData := models.SavedStories{
+		ID: primitive.NewObjectID(),
+		StoryID: storyID,
+		UserID: userID,
+	}
+
+	_, err := database.SavedStories.InsertOne(context.TODO(), savedData)
+
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Something went wrong when creating story. Please try again later.",
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Saved this story successfully.",
 	})
 }

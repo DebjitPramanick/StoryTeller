@@ -7,7 +7,7 @@ const StoriesTab: React.FC<any> = ({
 }) => {
     return (
         <div>
-            {stories.map((feed: StoryDetailsType) => (
+            {stories && stories.map((feed: StoryDetailsType) => (
                 <Feed key={feed._id} feed={feed} />
             ))}
         </div>

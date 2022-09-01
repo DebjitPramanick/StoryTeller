@@ -16,7 +16,7 @@ const Profile = () => {
 
   const tabs = [
     {
-      title: `Stories (${userStories.length})`,
+      title: `Stories (${userStories?.length || 0})`,
       icon: <AutoStoriesIcon style={{ width: '16px' }} />
     },
     {
@@ -33,6 +33,7 @@ const Profile = () => {
     try {
       if (user && user?._id) {
         const res = await getAuthorStories(user._id)
+        console.log(res)
         setUserStories(res.data)
       }
     } catch (err: any) {

@@ -9,7 +9,7 @@ const FeedsUI: React.FC<any> = ({
     return (
         <PageLayout>
             <h1 className='mb-5 text-2xl font-bold text-gray-900'>Feeds</h1>
-            {feeds.map((feed: FeedDetailsType) => (
+            {feeds && feeds.map((feed: FeedDetailsType) => (
                 <Feed key={feed._id} feed={feed}/>
             ))}
         </PageLayout>
