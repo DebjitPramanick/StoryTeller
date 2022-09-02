@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"server/database"
 	"server/models"
 
@@ -13,7 +12,9 @@ import (
 )
 
 func GetFeeds(c *fiber.Ctx) error {
-	var stories []models.Story
+	var feeds []models.Story
+	savedBy := make(map[primitive.ObjectID] []primitive.ObjectID)
+	likedBy := make(map[primitive.ObjectID] []primitive.ObjectID)
 
 	cur, queryError := database.Stories.Find(context.TODO(), bson.M{})
 
@@ -24,14 +25,16 @@ func GetFeeds(c *fiber.Ctx) error {
 	}
 
 	for cur.Next(context.TODO()) {
-		var story models.Story
-		err := cur.Decode(&story)
+		var feed models.Story
+		err := cur.Decode(&feed)
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Something went wrong. Please try again later.",
 			})
 		}
-		stories = append(stories, story)
+		savedBy[feed.ID] = GetFeedSaves(feed.ID)
+		likedBy[feed.ID] = GetFeedLikes(feed.ID)
+		feeds = append(feeds, feed)
 	}
 
 	if err := cur.Err(); err != nil {
@@ -42,7 +45,13 @@ func GetFeeds(c *fiber.Ctx) error {
 
 	defer cur.Close(context.TODO())
 
-	return c.JSON(stories)
+	result := fiber.Map{
+		"feeds": feeds,
+		"savedBy": savedBy,
+		"likedBy": likedBy,
+	}
+
+	return c.JSON(result)
 }
 
 func GetFeedByID(c *fiber.Ctx) error {
@@ -82,7 +91,7 @@ func GetSavedFeedsByUserId(c *fiber.Ctx) error {
 				"message": "Something went wrong. Please try again later.",
 			})
 		}
-		feedIds = append(feedIds, data.StoryID)
+		feedIds = append(feedIds, data.FeedID)
 	}
 
 	if err := cur.Err(); err != nil {
@@ -130,7 +139,7 @@ func LikeFeed(c *fiber.Ctx) error {
 
 	likeData := models.FeedLikes{
 		ID:      primitive.NewObjectID(),
-		StoryID: feedID,
+		FeedID: feedID,
 		UserID:  userID,
 	}
 
@@ -180,7 +189,7 @@ func SaveFeed(c *fiber.Ctx) error {
 
 	savedData := models.SavedFeeds{
 		ID:      primitive.NewObjectID(),
-		StoryID: feedID,
+		FeedID: feedID,
 		UserID:  userID,
 	}
 
@@ -200,7 +209,7 @@ func SaveFeed(c *fiber.Ctx) error {
 func RemoveFeed(c *fiber.Ctx) error {
 
 	saveID, _ := primitive.ObjectIDFromHex(c.Params("saveId"))
-	
+
 	_, queryError := database.SavedFeeds.DeleteOne(context.Background(), bson.M{"_id": saveID})
 
 	if queryError == mongo.ErrNoDocuments {
@@ -211,4 +220,54 @@ func RemoveFeed(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "Removed story successfully.",
 	})
+}
+
+func GetFeedSaves(feedID primitive.ObjectID) []primitive.ObjectID {
+	var results = []primitive.ObjectID{}
+
+	cur, queryError := database.SavedFeeds.Find(context.TODO(), bson.M{"feedId": feedID})
+
+	if queryError == mongo.ErrNoDocuments {
+		return results
+	}
+
+	for cur.Next(context.TODO()) {
+		var data models.SavedFeeds
+		err := cur.Decode(&data)
+		if err != nil {
+			return results
+		}
+		results = append(results, data.UserID)
+	}
+
+	if err := cur.Err(); err != nil {
+		return results
+	}
+
+	return results
+}
+
+func GetFeedLikes(feedID primitive.ObjectID) []primitive.ObjectID {
+	var results = []primitive.ObjectID{}
+
+	cur, queryError := database.FeedLikes.Find(context.TODO(), bson.M{"feedId": feedID})
+
+	if queryError == mongo.ErrNoDocuments {
+		return results
+	}
+
+	for cur.Next(context.TODO()) {
+		var data models.SavedFeeds
+		err := cur.Decode(&data)
+		if err != nil {
+			return results
+		}
+		results = append(results, data.UserID)
+	}
+
+	if err := cur.Err(); err != nil {
+		return results
+	}
+
+	return results
 }
