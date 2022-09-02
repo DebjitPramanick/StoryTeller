@@ -31,4 +31,9 @@ func Setup(app *fiber.App) {
 	// Feed APIs
 	app.Get("/api/feeds", controllers.GetFeeds)
 	app.Get("/api/feeds/:feedId", controllers.GetFeedByID)
+	app.Get("/api/feeds/saved/:userId", middleware.IsAuthorized(), controllers.GetSavedFeedsByUserId)
+	app.Post("/api/feeds/:feedId/save", middleware.IsAuthorized(), controllers.SaveFeed)
+	app.Post("/api/feeds/:feedId/like", middleware.IsAuthorized(), controllers.LikeFeed)
+	app.Delete("/api/feeds/:saveId/remove", middleware.IsAuthorized(), controllers.RemoveFeed)
+	app.Delete("/api/feeds/:likeId/dislike", middleware.IsAuthorized(), controllers.DislikeFeed)
 }
