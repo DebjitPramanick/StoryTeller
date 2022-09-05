@@ -8,10 +8,20 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 
-const FeedUI: React.FC<FeedProps> = ({
-    feed
+interface FeedUIProps extends FeedProps {
+    handleLikeFeed: () => void;
+    handleSaveFeed: () => void;
+}
+
+const FeedUI: React.FC<FeedUIProps> = ({
+    feed,
+    isLiked,
+    isSaved,
+    likeCounts,
+    savedCounts,
+    handleLikeFeed,
+    handleSaveFeed
 }) => {
-    const { user } = useUser();
     const contentRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -43,8 +53,15 @@ const FeedUI: React.FC<FeedProps> = ({
                     </p>
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-gray-900 cursor-pointer gap-4">
-                    <FavoriteBorderIcon />
-                    <BookmarkBorderIcon />
+                    <div onClick={handleLikeFeed}>
+                        {!isLiked ? <FavoriteBorderIcon />
+                            : <FavoriteIcon style={{ color: "red" }} />}
+                    </div>
+
+                    <div onClick={handleSaveFeed}>
+                        {!isSaved ? <BookmarkBorderIcon />
+                        : <BookmarkIcon style={{ color: "#00d0cd" }} />}
+                    </div>
                 </div>
             </div>
             <div className='px-4 py-2'>
@@ -64,6 +81,9 @@ const FeedUI: React.FC<FeedProps> = ({
                     </div>
                 )}
             </a>
+
+            <p className='px-4 py-2'>{likeCounts} Liked | {savedCounts} Saved</p>
+
             <div className="p-5">
                 <a href="/">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{feed.title}</h5>

@@ -1,13 +1,26 @@
 import { off } from 'process'
 import React, { ErrorInfo, useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
+import { useUser } from '../../contexts/UserContext'
 import { getFeeds } from '../../helpers/feeds.helper'
+import { FeedDetailsType } from '../../utils/types'
 import FeedsUI from './FeedsUI'
+
+interface FeedsDataType {
+  feeds: FeedDetailsType[],
+  savedBy: any,
+  likedBy: any
+}
 
 const Feeds: React.FC<any> = () => {
 
-  const [feeds, setFeeds] = useState([])
+  const [feedsData, setFeedsData] = useState<FeedsDataType>({
+    feeds: [],
+    likedBy: {},
+    savedBy: {}
+  })
 
+  const { user } = useUser();
 
   useEffect(() => {
     fetchFeeds()
@@ -16,7 +29,8 @@ const Feeds: React.FC<any> = () => {
   const fetchFeeds = async () => {
     try {
       const res = await getFeeds();
-      setFeeds(res.data)
+      console.log(res)
+      setFeedsData(res.data)
     } catch (err: any) {
       toast.error(err.message, {
         autoClose: 3500,
@@ -27,7 +41,10 @@ const Feeds: React.FC<any> = () => {
 
   return (
     <FeedsUI
-      feeds={feeds} />
+      user={user}
+      feeds={feedsData.feeds}
+      savedBy={feedsData.savedBy}
+      likedBy={feedsData.likedBy} />
   )
 }
 
