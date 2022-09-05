@@ -1,19 +1,35 @@
 import React, { useContext, createContext, useState } from "react";
 import { getUser } from "../../helpers/user.helper";
-import { UserDetailsType } from "../../utils/types";
+import { GlobalUserType } from "../../utils/types";
 
 export interface UserContextProps {
-  user: UserDetailsType | null,
+  user: GlobalUserType,
   saveGlobalUser: (data: any) => void,
   logoutUser: () => void,
-  refetchUser: () => void
+  refetchUser: () => void,
+  isLoggedIn: boolean
+}
+
+const initialUser: GlobalUserType = {
+  _id: '',
+  name: '',
+  email: "",
+  username: "",
+  password: "",
+  bio: "",
+  avatar: "",
+  country: "",
+  dob: "",
+  gender: "M",
+  created_at: ""
 }
 
 const UserContext = createContext<UserContextProps>({
-  user: null,
+  user: initialUser,
   saveGlobalUser: (data: any) => { },
   logoutUser: () => { },
-  refetchUser: async () => { }
+  refetchUser: async () => { },
+  isLoggedIn: false
 });
 
 export const useUser = () => {
@@ -26,7 +42,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const cacheTokenKey = 'story-teller-user-token';
   const cachedUser = JSON.parse(localStorage.getItem(cacheUserKey) || 'null');
 
-  const [user, setUser] = useState<UserDetailsType | null>(cachedUser || null);
+  const [user, setUser] = useState<GlobalUserType>(cachedUser || initialUser);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(cachedUser || false);
 
   const saveGlobalUser = (data: any) => {
     const userData = data.user;
@@ -35,6 +52,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem(cacheUserKey, JSON.stringify(userData))
     localStorage.setItem(cacheTokenKey, token)
   }
+  
 
   const refetchUser = async () => {
     try {
@@ -52,13 +70,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logoutUser = () => {
     localStorage.removeItem(cacheUserKey)
     localStorage.removeItem(cacheTokenKey)
+    setIsLoggedIn(false);
   }
 
   const values = {
     user,
     saveGlobalUser,
     logoutUser,
-    refetchUser
+    refetchUser,
+    isLoggedIn
   }
 
   return (

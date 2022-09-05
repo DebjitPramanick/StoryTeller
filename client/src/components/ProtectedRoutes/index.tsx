@@ -4,9 +4,10 @@ import { useUser } from '../../contexts/UserContext'
 
 const ProtectedRoutes: React.FC<any> = ({ children }) => {
 
-    const { user } = useUser();
+    const { isLoggedIn } = useUser();
 
-    if (!user) {
+    if (!isLoggedIn) {
+        console.log("RE_RENDER")
         return <Navigate to="/login" />
     }
 

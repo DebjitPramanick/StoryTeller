@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { FeedProps } from './index'
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
-import { useUser } from '../../contexts/UserContext';
 import moment from 'moment';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';

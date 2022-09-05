@@ -31,11 +31,8 @@ const Profile = () => {
 
   const fetchUserStories = async () => {
     try {
-      if (user && user?._id) {
-        const res = await getAuthorStories(user._id)
-        console.log(res)
-        setUserStories(res.data)
-      }
+      const res = await getAuthorStories(user._id)
+      setUserStories(res.data)
     } catch (err: any) {
       toast.error(err.message, {
         autoClose: 3500,

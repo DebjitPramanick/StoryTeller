@@ -1,15 +1,15 @@
-export interface UserDetailsType {
-    _id?: string,
+export interface GlobalUserType {
+    _id: string,
     name: string,
     email: string,
-    username?: string,
-    password?: string,
-    bio?: string,
-    avatar?: string,
-    country?: string,
-    dob?: string,
-    gender?: 'M' | 'F' | 'T',
-    created_at?: string
+    username: string,
+    password: string,
+    bio: string,
+    avatar: string,
+    country: string,
+    dob: string,
+    gender: 'M' | 'F' | 'T',
+    created_at: string
 }
 
 export interface StoryDetailsType {
@@ -19,7 +19,7 @@ export interface StoryDetailsType {
     tags?: string[],
     cover?: string,
     created_at?: string,
-    author?: UserDetailsType
+    author?: GlobalUserType
 }
 
 export interface FeedDetailsType {
@@ -29,5 +29,5 @@ export interface FeedDetailsType {
     tags?: string[],
     cover?: string,
     created_at?: string,
-    author?: UserDetailsType
+    author?: GlobalUserType
 }

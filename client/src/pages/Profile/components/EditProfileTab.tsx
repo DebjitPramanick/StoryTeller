@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Button from '../../../components/FormFields/Button';
 import InputField from '../../../components/FormFields/InputField';
@@ -7,7 +6,13 @@ import TextAreaField from '../../../components/FormFields/TextAreaField';
 import { useUser } from '../../../contexts/UserContext';
 import { updateUser } from '../../../helpers/user.helper';
 import FormLayout from '../../../layouts/FormLayout';
-import { UserDetailsType } from '../../../utils/types';
+
+interface EditUserDetailsType { 
+  name: string,
+  bio: string,
+  email: string,
+  avatar: string
+}
 
 const EditProfileTab: React.FC<any> = ({
   user,
@@ -16,7 +21,7 @@ const EditProfileTab: React.FC<any> = ({
 
   const {refetchUser} = useUser();
 
-  const [data, setData] = useState<UserDetailsType>({
+  const [data, setData] = useState<EditUserDetailsType>({
     name: user.name,
     bio: user.bio,
     email: user.email,

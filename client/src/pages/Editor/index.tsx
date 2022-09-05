@@ -20,7 +20,7 @@ const Editor = () => {
   const handleCreateStory = async (e: any) => {
     e.preventDefault();
     try {
-      const authorId = user?._id || '';
+      const authorId = user._id;
       await createStory(data, authorId);
     } catch (err: any) {
       alert(err.message)

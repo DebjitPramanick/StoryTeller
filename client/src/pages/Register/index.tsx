@@ -2,8 +2,19 @@ import React, { useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useUser } from '../../contexts/UserContext'
 import { registerUser } from '../../helpers/auth.helper'
-import { UserDetailsType } from '../../utils/types'
 import RegitserUI from './RegitserUI'
+
+export interface UserDetailsType {
+  name: string,
+  email: string,
+  username?: string,
+  password?: string,
+  bio?: string,
+  avatar?: string,
+  country?: string,
+  dob?: string,
+  gender?: 'M' | 'F' | 'T',
+}
 
 const initialData: UserDetailsType = {
   name: '',

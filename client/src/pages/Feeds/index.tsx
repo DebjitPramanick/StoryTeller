@@ -29,7 +29,6 @@ const Feeds: React.FC<any> = () => {
   const fetchFeeds = async () => {
     try {
       const res = await getFeeds();
-      console.log(res)
       setFeedsData(res.data)
     } catch (err: any) {
       toast.error(err.message, {

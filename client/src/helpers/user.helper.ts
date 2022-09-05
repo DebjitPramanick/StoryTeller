@@ -1,5 +1,4 @@
 import { userAPI } from "../apis";
-import { UserDetailsType } from "../utils/types";
 import { getError } from "./error.helper";
 
 export const getUser = async (userId: string) => {
@@ -12,7 +11,7 @@ export const getUser = async (userId: string) => {
     return res;
 }
 
-export const updateUser = async (userId: string, data: UserDetailsType) => {
+export const updateUser = async (userId: string, data: any) => {
     const res = await userAPI.put(`/update/${userId}`, data)
         .catch(err => {
             const error = getError(err);

@@ -16,7 +16,7 @@ const initialData: LoginDataType = {
 
 const Login: React.FC<any> = () => {
 
-  const {saveGlobalUser, user} = useUser();
+  const {saveGlobalUser, isLoggedIn} = useUser();
 
   const [data, setData] = useState<LoginDataType>(initialData)
 
@@ -39,7 +39,7 @@ const Login: React.FC<any> = () => {
     setData({ ...data, [field]: value })
   }
 
-  if(user) return <Navigate to={"/"}/>
+  if(isLoggedIn) return <Navigate to={"/"}/>
 
   return (
     <LoginUI

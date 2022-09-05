@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import ProtectedRoutes from './components/ProtectedRoutes';
-import PageLayout from './layouts/PageLayout';
 import Editor from './pages/Editor';
 import Feeds from './pages/Feeds';
 import Login from './pages/Login';
