@@ -10,3 +10,65 @@ export const getFeeds = async () => {
 
     return res;
 }
+
+export const getSavedFeeds = async (feedId: string) => {
+    const res = await feedsAPI.get(`/saved/${feedId}`)
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}
+
+export const likeFeed = async (userId: string, feedId: string) => {
+    const res = await feedsAPI.post(`/${feedId}/like`, {
+        userId: userId,
+        feedId: feedId
+    })
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}
+
+export const dislikeFeed = async (userId: string, feedId: string) => {
+    const res = await feedsAPI.post(`/${feedId}/dislike`, {
+        userId: userId,
+        feedId: feedId
+    })
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}
+
+export const saveFeed = async (userId: string, feedId: string) => {
+    const res = await feedsAPI.post(`/${feedId}/save`, {
+        userId: userId,
+        feedId: feedId
+    })
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}
+
+export const removeFeed = async (userId: string, feedId: string) => {
+    const res = await feedsAPI.post(`/${feedId}/remove`, {
+        userId: userId,
+        feedId: feedId
+    })
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}
