@@ -1,13 +1,13 @@
 import React from 'react'
 import Feed from '../../../components/Feed'
-import { StoryDetailsType } from '../../../utils/types'
+import { FeedDetailsType } from '../../../utils/types'
 
 const StoriesTab: React.FC<any> = ({
     stories
 }) => {
     return (
         <div>
-            {stories && stories.map((feed: StoryDetailsType) => (
+            {stories && stories.map((feed: FeedDetailsType) => (
                 <Feed
                     key={feed._id}
                     feed={feed}

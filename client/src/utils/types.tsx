@@ -12,22 +12,12 @@ export interface GlobalUserType {
     created_at: string
 }
 
-export interface StoryDetailsType {
-    _id?: string,
-    title: string,
-    content: string,
-    tags?: string[],
-    cover?: string,
-    created_at?: string,
-    author?: GlobalUserType
-}
-
 export interface FeedDetailsType {
-    _id?: string,
+    _id: string,
     title: string,
     content: string,
-    tags?: string[],
-    cover?: string,
-    created_at?: string,
-    author?: GlobalUserType
+    tags: string[],
+    cover: string,
+    created_at: string,
+    author: GlobalUserType
 }

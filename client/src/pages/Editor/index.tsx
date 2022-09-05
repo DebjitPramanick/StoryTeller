@@ -1,8 +1,14 @@
 import { useState } from 'react'
 import { useUser } from '../../contexts/UserContext';
 import { createStory } from '../../helpers/editor.helper';
-import { StoryDetailsType } from '../../utils/types';
 import EditorUI from './EditorUI'
+
+export interface StoryDetailsType {
+  title: string,
+  content: string,
+  tags: string[],
+  cover: string,
+}
 
 const initialData: StoryDetailsType = {
   title: '',

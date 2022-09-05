@@ -7,7 +7,6 @@ const ProtectedRoutes: React.FC<any> = ({ children }) => {
     const { isLoggedIn } = useUser();
 
     if (!isLoggedIn) {
-        console.log("RE_RENDER")
         return <Navigate to="/login" />
     }
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useUser } from '../../contexts/UserContext'
 import ProfileUI from './ProfileUI'
-import { StoryDetailsType } from '../../utils/types';
+import { FeedDetailsType } from '../../utils/types';
 import { getAuthorStories } from '../../helpers/story.helper';
 import { toast } from 'react-toastify';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -12,7 +12,7 @@ const Profile = () => {
   const { user } = useUser()
 
   const [curTab, setCurTab] = useState<number>(0)
-  const [userStories, setUserStories] = useState<StoryDetailsType[]>([]);
+  const [userStories, setUserStories] = useState<FeedDetailsType[]>([]);
 
   const tabs = [
     {

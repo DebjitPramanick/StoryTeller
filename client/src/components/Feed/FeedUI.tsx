@@ -45,10 +45,10 @@ const FeedUI: React.FC<FeedUIProps> = ({
                 </div>
                 <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                        {feed.author?.name}
+                        {feed.author.name}
                     </p>
                     <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                        {feed.author?.username} | {getFeedTime(feed.created_at)}
+                        {feed.author.username} | {getFeedTime(feed.created_at)}
                     </p>
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-gray-900 cursor-pointer gap-4">
@@ -64,7 +64,7 @@ const FeedUI: React.FC<FeedUIProps> = ({
                 </div>
             </div>
             <div className='px-4 py-2'>
-                {feed.tags?.map(tag => (
+                {feed.tags.map(tag => (
                     <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-1 rounded" key={tag}>{tag}</span>
                 ))}
             </div>
