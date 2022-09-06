@@ -20,18 +20,18 @@ const FeedsUI: React.FC<FeedsUIProps> = ({
     const handleCheck = (feedId: string | undefined, type: 'like' | 'save') => {
         if(!feedId) return false;
         if(type === 'save') {
-            return Object.keys(likedBy).length !== 0 && likedBy[feedId].includes(user._id)
-        } else {
             return Object.keys(savedBy).length !== 0 && savedBy[feedId].includes(user._id)
+        } else {
+            return Object.keys(likedBy).length !== 0 && likedBy[feedId].includes(user._id)
         }
     }
 
     const gtCounts = (feedId: string | undefined, type: 'like' | 'save') => {
         if(!feedId) return false;
         if(type === 'save') {
-            return Object.keys(likedBy).length !== 0 && likedBy[feedId].length
-        } else {
             return Object.keys(savedBy).length !== 0 && savedBy[feedId].length
+        } else {
+            return Object.keys(likedBy).length !== 0 && likedBy[feedId].length
         }
     }
 

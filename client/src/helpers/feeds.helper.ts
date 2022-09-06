@@ -22,7 +22,7 @@ export const getSavedFeeds = async (feedId: string) => {
 }
 
 export const likeFeed = async (userId: string, feedId: string) => {
-    const res = await feedsAPI.post(`/${feedId}/like`, {
+    const res = await feedsAPI.post(`/action/like`, {
         userId: userId,
         feedId: feedId
     })
@@ -35,7 +35,7 @@ export const likeFeed = async (userId: string, feedId: string) => {
 }
 
 export const dislikeFeed = async (userId: string, feedId: string) => {
-    const res = await feedsAPI.post(`/${feedId}/dislike`, {
+    const res = await feedsAPI.post(`/action/dislike`, {
         userId: userId,
         feedId: feedId
     })
@@ -48,7 +48,7 @@ export const dislikeFeed = async (userId: string, feedId: string) => {
 }
 
 export const saveFeed = async (userId: string, feedId: string) => {
-    const res = await feedsAPI.post(`/${feedId}/save`, {
+    const res = await feedsAPI.post(`/action/save`, {
         userId: userId,
         feedId: feedId
     })
@@ -61,7 +61,7 @@ export const saveFeed = async (userId: string, feedId: string) => {
 }
 
 export const removeFeed = async (userId: string, feedId: string) => {
-    const res = await feedsAPI.post(`/${feedId}/remove`, {
+    const res = await feedsAPI.post(`/action/remove/${feedId}`, {
         userId: userId,
         feedId: feedId
     })

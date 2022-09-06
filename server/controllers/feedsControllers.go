@@ -158,9 +158,20 @@ func LikeFeed(c *fiber.Ctx) error {
 
 func DislikeFeed(c *fiber.Ctx) error {
 
-	likeID, _ := primitive.ObjectIDFromHex(c.Params("likeId"))
+	var data map[string]string
 
-	_, queryError := database.FeedLikes.DeleteOne(context.Background(), bson.M{"_id": likeID})
+	err := c.BodyParser(&data)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	feedID, _ := primitive.ObjectIDFromHex(data["feedId"])
+	userID, _ := primitive.ObjectIDFromHex(data["userId"])
+
+	_, queryError := database.FeedLikes.DeleteOne(context.Background(), bson.M{"feedId": feedID, "userId": userID})
 
 	if queryError == mongo.ErrNoDocuments {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -208,9 +219,20 @@ func SaveFeed(c *fiber.Ctx) error {
 
 func RemoveFeed(c *fiber.Ctx) error {
 
-	saveID, _ := primitive.ObjectIDFromHex(c.Params("saveId"))
+	var data map[string]string
 
-	_, queryError := database.SavedFeeds.DeleteOne(context.Background(), bson.M{"_id": saveID})
+	err := c.BodyParser(&data)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	feedID, _ := primitive.ObjectIDFromHex(data["feedId"])
+	userID, _ := primitive.ObjectIDFromHex(data["userId"])
+
+	_, queryError := database.SavedFeeds.DeleteOne(context.Background(), bson.M{"feedId": feedID, "userId": userID})
 
 	if queryError == mongo.ErrNoDocuments {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -257,7 +279,7 @@ func GetFeedLikes(feedID primitive.ObjectID) []primitive.ObjectID {
 	}
 
 	for cur.Next(context.TODO()) {
-		var data models.SavedFeeds
+		var data models.FeedLikes
 		err := cur.Decode(&data)
 		if err != nil {
 			return results
