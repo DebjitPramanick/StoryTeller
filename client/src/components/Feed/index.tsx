@@ -31,11 +31,12 @@ const Feed: React.FC<FeedProps> = ({
         try {
             if (!localIsLiked) {
                 await likeFeed(user._id, feed._id)
+                setLocalLikesCount(localLikesCount+1);
             } else {
                 await dislikeFeed(user._id, feed._id)
+                setLocalLikesCount(localLikesCount-1);
             }
             setLocalIsLiked(!localIsLiked);
-            setLocalLikesCount(localLikesCount-1);
         } catch (err: any) {
             toast.error(err.message, {
                 autoClose: 3500,
@@ -47,12 +48,13 @@ const Feed: React.FC<FeedProps> = ({
     const handleSaveFeed = async () => {
         try {
             if (!localIsSaved) {
-                await saveFeed(user._id, feed._id)
+                await saveFeed(user._id, feed._id);
+                setLocalSavesCount(localSavesCount+1);
             } else {
-                await removeFeed(user._id, feed._id)
+                await removeFeed(user._id, feed._id);
+                setLocalSavesCount(localSavesCount-1);
             }
             setLocalIsSaved(!localIsSaved);
-            setLocalSavesCount(localSavesCount-1);
         } catch (err: any) {
             toast.error(err.message, {
                 autoClose: 3500,

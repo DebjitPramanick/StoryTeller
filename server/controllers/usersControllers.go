@@ -249,3 +249,64 @@ func CheckUsername(c *fiber.Ctx) error {
 		"status": 1,
 	})
 }
+
+func FollowUser(c *fiber.Ctx) error {
+
+	var data map[string]string
+
+	err := c.BodyParser(&data)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	follower, _ := primitive.ObjectIDFromHex(data["follower"])
+	following, _ := primitive.ObjectIDFromHex(data["following"])
+
+	followData := models.Followers{
+		ID:      primitive.NewObjectID(),
+		Follower: follower,
+		Following:  following,
+	}
+
+	_, insertErr := database.Followers.InsertOne(context.TODO(), followData)
+
+	if insertErr != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Followed user successfully.",
+	})
+}
+
+func UnfollowUser(c *fiber.Ctx) error {
+	var data map[string]string
+
+	err := c.BodyParser(&data)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	follower, _ := primitive.ObjectIDFromHex(data["follower"])
+	following, _ := primitive.ObjectIDFromHex(data["following"])
+
+	_, insertErr := database.Followers.DeleteOne(context.Background(), bson.M{"follower": follower, "following": following})
+
+	if insertErr != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Unfollowed user successfully.",
+	})
+}
