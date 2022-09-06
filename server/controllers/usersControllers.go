@@ -265,6 +265,12 @@ func FollowUser(c *fiber.Ctx) error {
 	follower, _ := primitive.ObjectIDFromHex(data["follower"])
 	following, _ := primitive.ObjectIDFromHex(data["following"])
 
+	if follower == following {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "User cannot follow himself/herself.",
+		})
+	}
+
 	followData := models.Followers{
 		ID:      primitive.NewObjectID(),
 		Follower: follower,
@@ -297,6 +303,12 @@ func UnfollowUser(c *fiber.Ctx) error {
 
 	follower, _ := primitive.ObjectIDFromHex(data["follower"])
 	following, _ := primitive.ObjectIDFromHex(data["following"])
+
+	if follower == following {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "User cannot unfollow himself/herself.",
+		})
+	}
 
 	_, insertErr := database.Followers.DeleteOne(context.Background(), bson.M{"follower": follower, "following": following})
 

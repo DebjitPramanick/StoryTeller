@@ -60,6 +60,8 @@ func CreateStory(c *fiber.Ctx) error {
 
 func GetAuthorStories(c *fiber.Ctx) error {
 	var stories []models.Story
+	savedBy := make(map[primitive.ObjectID] []primitive.ObjectID)
+	likedBy := make(map[primitive.ObjectID] []primitive.ObjectID)
 
 	authorID, _ := primitive.ObjectIDFromHex(c.Params("authorId"));
 	cur, queryError := database.Stories.Find(context.TODO(), bson.M{"author._id": authorID})
@@ -78,6 +80,8 @@ func GetAuthorStories(c *fiber.Ctx) error {
 				"message": "Something went wrong. Please try again later.",
 			})
 		}
+		savedBy[story.ID] = GetFeedSaves(story.ID)
+		likedBy[story.ID] = GetFeedLikes(story.ID)
 		stories = append(stories, story)
 	}
 
@@ -89,7 +93,13 @@ func GetAuthorStories(c *fiber.Ctx) error {
 
 	defer cur.Close(context.TODO())
 
-	return c.JSON(stories)
+	result := fiber.Map{
+		"stories": stories,
+		"savedBy": savedBy,
+		"likedBy": likedBy,
+	}
+
+	return c.JSON(result)
 }
 
 func GetStoryByID(c *fiber.Ctx) error {

@@ -29,7 +29,11 @@ const Feeds: React.FC<any> = () => {
   const fetchFeeds = async () => {
     try {
       const res = await getFeeds();
-      setFeedsData(res.data)
+      setFeedsData({
+        feeds: res.data.feeds || [],
+        likedBy: res.data.likedBy,
+        savedBy: res.data.savedBy
+      })
     } catch (err: any) {
       toast.error(err.message, {
         autoClose: 3500,

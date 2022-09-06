@@ -72,6 +72,8 @@ func GetFeedByID(c *fiber.Ctx) error {
 func GetSavedFeedsByUserId(c *fiber.Ctx) error {
 	var feeds []models.Story
 	var feedIds []primitive.ObjectID
+	savedBy := make(map[primitive.ObjectID] []primitive.ObjectID)
+	likedBy := make(map[primitive.ObjectID] []primitive.ObjectID)
 
 	userID, _ := primitive.ObjectIDFromHex(c.Params("userId"))
 
@@ -114,12 +116,20 @@ func GetSavedFeedsByUserId(c *fiber.Ctx) error {
 				"message": "Something went wrong. Please try again later.",
 			})
 		}
+		savedBy[feed.ID] = GetFeedSaves(feed.ID)
+		likedBy[feed.ID] = GetFeedLikes(feed.ID)
 		feeds = append(feeds, feed)
 	}
 
 	defer cursor.Close(context.TODO())
 
-	return c.JSON(feeds)
+	result := fiber.Map{
+		"feeds": feeds,
+		"savedBy": savedBy,
+		"likedBy": likedBy,
+	}
+
+	return c.JSON(result)
 }
 
 func LikeFeed(c *fiber.Ctx) error {

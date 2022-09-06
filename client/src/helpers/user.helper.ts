@@ -26,7 +26,7 @@ export const followUser = async (target: string, source: string) => {
         following: target,
         follower: source
     })
-        .catch(err => {
+    .catch(err => {
             const error = getError(err);
             throw new Error(error);
         })

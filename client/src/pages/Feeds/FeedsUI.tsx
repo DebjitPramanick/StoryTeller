@@ -1,5 +1,6 @@
 import React from 'react'
 import Feed from '../../components/Feed'
+import { gtCounts, handleCheck } from '../../helpers/common.helper'
 import PageLayout from '../../layouts/PageLayout'
 import { FeedDetailsType, GlobalUserType } from '../../utils/types'
 
@@ -17,24 +18,6 @@ const FeedsUI: React.FC<FeedsUIProps> = ({
     savedBy
 }) => {
 
-    const handleCheck = (feedId: string | undefined, type: 'like' | 'save') => {
-        if(!feedId) return false;
-        if(type === 'save') {
-            return Object.keys(savedBy).length !== 0 && savedBy[feedId].includes(user._id)
-        } else {
-            return Object.keys(likedBy).length !== 0 && likedBy[feedId].includes(user._id)
-        }
-    }
-
-    const gtCounts = (feedId: string | undefined, type: 'like' | 'save') => {
-        if(!feedId) return false;
-        if(type === 'save') {
-            return Object.keys(savedBy).length !== 0 && savedBy[feedId].length
-        } else {
-            return Object.keys(likedBy).length !== 0 && likedBy[feedId].length
-        }
-    }
-
     return (
         <PageLayout>
             <h1 className='mb-5 text-2xl font-bold text-gray-900'>Feeds</h1>
@@ -42,10 +25,10 @@ const FeedsUI: React.FC<FeedsUIProps> = ({
                 <Feed
                     key={feed._id}
                     feed={feed}
-                    isLiked={handleCheck(feed._id, 'like')}
-                    isSaved={handleCheck(feed._id, 'save')}
-                    likeCounts={gtCounts(feed._id, 'like')}
-                    savedCounts={gtCounts(feed._id, 'save')} />
+                    isLiked={handleCheck(feed._id, 'like', likedBy, user._id)}
+                    isSaved={handleCheck(feed._id, 'save', savedBy, user._id)}
+                    likeCounts={gtCounts(feed._id, 'like', likedBy)}
+                    savedCounts={gtCounts(feed._id, 'save', savedBy)} />
             ))}
         </PageLayout>
     )

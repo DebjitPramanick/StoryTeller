@@ -3,15 +3,28 @@ import Tab from '../../components/Tab';
 import PageLayout from '../../layouts/PageLayout';
 import StoriesTab from './components/StoriesTab';
 import EditProfileTab from './components/EditProfileTab';
+import { GlobalUserType } from '../../utils/types';
+import { StoriesDataType } from '.';
 
-const ProfileUI: React.FC<any> = ({
+interface UIProps {
+    user: GlobalUserType,
+    fetchUserStories: () => void;
+    storiesData: StoriesDataType;
+    tabs: any[];
+    currentTab: number;
+    setCurTab: (val: number) => void
+}
+
+const ProfileUI: React.FC<UIProps> = ({
     user,
     fetchUserStories,
-    userStories,
+    storiesData,
     tabs,
     currentTab,
     setCurTab
 }) => {
+
+    const { stories, savedBy, likedBy } = storiesData;
 
     return (
         <PageLayout>
@@ -35,7 +48,10 @@ const ProfileUI: React.FC<any> = ({
             <div className='mt-4 mx-auto' style={{ width: 'fit-content' }}>
                 {currentTab === 0 ?
                     <StoriesTab
-                        stories={userStories} />
+                        user={user}
+                        stories={stories}
+                        savedBy={savedBy}
+                        likedBy={likedBy} />
                     : currentTab === 1 ?
                         <EditProfileTab user={user}
                             fetchUserStories={fetchUserStories} />

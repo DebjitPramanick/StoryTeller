@@ -1,9 +1,20 @@
 import React from 'react'
 import Feed from '../../../components/Feed'
-import { FeedDetailsType } from '../../../utils/types'
+import { gtCounts, handleCheck } from '../../../helpers/common.helper'
+import { FeedDetailsType, GlobalUserType } from '../../../utils/types'
 
-const StoriesTab: React.FC<any> = ({
-    stories
+interface UIProps {
+    user: GlobalUserType;
+    stories: FeedDetailsType[];
+    savedBy: any;
+    likedBy: any
+}
+
+const StoriesTab: React.FC<UIProps> = ({
+    user,
+    stories,
+    likedBy,
+    savedBy
 }) => {
     return (
         <div>
@@ -11,10 +22,10 @@ const StoriesTab: React.FC<any> = ({
                 <Feed
                     key={feed._id}
                     feed={feed}
-                    isLiked={false}
-                    isSaved={true}
-                    likeCounts={0}
-                    savedCounts={0} />
+                    isLiked={handleCheck(feed._id, 'like', likedBy, user._id)}
+                    isSaved={handleCheck(feed._id, 'save', savedBy, user._id)}
+                    likeCounts={gtCounts(feed._id, 'like', likedBy)}
+                    savedCounts={gtCounts(feed._id, 'save', savedBy)} />
             ))}
         </div>
     )

@@ -7,16 +7,26 @@ import { toast } from 'react-toastify';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
+export interface StoriesDataType {
+  stories: FeedDetailsType[],
+  savedBy: any,
+  likedBy: any
+}
+
 const Profile = () => {
 
   const { user } = useUser()
 
   const [curTab, setCurTab] = useState<number>(0)
-  const [userStories, setUserStories] = useState<FeedDetailsType[]>([]);
+  const [storiesData, setStoriesData] = useState<StoriesDataType>({
+    stories: [],
+    likedBy: {},
+    savedBy: {}
+  });
 
   const tabs = [
     {
-      title: `Stories (${userStories?.length || 0})`,
+      title: `Stories (${storiesData.stories.length || 0})`,
       icon: <AutoStoriesIcon style={{ width: '16px' }} />
     },
     {
@@ -32,7 +42,11 @@ const Profile = () => {
   const fetchUserStories = async () => {
     try {
       const res = await getAuthorStories(user._id)
-      setUserStories(res.data)
+      setStoriesData({
+        stories: res.data.stories || [],
+        likedBy: res.data.likedBy,
+        savedBy: res.data.savedBy
+      })
     } catch (err: any) {
       toast.error(err.message, {
         autoClose: 3500,
@@ -48,7 +62,7 @@ const Profile = () => {
       tabs={tabs}
       currentTab={curTab}
       setCurTab={setCurTab}
-      userStories={userStories} />
+      storiesData={storiesData} />
   )
 }
 
