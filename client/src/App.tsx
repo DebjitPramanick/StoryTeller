@@ -10,6 +10,7 @@ import Story from './pages/Story';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Logout from './pages/Logout';
+import SavedItems from './pages/SavedItems';
 
 function App() {
 
@@ -43,6 +44,12 @@ function App() {
           <Route path='/editor' element={
             <ProtectedRoutes>
               <Editor />
+            </ProtectedRoutes>
+          } />
+
+          <Route path='/saved' element={
+            <ProtectedRoutes>
+              <SavedItems />
             </ProtectedRoutes>
           } />
 
