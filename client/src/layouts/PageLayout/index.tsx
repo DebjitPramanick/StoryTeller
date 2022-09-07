@@ -7,7 +7,7 @@ const PageLayout: React.FC<any> = ({ children }) => {
     const isAuthPage = curPath.includes('register') || curPath.includes('login')
 
     return (
-        <div className={`flex px-2 py-2 ml-auto relative ${!isAuthPage ? 'gap-6' : ''}`}
+        <div className={`max-w-6xl mx-auto flex px-2 py-4 ml-auto relative ${!isAuthPage ? 'gap-6' : ''}`}
             style={{ marginTop: '61px', background: '#fbfbfb' }}>
             <div style={{ width: isAuthPage ? '0px' : '288px' }}></div>
             <Sidebar />
