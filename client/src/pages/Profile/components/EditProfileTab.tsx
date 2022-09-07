@@ -71,7 +71,7 @@ const EditProfileTab: React.FC<any> = ({
 
           <TextAreaField
             value={data.bio || ""}
-            setValue={(val: string) => handleChangeData('email', val)}
+            setValue={(val: string) => handleChangeData('bio', val)}
             label="Your Bio"
             placeholder="Enter bio"
           />
