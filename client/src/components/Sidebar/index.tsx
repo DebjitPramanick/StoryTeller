@@ -40,16 +40,22 @@ const Sidebar: React.FC<any> = () => {
         },
     ]
 
-    if(hide) return null;
+    if (hide) return null;
+
+    const isCurrent = (path: string) => {
+        console.log(curPath, path)
+        return curPath === path;
+    }
 
     return (
         <div className='fixed'>
             <aside className="w-72" aria-label="Sidebar">
-                <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
+                <div className="overflow-y-auto py-4 px-3 bg-blue-200 rounded-lg">
                     <ul className="space-y-2">
                         {items.map((item) => (
                             <li>
-                                <Link to={item.path} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
+                                <Link to={item.path}
+                                    className={`flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-blue-100 ${isCurrent(item.path) ? 'bg-blue-300' : ''}`}>
                                     <span>{item.icon}</span>
                                     <span className="ml-3">{item.name}</span>
                                 </Link>

@@ -19,6 +19,7 @@ const Feeds: React.FC<any> = () => {
     likedBy: {},
     savedBy: {}
   })
+  const [fetchingFeeds, setFetchingFeeds] = useState<boolean>(false);
 
   const { user } = useUser();
 
@@ -28,17 +29,20 @@ const Feeds: React.FC<any> = () => {
 
   const fetchFeeds = async () => {
     try {
+      setFetchingFeeds(true);
       const res = await getFeeds();
       setFeedsData({
         feeds: res.data.feeds || [],
         likedBy: res.data.likedBy,
         savedBy: res.data.savedBy
       })
+      setFetchingFeeds(false);
     } catch (err: any) {
       toast.error(err.message, {
         autoClose: 3500,
         pauseOnHover: true,
       })
+      setFetchingFeeds(false);
     }
   }
 
@@ -47,7 +51,8 @@ const Feeds: React.FC<any> = () => {
       user={user}
       feeds={feedsData.feeds}
       savedBy={feedsData.savedBy}
-      likedBy={feedsData.likedBy} />
+      likedBy={feedsData.likedBy}
+      fetching={fetchingFeeds} />
   )
 }
 

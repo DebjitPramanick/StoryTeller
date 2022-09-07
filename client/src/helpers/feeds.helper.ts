@@ -61,7 +61,7 @@ export const saveFeed = async (userId: string, feedId: string) => {
 }
 
 export const removeFeed = async (userId: string, feedId: string) => {
-    const res = await feedsAPI.post(`/action/remove/${feedId}`, {
+    const res = await feedsAPI.post(`/action/remove`, {
         userId: userId,
         feedId: feedId
     })
