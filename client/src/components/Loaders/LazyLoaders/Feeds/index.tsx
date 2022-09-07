@@ -3,7 +3,7 @@ import "../styles.css"
 
 const FeedsLazyLoader = () => {
     return (
-        <div>
+        <div className='w-full'>
             {[1, 2, 3, 4, 5].map(f => (
                 <div className='mb-4 max-w-4xl rounded-lg border border-gray-200 shadow-md skeleton'>
                     <div className="flex items-center gap-2 px-4 py-2">

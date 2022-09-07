@@ -12,7 +12,8 @@ interface UIProps {
     storiesData: StoriesDataType;
     tabs: any[];
     currentTab: number;
-    setCurTab: (val: number) => void
+    setCurTab: (val: number) => void;
+    fetchingStories: boolean
 }
 
 const ProfileUI: React.FC<UIProps> = ({
@@ -21,14 +22,15 @@ const ProfileUI: React.FC<UIProps> = ({
     storiesData,
     tabs,
     currentTab,
-    setCurTab
+    setCurTab,
+    fetchingStories
 }) => {
 
     const { stories, savedBy, likedBy } = storiesData;
 
     return (
         <PageLayout>
-            <div className='flex flex-col items-center gap-6 shadow px-4 py-4 '>
+            <div className='flex flex-col items-center gap-6 shadow px-4 py-4 rounded-lg'>
                 <div style={{ width: 'fit-content' }}>
                     <img className="w-40 h-40 rounded-full" src="https://api.multiavatar.com/BinxBond.svg" alt="/" />
                 </div>
@@ -45,13 +47,14 @@ const ProfileUI: React.FC<UIProps> = ({
                 currentTab={currentTab}
                 selectTab={(index: number) => setCurTab(index)} />
 
-            <div className='mt-4 mx-auto' style={{ width: 'fit-content' }}>
+            <div className='mt-4 mx-auto w-full'>
                 {currentTab === 0 ?
                     <StoriesTab
                         user={user}
                         stories={stories}
                         savedBy={savedBy}
-                        likedBy={likedBy} />
+                        likedBy={likedBy}
+                        fetchingStories={fetchingStories} />
                     : currentTab === 1 ?
                         <EditProfileTab user={user}
                             fetchUserStories={fetchUserStories} />

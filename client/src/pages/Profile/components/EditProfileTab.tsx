@@ -7,7 +7,7 @@ import { useUser } from '../../../contexts/UserContext';
 import { updateUser } from '../../../helpers/user.helper';
 import FormLayout from '../../../layouts/FormLayout';
 
-interface EditUserDetailsType { 
+interface EditUserDetailsType {
   name: string,
   bio: string,
   email: string,
@@ -19,7 +19,7 @@ const EditProfileTab: React.FC<any> = ({
   fetchUserStories
 }) => {
 
-  const {refetchUser} = useUser();
+  const { refetchUser } = useUser();
 
   const [data, setData] = useState<EditUserDetailsType>({
     name: user.name,
@@ -47,37 +47,39 @@ const EditProfileTab: React.FC<any> = ({
   }
 
   return (
-    <FormLayout>
-      <h1 className='text-xl font-bold mb-6'>Update Details</h1>
-      <form>
-        <InputField
-          label='Your name'
-          placeholder='Enter name'
-          value={data.name}
-          setValue={(val: string) => handleChangeData('name', val)}
-          type='text'
-          required={true}
-        />
+    <div className='flex justify-center'>
+      <FormLayout>
+        <h1 className='text-xl font-bold mb-6'>Update Details</h1>
+        <form>
+          <InputField
+            label='Your name'
+            placeholder='Enter name'
+            value={data.name}
+            setValue={(val: string) => handleChangeData('name', val)}
+            type='text'
+            required={true}
+          />
 
-        <InputField
-          label='Your email'
-          placeholder='Enter email'
-          value={data.email}
-          setValue={(val: string) => handleChangeData('email', val)}
-          type='email'
-          required={true}
-        />
+          <InputField
+            label='Your email'
+            placeholder='Enter email'
+            value={data.email}
+            setValue={(val: string) => handleChangeData('email', val)}
+            type='email'
+            required={true}
+          />
 
-        <TextAreaField
-          value={data.bio || ""}
-          setValue={(val: string) => handleChangeData('email', val)}
-          label="Your Bio"
-          placeholder="Enter bio"
-        />
+          <TextAreaField
+            value={data.bio || ""}
+            setValue={(val: string) => handleChangeData('email', val)}
+            label="Your Bio"
+            placeholder="Enter bio"
+          />
 
-        <Button label="Updte User" type="submit" rightAligned={true} onClick={(e: any) => handleUpdate(e)} />
-      </form>
-    </FormLayout>
+          <Button label="Updte User" type="submit" rightAligned={true} onClick={(e: any) => handleUpdate(e)} />
+        </form>
+      </FormLayout>
+    </div>
   )
 }
 

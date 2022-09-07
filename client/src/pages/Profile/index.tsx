@@ -23,6 +23,7 @@ const Profile = () => {
     likedBy: {},
     savedBy: {}
   });
+  const [fetchingStories, setFetchingStories] = useState<boolean>(false);
 
   const tabs = [
     {
@@ -41,17 +42,20 @@ const Profile = () => {
 
   const fetchUserStories = async () => {
     try {
+      setFetchingStories(true);
       const res = await getAuthorStories(user._id)
       setStoriesData({
         stories: res.data.stories || [],
         likedBy: res.data.likedBy,
         savedBy: res.data.savedBy
       })
+      setFetchingStories(false);
     } catch (err: any) {
       toast.error(err.message, {
         autoClose: 3500,
         pauseOnHover: true,
       })
+      setFetchingStories(false);
     }
   }
 
@@ -62,7 +66,8 @@ const Profile = () => {
       tabs={tabs}
       currentTab={curTab}
       setCurTab={setCurTab}
-      storiesData={storiesData} />
+      storiesData={storiesData}
+      fetchingStories={fetchingStories} />
   )
 }
 

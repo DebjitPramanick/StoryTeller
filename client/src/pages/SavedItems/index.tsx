@@ -18,26 +18,30 @@ const SavedItems = () => {
         likedBy: {},
         savedBy: {}
     })
+    const [fetchingFeeds, setFetchingFeeds] = useState<boolean>(false);
 
     const { user } = useUser();
 
     useEffect(() => {
-        fetchSavedStories()
+        fetchSavedFeeds()
     }, [])
 
-    const fetchSavedStories = async () => {
+    const fetchSavedFeeds = async () => {
         try {
+            setFetchingFeeds(true);
             const res = await getSavedFeeds(user._id)
             setFeedsData({
                 feeds: res.data.feeds || [],
                 likedBy: res.data.likedBy,
                 savedBy: res.data.savedBy
             })
+            setFetchingFeeds(false);
         } catch (err: any) {
             toast.error(err.message, {
                 autoClose: 3500,
                 pauseOnHover: true,
             })
+            setFetchingFeeds(false);
         }
     }
 
@@ -46,7 +50,8 @@ const SavedItems = () => {
             user={user}
             feeds={feedsData.feeds}
             savedBy={feedsData.savedBy}
-            likedBy={feedsData.likedBy} />
+            likedBy={feedsData.likedBy}
+            fetching={fetchingFeeds} />
     )
 }
 
