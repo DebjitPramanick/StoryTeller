@@ -12,6 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func CreateStory(c *fiber.Ctx) error {
@@ -63,8 +64,10 @@ func GetAuthorStories(c *fiber.Ctx) error {
 	savedBy := make(map[primitive.ObjectID] []primitive.ObjectID)
 	likedBy := make(map[primitive.ObjectID] []primitive.ObjectID)
 
+	opts := options.Find().SetSort(bson.D{{"created_at", -1}})
+
 	authorID, _ := primitive.ObjectIDFromHex(c.Params("authorId"));
-	cur, queryError := database.Stories.Find(context.TODO(), bson.M{"author._id": authorID})
+	cur, queryError := database.Stories.Find(context.TODO(), bson.M{"author._id": authorID}, opts)
 
 	if queryError == mongo.ErrNoDocuments {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{

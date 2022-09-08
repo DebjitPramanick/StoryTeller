@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"server/database"
 	"server/models"
 
@@ -10,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func GetFeeds(c *fiber.Ctx) error {
@@ -17,7 +17,9 @@ func GetFeeds(c *fiber.Ctx) error {
 	savedBy := make(map[primitive.ObjectID][]primitive.ObjectID)
 	likedBy := make(map[primitive.ObjectID][]primitive.ObjectID)
 
-	cur, queryError := database.Stories.Find(context.TODO(), bson.M{})
+	opts := options.Find().SetSort(bson.D{{"created_at", -1}})
+
+	cur, queryError := database.Stories.Find(context.TODO(), bson.M{}, opts)
 
 	if queryError == mongo.ErrNoDocuments {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -101,10 +103,9 @@ func GetSavedFeedsByUserId(c *fiber.Ctx) error {
 
 	if len(feedIds) != 0 {
 		filter := bson.M{"_id": bson.M{"$in": feedIds}}
+		opts := options.Find().SetSort(bson.D{{"created_at", -1}})
 
-		fmt.Println(filter)
-
-		cursor, _ := database.Stories.Find(context.TODO(), filter)
+		cursor, _ := database.Stories.Find(context.TODO(), filter, opts)
 
 		for cursor.Next(context.TODO()) {
 			var feed models.Story
