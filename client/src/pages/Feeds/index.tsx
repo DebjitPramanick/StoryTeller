@@ -2,6 +2,7 @@ import { off } from 'process'
 import React, { ErrorInfo, useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import { useUser } from '../../contexts/UserContext'
+import { popupMessage } from '../../helpers/common.helper'
 import { getFeeds } from '../../helpers/feeds.helper'
 import { FeedDetailsType } from '../../utils/types'
 import FeedsUI from './FeedsUI'
@@ -38,10 +39,7 @@ const Feeds: React.FC<any> = () => {
       })
       setFetchingFeeds(false);
     } catch (err: any) {
-      toast.error(err.message, {
-        autoClose: 3500,
-        pauseOnHover: true,
-      })
+      popupMessage('error', err.message);
       setFetchingFeeds(false);
     }
   }

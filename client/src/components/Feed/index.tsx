@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useUser } from '../../contexts/UserContext'
+import { popupMessage } from '../../helpers/common.helper'
 import { dislikeFeed, likeFeed, removeFeed, saveFeed } from '../../helpers/feeds.helper'
 import { FeedDetailsType } from '../../utils/types'
 import FeedUI from './FeedUI'
@@ -38,10 +39,7 @@ const Feed: React.FC<FeedProps> = ({
             }
             setLocalIsLiked(!localIsLiked);
         } catch (err: any) {
-            toast.error(err.message, {
-                autoClose: 3500,
-                pauseOnHover: true,
-            })
+            popupMessage('error', err.message);
         }
     }
 
@@ -56,10 +54,7 @@ const Feed: React.FC<FeedProps> = ({
             }
             setLocalIsSaved(!localIsSaved);
         } catch (err: any) {
-            toast.error(err.message, {
-                autoClose: 3500,
-                pauseOnHover: true,
-            })
+            popupMessage('error', err.message);
         }
     }
 

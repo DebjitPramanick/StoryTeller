@@ -4,6 +4,7 @@ import Button from '../../../components/FormFields/Button';
 import InputField from '../../../components/FormFields/InputField';
 import TextAreaField from '../../../components/FormFields/TextAreaField';
 import { useUser } from '../../../contexts/UserContext';
+import { popupMessage } from '../../../helpers/common.helper';
 import { updateUser } from '../../../helpers/user.helper';
 import FormLayout from '../../../layouts/FormLayout';
 
@@ -35,10 +36,7 @@ const EditProfileTab: React.FC<any> = ({
       await refetchUser();
       await fetchUserStories()
     } catch (err: any) {
-      toast.error(err.message, {
-        autoClose: 3500,
-        pauseOnHover: true,
-      })
+      popupMessage('error', err.message);
     }
   }
 

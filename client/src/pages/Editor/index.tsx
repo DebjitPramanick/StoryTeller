@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
+import { popupMessage } from '../../helpers/common.helper';
 import { createStory } from '../../helpers/editor.helper';
 import EditorUI from './EditorUI'
 
@@ -20,6 +22,7 @@ const initialData: StoryDetailsType = {
 const Editor = () => {
 
   const { user } = useUser();
+  const navigate = useNavigate();
 
   const [data, setData] = useState<StoryDetailsType>(initialData);
 
@@ -28,18 +31,15 @@ const Editor = () => {
     try {
       const authorId = user._id;
       await createStory(data, authorId);
+      popupMessage('success', "Story created successfully.");
+      navigate("/profile")
     } catch (err: any) {
-      alert(err.message)
+      popupMessage('error', err.message);
     }
   }
 
   const handleChangeData = (field: string, value: string) => {
-    if (field === 'tags') {
-      let newTags = value.split(" ")
-      setData({ ...data, [field]: newTags })
-    } else {
-      setData({ ...data, [field]: value })
-    }
+    setData({ ...data, [field]: value })
   }
 
   return (

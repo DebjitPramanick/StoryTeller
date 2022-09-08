@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useUser } from '../../contexts/UserContext'
+import { popupMessage } from '../../helpers/common.helper'
 import { getSavedFeeds } from '../../helpers/feeds.helper'
 import { FeedDetailsType } from '../../utils/types'
 import SavedItemsUI from './SavedItemsUI'
@@ -37,10 +38,7 @@ const SavedItems = () => {
             })
             setFetchingFeeds(false);
         } catch (err: any) {
-            toast.error(err.message, {
-                autoClose: 3500,
-                pauseOnHover: true,
-            })
+            popupMessage('error', err.message);
             setFetchingFeeds(false);
         }
     }

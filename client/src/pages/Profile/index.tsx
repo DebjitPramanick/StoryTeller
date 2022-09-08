@@ -6,6 +6,7 @@ import { getAuthorStories } from '../../helpers/story.helper';
 import { toast } from 'react-toastify';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import { popupMessage } from '../../helpers/common.helper';
 
 export interface StoriesDataType {
   stories: FeedDetailsType[],
@@ -51,10 +52,7 @@ const Profile = () => {
       })
       setFetchingStories(false);
     } catch (err: any) {
-      toast.error(err.message, {
-        autoClose: 3500,
-        pauseOnHover: true,
-      })
+      popupMessage('error', err.message);
       setFetchingStories(false);
     }
   }
