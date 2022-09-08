@@ -23,18 +23,20 @@ const initialData: UserDetailsType = {
   username: '',
   country: 'India',
   dob: new Date().toDateString(),
-  gender: 'M'
+  gender: 'M',
+  avatar: ''
 }
 
 const Register = () => {
 
-  const {user} = useUser();
+  const {isLoggedIn} = useUser();
 
   const [data, setData] = useState<UserDetailsType>(initialData)
 
   const handleRegister = async (e: any) => {
     e.preventDefault();
     try {
+      data.avatar = `https://api.multiavatar.com/${data.username}`
       await registerUser(data);
       window.location.href = "/login"
     } catch (err: any) {
@@ -46,7 +48,7 @@ const Register = () => {
     setData({...data, [field]: value})
   }
 
-  if(user) return <Navigate to={"/"}/>
+  if(isLoggedIn) return <Navigate to={"/"}/>
 
   return (
     <RegitserUI

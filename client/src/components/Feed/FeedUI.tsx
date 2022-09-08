@@ -41,7 +41,7 @@ const FeedUI: React.FC<FeedUIProps> = ({
         <div className='mb-4 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md'>
             <div className="flex items-center gap-2 px-4 py-2">
                 <div className="flex-shrink-0">
-                    <img className="w-12 h-12 rounded-full" src="https://api.multiavatar.com/BinxBond.svg" alt="" />
+                    <img className="w-12 h-12 rounded-full" src={feed.author.avatar} alt="" />
                 </div>
                 <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">

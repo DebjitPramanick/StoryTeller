@@ -43,7 +43,6 @@ const Sidebar: React.FC<any> = () => {
     if (hide) return null;
 
     const isCurrent = (path: string) => {
-        console.log(curPath, path)
         return curPath === path;
     }
 

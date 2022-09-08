@@ -34,7 +34,7 @@ const ProfileUI: React.FC<UIProps> = ({
             // style={{ background: 'red' }}
             >
                 <div style={{ width: 'fit-content' }}>
-                    <img className="w-40 h-40 rounded-full border-violet-300 border-2" src="https://api.multiavatar.com/BinxBond.svg" alt="/" />
+                    <img className="w-40 h-40 rounded-full border-violet-300 border-2" src={user.avatar} alt="/" />
                 </div>
                 <div style={{ width: 'fit-content' }} className='text-center'>
                     <p className='text-2xl font-bold'>{user.name}</p>
