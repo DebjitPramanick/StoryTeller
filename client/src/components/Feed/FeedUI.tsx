@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FeedProps } from './index'
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import moment from 'moment';
@@ -6,10 +6,14 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import DropDown from '../Dropdown';
 
 interface FeedUIProps extends FeedProps {
     handleLikeFeed: () => void;
     handleSaveFeed: () => void;
+    enableActions?: boolean;
+    handleDeleteStory: () => void
 }
 
 const FeedUI: React.FC<FeedUIProps> = ({
@@ -19,9 +23,12 @@ const FeedUI: React.FC<FeedUIProps> = ({
     likeCounts,
     savedCounts,
     handleLikeFeed,
-    handleSaveFeed
+    handleSaveFeed,
+    enableActions = false,
+    handleDeleteStory
 }) => {
     const contentRef = useRef<HTMLDivElement | null>(null);
+    const [openMenu, setOpenMenu] = useState(false);
 
     useEffect(() => {
         if (feed && contentRef.current) {
@@ -36,6 +43,14 @@ const FeedUI: React.FC<FeedUIProps> = ({
         }
         return '';
     }
+
+    const actionItems = [
+        { label: 'Edit', onClick: () => { } },
+        { label: 'Delete', onClick: handleDeleteStory }
+    ]
+
+    console.log(openMenu)
+
 
     return (
         <div className='mb-4 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md'>
@@ -61,6 +76,15 @@ const FeedUI: React.FC<FeedUIProps> = ({
                         {!isSaved ? <BookmarkBorderIcon />
                             : <BookmarkIcon style={{ color: "#00d0cd" }} />}
                     </div>
+
+                    {enableActions && (
+                        <div onClick={() => setOpenMenu(!openMenu)} className="relative">
+                            <MoreVertIcon />
+                            <DropDown
+                                items={actionItems}
+                                open={openMenu} />
+                        </div>
+                    )}
                 </div>
             </div>
             <div className='px-4 py-2'>

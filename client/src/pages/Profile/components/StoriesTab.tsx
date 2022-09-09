@@ -29,7 +29,8 @@ const StoriesTab: React.FC<UIProps> = ({
                         isLiked={handleCheck(feed._id, 'like', likedBy, user._id)}
                         isSaved={handleCheck(feed._id, 'save', savedBy, user._id)}
                         likeCounts={gtCounts(feed._id, 'like', likedBy)}
-                        savedCounts={gtCounts(feed._id, 'save', savedBy)} />
+                        savedCounts={gtCounts(feed._id, 'save', savedBy)}
+                        enableActions={true} />
                 ))
                     : <p className='mt-6 text-xl'>No Stories</p>}
         </div>

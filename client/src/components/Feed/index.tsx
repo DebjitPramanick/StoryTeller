@@ -11,7 +11,8 @@ export interface FeedProps {
     isLiked: boolean,
     isSaved: boolean,
     likeCounts: number,
-    savedCounts: number
+    savedCounts: number,
+    enableActions?: boolean
 }
 
 const Feed: React.FC<FeedProps> = ({
@@ -19,7 +20,8 @@ const Feed: React.FC<FeedProps> = ({
     isLiked,
     isSaved,
     likeCounts,
-    savedCounts
+    savedCounts,
+    enableActions = false
 }) => {
 
     const { user } = useUser();
@@ -58,6 +60,9 @@ const Feed: React.FC<FeedProps> = ({
         }
     }
 
+    const handleDeleteStory = () => {
+        return
+    }
 
     return (
         <FeedUI
@@ -68,6 +73,8 @@ const Feed: React.FC<FeedProps> = ({
             savedCounts={localSavesCount}
             handleLikeFeed={handleLikeFeed}
             handleSaveFeed={handleSaveFeed}
+            enableActions={enableActions}
+            handleDeleteStory={handleDeleteStory}
         />
     )
 }
