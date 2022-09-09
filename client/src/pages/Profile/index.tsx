@@ -32,7 +32,7 @@ const Profile = () => {
       icon: <AutoStoriesIcon style={{ width: '16px' }} />
     },
     {
-      title: 'Edit',
+      title: 'Settings',
       icon: <ModeEditIcon style={{ width: '16px' }} />
     },
   ]

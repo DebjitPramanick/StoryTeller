@@ -6,7 +6,7 @@ const Tab: React.FC<any> = ({
     selectTab
 }) => {
     return (
-        <div className="border-b border-gray-200 dark:border-gray-700 mx-auto">
+        <div className="border-b border-gray-200 mx-auto">
             <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 justify-center">
                 {tabs.map((tab: any, index: number) => (
                     <li className="mr-2" onClick={() => selectTab(index)}>

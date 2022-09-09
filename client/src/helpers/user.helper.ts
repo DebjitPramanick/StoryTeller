@@ -26,7 +26,7 @@ export const followUser = async (target: string, source: string) => {
         following: target,
         follower: source
     })
-    .catch(err => {
+        .catch(err => {
             const error = getError(err);
             throw new Error(error);
         })
@@ -39,6 +39,16 @@ export const unfollowUser = async (target: string, source: string) => {
         following: target,
         follower: source
     })
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}
+
+export const deleteAcccount = async(userId: string) => {
+    const res = await userAPI.delete(`/delete/${userId}`)
         .catch(err => {
             const error = getError(err);
             throw new Error(error);
