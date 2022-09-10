@@ -1,6 +1,8 @@
 import React from 'react'
 import Feed from '../../../components/Feed'
 import { FeedsLazyLoader } from '../../../components/Loaders';
+import StoryEditModal from '../../../components/Modals/StoryEditModal';
+import { useModal } from '../../../contexts/ModalContext';
 import { gtCounts, handleCheck } from '../../../helpers/common.helper'
 import { FeedDetailsType, GlobalUserType } from '../../../utils/types'
 
@@ -19,6 +21,9 @@ const StoriesTab: React.FC<UIProps> = ({
     savedBy,
     fetchingStories
 }) => {
+
+    const { isModalOpen, Modals, toggleModal } = useModal();
+
     return (
         <div>
             {fetchingStories ? <FeedsLazyLoader /> :
@@ -33,6 +38,11 @@ const StoriesTab: React.FC<UIProps> = ({
                         enableActions={true} />
                 ))
                     : <p className='mt-6 text-xl'>No Stories</p>}
+
+            <StoryEditModal
+                open={isModalOpen(Modals.STORY_EDIT)}
+                closeModal={() => toggleModal(Modals.STORY_EDIT)}
+            />
         </div>
     )
 }

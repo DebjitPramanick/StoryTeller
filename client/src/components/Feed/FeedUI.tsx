@@ -8,6 +8,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DropDown from '../Dropdown';
+import { useModal } from '../../contexts/ModalContext';
 
 interface FeedUIProps extends FeedProps {
     handleLikeFeed: () => void;
@@ -30,6 +31,8 @@ const FeedUI: React.FC<FeedUIProps> = ({
     const contentRef = useRef<HTMLDivElement | null>(null);
     const [openMenu, setOpenMenu] = useState(false);
 
+    const {Modals, toggleModal} = useModal();
+
     useEffect(() => {
         if (feed && contentRef.current) {
             contentRef.current.innerHTML = feed.content
@@ -45,11 +48,10 @@ const FeedUI: React.FC<FeedUIProps> = ({
     }
 
     const actionItems = [
-        { label: 'Edit', onClick: () => { } },
+        { label: 'Edit', onClick: () => toggleModal(Modals.STORY_EDIT, feed) },
         { label: 'Delete', onClick: handleDeleteStory }
     ]
 
-    
 
 
     return (
