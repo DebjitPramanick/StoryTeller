@@ -49,7 +49,7 @@ const FeedUI: React.FC<FeedUIProps> = ({
         { label: 'Delete', onClick: handleDeleteStory }
     ]
 
-    console.log(openMenu)
+    
 
 
     return (
