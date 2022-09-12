@@ -43,7 +43,7 @@ const Sidebar: React.FC<any> = () => {
     if (hide) return null;
 
     const isCurrent = (path: string) => {
-        return curPath === path;
+        return (curPath === path || (curPath.includes("feed") && path === "/"));
     }
 
     return (

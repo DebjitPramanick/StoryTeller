@@ -6,7 +6,7 @@ import Feeds from './pages/Feeds';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
-import Story from './pages/Story';
+import Feed from './pages/Feed';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Logout from './pages/Logout';
@@ -35,9 +35,9 @@ function App() {
             </ProtectedRoutes>
           } />
 
-          <Route path='/story/:id' element={
+          <Route path='/feed/:id' element={
             <ProtectedRoutes>
-              <Story />
+              <Feed />
             </ProtectedRoutes>
           } />
 

@@ -9,6 +9,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DropDown from '../Dropdown';
 import { useModal } from '../../contexts/ModalContext';
+import { Link } from 'react-router-dom';
 
 interface FeedUIProps extends FeedProps {
     handleLikeFeed: () => void;
@@ -55,11 +56,11 @@ const FeedUI: React.FC<FeedUIProps> = ({
     return (
         <div className='mb-4 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md'>
             <div className="flex items-center gap-2 px-4 py-2">
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 cursor-pointer">
                     <img className="w-12 h-12 rounded-full" src={feed.author.avatar} alt="" />
                 </div>
                 <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    <p className="text-sm font-medium text-gray-900 truncate">
                         {feed.author.name}
                     </p>
                     <p className="text-sm text-gray-500 truncate dark:text-gray-400">
@@ -93,7 +94,7 @@ const FeedUI: React.FC<FeedUIProps> = ({
                 ))}
             </div>
 
-            <a href="/" className='block mx-4 my-2 shadow-md rounded-lg overflow-hidden'>
+            <div className='block mx-4 my-2 shadow-md rounded-lg overflow-hidden'>
                 {feed.cover !== '' ? (
                     <div className="h-44 flex items-center justify-center">
                         <img src={feed.cover} alt="/" className='h-full' />
@@ -103,7 +104,7 @@ const FeedUI: React.FC<FeedUIProps> = ({
                         <ImageNotSupportedIcon style={{ fontSize: '80px', color: 'grey' }} />
                     </div>
                 )}
-            </a>
+            </div>
 
             <div className='flex items-center px-4 py-2 gap-4'>
                 <p className='py-2 text-sm text-gray-400'>
@@ -116,15 +117,15 @@ const FeedUI: React.FC<FeedUIProps> = ({
             </div>
 
             <div className="p-5">
-                <a href="/">
+                <div>
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{feed.title}</h5>
-                </a>
+                </div>
                 <div className="mb-3" ref={contentRef}>
                 </div>
-                <a href="/" className="inline-flex items-center py-3 px-3 text-sm font-medium text-center text-black bg-blue-200 rounded hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300">
+                <Link to={`/feed/${feed._id}`} className="inline-flex items-center py-3 px-3 text-sm font-medium text-center text-black bg-blue-200 rounded hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300">
                     Read more
                     <svg aria-hidden="true" className="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                </a>
+                </Link>
             </div>
         </div>
     )

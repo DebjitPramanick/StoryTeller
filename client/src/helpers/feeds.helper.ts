@@ -11,6 +11,16 @@ export const getFeeds = async () => {
     return res;
 }
 
+export const getFeedById = async (feedId: string) => {
+    const res = await feedsAPI.get(`/${feedId}`)
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}
+
 export const getSavedFeeds = async (feedId: string) => {
     const res = await feedsAPI.get(`/saved/${feedId}`)
         .catch(err => {
