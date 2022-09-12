@@ -60,10 +60,6 @@ const Feed: React.FC<FeedProps> = ({
         }
     }
 
-    const handleDeleteStory = () => {
-        return
-    }
-
     return (
         <FeedUI
             feed={feed}
@@ -74,7 +70,6 @@ const Feed: React.FC<FeedProps> = ({
             handleLikeFeed={handleLikeFeed}
             handleSaveFeed={handleSaveFeed}
             enableActions={enableActions}
-            handleDeleteStory={handleDeleteStory}
         />
     )
 }

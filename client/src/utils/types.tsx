@@ -21,3 +21,8 @@ export interface FeedDetailsType {
     created_at: string,
     author: GlobalUserType
 }
+
+export interface ModalBasicPropsType {
+    open: boolean;
+    closeModal: () => void;
+}

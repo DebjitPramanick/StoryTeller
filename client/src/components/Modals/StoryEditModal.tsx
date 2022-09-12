@@ -4,6 +4,7 @@ import { popupMessage } from '../../helpers/common.helper'
 import { updateStory } from '../../helpers/story.helper'
 import ModalLayout from '../../layouts/ModalLayout'
 import { StoryDetailsType } from '../../pages/Editor'
+import { ModalBasicPropsType } from '../../utils/types'
 import Button from '../FormFields/Button'
 import StoryEditor from '../StoryEditor'
 
@@ -14,9 +15,7 @@ const initialData: StoryDetailsType = {
     tags: [],
 }
 
-interface UIProps {
-    open: boolean;
-    closeModal: () => void;
+interface UIProps extends ModalBasicPropsType {
     feed: any
     fetchUserStories: () => void
 }
@@ -52,7 +51,7 @@ const StoryEditModal: React.FC<UIProps> = ({
 
     if (!open || !data) return null;
     return (
-        <ModalLayout isDarkBG={true}>
+        <ModalLayout isDarkBG={true} scrollBar={true}>
             <div className="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                     Edit Story

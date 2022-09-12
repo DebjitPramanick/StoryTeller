@@ -14,7 +14,6 @@ interface FeedUIProps extends FeedProps {
     handleLikeFeed: () => void;
     handleSaveFeed: () => void;
     enableActions?: boolean;
-    handleDeleteStory: () => void
 }
 
 const FeedUI: React.FC<FeedUIProps> = ({
@@ -26,7 +25,6 @@ const FeedUI: React.FC<FeedUIProps> = ({
     handleLikeFeed,
     handleSaveFeed,
     enableActions = false,
-    handleDeleteStory
 }) => {
     const contentRef = useRef<HTMLDivElement | null>(null);
     const [openMenu, setOpenMenu] = useState(false);
@@ -49,7 +47,7 @@ const FeedUI: React.FC<FeedUIProps> = ({
 
     const actionItems = [
         { label: 'Edit', onClick: () => toggleModal(Modals.STORY_EDIT, feed) },
-        { label: 'Delete', onClick: handleDeleteStory }
+        { label: 'Delete', onClick: () => toggleModal(Modals.CNF_MODAL, feed) }
     ]
 
 
