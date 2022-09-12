@@ -14,10 +14,18 @@ const initialData: StoryDetailsType = {
     tags: [],
 }
 
-const StoryEditModal: React.FC<any> = ({
+interface UIProps {
+    open: boolean;
+    closeModal: () => void;
+    feed: any
+    fetchUserStories: () => void
+}
+
+const StoryEditModal: React.FC<UIProps> = ({
     open,
     closeModal,
-    feed
+    feed,
+    fetchUserStories
 }) => {
 
     const [data, setData] = useState(initialData)
@@ -29,6 +37,7 @@ const StoryEditModal: React.FC<any> = ({
     const handleUpdate = async() => {
         try{
             await updateStory(feed._id, data)
+            await fetchUserStories()
             popupMessage("success", "Updated story successfully.")
             closeModal();
         }catch(err: any) {

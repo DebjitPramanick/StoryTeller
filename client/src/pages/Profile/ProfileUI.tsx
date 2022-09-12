@@ -61,7 +61,8 @@ const ProfileUI: React.FC<UIProps> = ({
                         stories={stories}
                         savedBy={savedBy}
                         likedBy={likedBy}
-                        fetchingStories={fetchingStories} />
+                        fetchingStories={fetchingStories}
+                        fetchUserStories={fetchUserStories} />
                     : currentTab === 1 ?
                         <EditProfileTab user={user}
                             fetchUserStories={fetchUserStories} />

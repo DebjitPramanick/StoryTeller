@@ -2,7 +2,7 @@ import React, { useContext, createContext, useState } from "react";
 
 export interface ModalContextProps {
     isModalOpen: (name: string) => boolean;
-    getData: (name: string) => any;
+    getModalStateData: (name: string) => any;
     toggleModal: (name: string, data?: any | null) => void;
     Modals: ModalsType
 }
@@ -23,7 +23,7 @@ const Modals: ModalsType = {
 
 const ModalContext = createContext<ModalContextProps>({
     isModalOpen: (name: string) => false,
-    getData: (name: string) => null,
+    getModalStateData: (name: string) => null,
     toggleModal: (name: string, data?: any | null) => { },
     Modals: Modals
 });
@@ -82,7 +82,7 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
     }
 
-    const getData = (name: string) => {
+    const getModalStateData = (name: string) => {
         switch (name) {
             case Modals.STORY_EDIT:
                 return storyEditModal.data;
@@ -99,7 +99,7 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const values = {
         isModalOpen,
-        getData,
+        getModalStateData,
         toggleModal,
         Modals
     }

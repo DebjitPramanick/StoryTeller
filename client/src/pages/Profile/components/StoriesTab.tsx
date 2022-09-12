@@ -11,7 +11,8 @@ interface UIProps {
     stories: FeedDetailsType[];
     savedBy: any;
     likedBy: any;
-    fetchingStories: boolean
+    fetchingStories: boolean;
+    fetchUserStories: () => void;
 }
 
 const StoriesTab: React.FC<UIProps> = ({
@@ -19,10 +20,11 @@ const StoriesTab: React.FC<UIProps> = ({
     stories,
     likedBy,
     savedBy,
-    fetchingStories
+    fetchingStories,
+    fetchUserStories
 }) => {
 
-    const { isModalOpen, Modals, toggleModal, getData } = useModal();
+    const { isModalOpen, Modals, toggleModal, getModalStateData } = useModal();
 
     return (
         <div>
@@ -42,7 +44,8 @@ const StoriesTab: React.FC<UIProps> = ({
             <StoryEditModal
                 open={isModalOpen(Modals.STORY_EDIT)}
                 closeModal={() => toggleModal(Modals.STORY_EDIT)}
-                feed={getData(Modals.STORY_EDIT)}
+                feed={getModalStateData(Modals.STORY_EDIT)}
+                fetchUserStories={fetchUserStories}
             />
         </div>
     )
