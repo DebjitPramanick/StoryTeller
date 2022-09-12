@@ -22,7 +22,7 @@ const StoriesTab: React.FC<UIProps> = ({
     fetchingStories
 }) => {
 
-    const { isModalOpen, Modals, toggleModal } = useModal();
+    const { isModalOpen, Modals, toggleModal, getData } = useModal();
 
     return (
         <div>
@@ -42,6 +42,7 @@ const StoriesTab: React.FC<UIProps> = ({
             <StoryEditModal
                 open={isModalOpen(Modals.STORY_EDIT)}
                 closeModal={() => toggleModal(Modals.STORY_EDIT)}
+                feed={getData(Modals.STORY_EDIT)}
             />
         </div>
     )
