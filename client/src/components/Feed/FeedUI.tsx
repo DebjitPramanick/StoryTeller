@@ -30,7 +30,7 @@ const FeedUI: React.FC<FeedUIProps> = ({
     const contentRef = useRef<HTMLDivElement | null>(null);
     const [openMenu, setOpenMenu] = useState(false);
 
-    const {Modals, toggleModal} = useModal();
+    const { Modals, toggleModal } = useModal();
 
     useEffect(() => {
         if (feed && contentRef.current) {
@@ -94,17 +94,13 @@ const FeedUI: React.FC<FeedUIProps> = ({
                 ))}
             </div>
 
-            <div className='block mx-4 my-2 shadow-md rounded-lg overflow-hidden'>
-                {feed.cover !== '' ? (
+            {feed.cover !== '' &&
+                <div className='block mx-4 my-2 shadow-md rounded-lg overflow-hidden'>
                     <div className="h-44 flex items-center justify-center">
                         <img src={feed.cover} alt="/" className='h-full' />
                     </div>
-                ) : (
-                    <div className="h-44 flex items-center justify-center">
-                        <ImageNotSupportedIcon style={{ fontSize: '80px', color: 'grey' }} />
-                    </div>
-                )}
-            </div>
+                </div>
+            }
 
             <div className='flex items-center px-4 py-2 gap-4'>
                 <p className='py-2 text-sm text-gray-400'>
