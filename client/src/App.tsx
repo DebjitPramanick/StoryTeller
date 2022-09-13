@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Logout from './pages/Logout';
 import SavedItems from './pages/SavedItems';
+import Explore from './pages/Explore';
 
 function App() {
 
@@ -50,6 +51,12 @@ function App() {
           <Route path='/saved' element={
             <ProtectedRoutes>
               <SavedItems />
+            </ProtectedRoutes>
+          } />
+
+          <Route path='/explore' element={
+            <ProtectedRoutes>
+              <Explore />
             </ProtectedRoutes>
           } />
 
