@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FeedProps } from './index'
-import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import moment from 'moment';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -8,14 +7,18 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DropDown from '../Dropdown';
-import { useModal } from '../../contexts/ModalContext';
 import { Link } from 'react-router-dom';
 import UserDetailsModal from '../Modals/UserDetailsModal';
+import StoryEditModal from '../Modals/StoryEditModal';
+import ConfirmationModal from '../Modals/ConfirmationModal';
+import { FeedDetailsType } from '../../utils/types';
 
 interface FeedUIProps extends FeedProps {
     handleLikeFeed: () => void;
     handleSaveFeed: () => void;
+    handleDelete: (story: FeedDetailsType) => void;
     enableActions?: boolean;
+    refetchUserStories?: () => void
 }
 
 const FeedUI: React.FC<FeedUIProps> = ({
@@ -26,13 +29,15 @@ const FeedUI: React.FC<FeedUIProps> = ({
     savedCounts,
     handleLikeFeed,
     handleSaveFeed,
+    handleDelete,
     enableActions = false,
+    refetchUserStories
 }) => {
     const contentRef = useRef<HTMLDivElement | null>(null);
     const [openMenu, setOpenMenu] = useState(false);
     const [showAuthor, setShowAuthor] = useState('');
-
-    const { Modals, toggleModal } = useModal();
+    const [isEditting, setIsEditting] = useState('');
+    const [confirmDelete, setConfirmDelete] = useState('');
 
     useEffect(() => {
         if (feed && contentRef.current) {
@@ -47,12 +52,6 @@ const FeedUI: React.FC<FeedUIProps> = ({
         }
         return '';
     }
-
-    const actionItems = [
-        { label: 'Edit', onClick: () => toggleModal(Modals.STORY_EDIT, feed) },
-        { label: 'Delete', onClick: () => toggleModal(Modals.CNF_MODAL, feed) }
-    ]
-
     const toggleAuthorPopup = () => {
         if (showAuthor) {
             setShowAuthor('');
@@ -60,6 +59,27 @@ const FeedUI: React.FC<FeedUIProps> = ({
             setShowAuthor(feed._id)
         }
     }
+
+    const toggleEditModal = () => {
+        if (isEditting) {
+            setIsEditting('');
+        } else {
+            setIsEditting(feed._id)
+        }
+    }
+
+    const toggleDeleteCofirmation = () => {
+        if (confirmDelete) {
+            setConfirmDelete('');
+        } else {
+            setConfirmDelete(feed._id)
+        }
+    }
+
+    const actionItems = [
+        { label: 'Edit', onClick: toggleEditModal },
+        { label: 'Delete', onClick: toggleDeleteCofirmation }
+    ]
 
 
     return (
@@ -135,6 +155,22 @@ const FeedUI: React.FC<FeedUIProps> = ({
                     <svg aria-hidden="true" className="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                 </Link>
             </div>
+
+            <StoryEditModal
+                open={isEditting === feed._id}
+                closeModal={toggleEditModal}
+                feed={feed}
+                fetchUserStories={refetchUserStories ? refetchUserStories : () => {}}
+            />
+
+            <ConfirmationModal
+                title={"Are you sure to delete this story?"}
+                content="Once you delete the story, all related data will be deleted including likes and saves."
+                onAccept={() => handleDelete(feed)}
+                open={confirmDelete === feed._id}
+                closeModal={toggleDeleteCofirmation}
+                accpetLabel="Yes"
+                rejectLabel="Cancel" />
         </div>
     )
 }

@@ -3,7 +3,6 @@ import Feed from '../../../components/Feed'
 import { FeedsLazyLoader } from '../../../components/Loaders';
 import ConfirmationModal from '../../../components/Modals/ConfirmationModal';
 import StoryEditModal from '../../../components/Modals/StoryEditModal';
-import { useModal } from '../../../contexts/ModalContext';
 import { gtCounts, handleCheck, popupMessage } from '../../../helpers/common.helper'
 import { deleteStory } from '../../../helpers/story.helper';
 import { FeedDetailsType, GlobalUserType } from '../../../utils/types'
@@ -25,21 +24,6 @@ const StoriesTab: React.FC<UIProps> = ({
     fetchingStories,
     fetchUserStories
 }) => {
-
-    const { isModalOpen, Modals, toggleModal, getModalStateData } = useModal();
-
-    const handleDelete = async() => {
-        try {
-            const story = getModalStateData(Modals.CNF_MODAL);
-            await deleteStory(story._id)
-            await fetchUserStories();
-            toggleModal(Modals.CNF_MODAL)
-            popupMessage("success", "Deleted story successfully.")
-        } catch (err: any) {
-            popupMessage("error", err.message)
-        }
-    }
-
     return (
         <div>
             {fetchingStories ? <FeedsLazyLoader /> :
@@ -51,24 +35,10 @@ const StoriesTab: React.FC<UIProps> = ({
                         isSaved={handleCheck(feed._id, 'save', savedBy, user._id)}
                         likeCounts={gtCounts(feed._id, 'like', likedBy)}
                         savedCounts={gtCounts(feed._id, 'save', savedBy)}
-                        enableActions={true} />
+                        enableActions={true}
+                        refetchUserStories={fetchUserStories} />
                 ))
                     : <p className='mt-6 text-xl'>No Stories</p>}
-
-            <StoryEditModal
-                open={isModalOpen(Modals.STORY_EDIT)}
-                closeModal={() => toggleModal(Modals.STORY_EDIT)}
-                feed={getModalStateData(Modals.STORY_EDIT)}
-                fetchUserStories={fetchUserStories}
-            />
-
-            <ConfirmationModal
-                title={"Are you sure to delete this story?"}
-                onAccept={handleDelete}
-                open={isModalOpen(Modals.CNF_MODAL)}
-                closeModal={() => toggleModal(Modals.CNF_MODAL)}
-                accpetLabel="Yes"
-                rejectLabel="Cancel" />
         </div>
     )
 }

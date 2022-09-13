@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { useUser } from '../../contexts/UserContext'
 import { popupMessage } from '../../helpers/common.helper'
 import { dislikeFeed, likeFeed, removeFeed, saveFeed } from '../../helpers/feeds.helper'
+import { deleteStory } from '../../helpers/story.helper'
 import { FeedDetailsType } from '../../utils/types'
 import FeedUI from './FeedUI'
 
@@ -12,7 +13,8 @@ export interface FeedProps {
     isSaved: boolean,
     likeCounts: number,
     savedCounts: number,
-    enableActions?: boolean
+    enableActions?: boolean,
+    refetchUserStories?: () => void
 }
 
 const Feed: React.FC<FeedProps> = ({
@@ -21,7 +23,8 @@ const Feed: React.FC<FeedProps> = ({
     isSaved,
     likeCounts,
     savedCounts,
-    enableActions = false
+    enableActions = false,
+    refetchUserStories
 }) => {
 
     const { user } = useUser();
@@ -60,6 +63,18 @@ const Feed: React.FC<FeedProps> = ({
         }
     }
 
+    const handleDelete = async(story: FeedDetailsType) => {
+        try {
+            await deleteStory(story._id)
+            if(refetchUserStories){
+                await refetchUserStories();
+            }
+            popupMessage("success", "Deleted story successfully.")
+        } catch (err: any) {
+            popupMessage("error", err.message)
+        }
+    }
+
     return (
         <FeedUI
             feed={feed}
@@ -69,7 +84,9 @@ const Feed: React.FC<FeedProps> = ({
             savedCounts={localSavesCount}
             handleLikeFeed={handleLikeFeed}
             handleSaveFeed={handleSaveFeed}
+            handleDelete={handleDelete}
             enableActions={enableActions}
+            refetchUserStories={refetchUserStories}
         />
     )
 }
