@@ -59,9 +59,11 @@ func GetFeeds(c *fiber.Ctx) error {
 
 func GetFeedByID(c *fiber.Ctx) error {
 	storyID, _ := primitive.ObjectIDFromHex(c.Params("feedId"))
-	var story models.Story
+	var feed models.Story
+	var savedBy []primitive.ObjectID
+	var likedBy []primitive.ObjectID
 
-	queryError := database.Stories.FindOne(context.TODO(), bson.M{"_id": storyID}).Decode(&story)
+	queryError := database.Stories.FindOne(context.TODO(), bson.M{"_id": storyID}).Decode(&feed)
 
 	if queryError == mongo.ErrNoDocuments {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -69,7 +71,16 @@ func GetFeedByID(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(story)
+	savedBy = GetFeedSaves(feed.ID)
+	likedBy = GetFeedLikes(feed.ID)
+
+	result := fiber.Map{
+		"feed":   feed,
+		"savedBy": savedBy,
+		"likedBy": likedBy,
+	}
+
+	return c.JSON(result)
 }
 
 func GetSavedFeedsByUserId(c *fiber.Ctx) error {
