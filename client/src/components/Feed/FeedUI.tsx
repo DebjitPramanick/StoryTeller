@@ -10,6 +10,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DropDown from '../Dropdown';
 import { useModal } from '../../contexts/ModalContext';
 import { Link } from 'react-router-dom';
+import UserDetailsModal from '../Modals/UserDetailsModal';
 
 interface FeedUIProps extends FeedProps {
     handleLikeFeed: () => void;
@@ -29,6 +30,7 @@ const FeedUI: React.FC<FeedUIProps> = ({
 }) => {
     const contentRef = useRef<HTMLDivElement | null>(null);
     const [openMenu, setOpenMenu] = useState(false);
+    const [showAuthor, setShowAuthor] = useState('');
 
     const { Modals, toggleModal } = useModal();
 
@@ -51,13 +53,23 @@ const FeedUI: React.FC<FeedUIProps> = ({
         { label: 'Delete', onClick: () => toggleModal(Modals.CNF_MODAL, feed) }
     ]
 
+    const toggleAuthorPopup = () => {
+        if (showAuthor) {
+            setShowAuthor('');
+        } else {
+            setShowAuthor(feed._id)
+        }
+    }
 
 
     return (
         <div className='mb-4 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md'>
             <div className="flex items-center gap-2 px-4 py-2">
-                <div className="flex-shrink-0 cursor-pointer">
-                    <img className="w-12 h-12 rounded-full" src={feed.author.avatar} alt="" />
+                <div className="flex-shrink-0 cursor-pointer relative">
+                    <img className="w-12 h-12 rounded-full" src={feed.author.avatar} alt="" onClick={toggleAuthorPopup}/>
+                    <UserDetailsModal
+                        author={feed.author}
+                        open={feed._id === showAuthor} />
                 </div>
                 <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate">
