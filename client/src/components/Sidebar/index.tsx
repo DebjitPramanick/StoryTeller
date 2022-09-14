@@ -1,11 +1,14 @@
 import { AccountCircle, BookmarkRounded, CreateRounded, ExploreRounded, FeedRounded, Logout } from '@mui/icons-material'
+import { Button } from 'flowbite-react';
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useUser } from '../../contexts/UserContext';
 
 const Sidebar: React.FC<any> = () => {
 
     const curPath = window.location.pathname;
     const hide = curPath.includes('register') || curPath.includes('login')
+    const {user} = useUser();
 
     const items: { name: string, icon: any, path: string }[] = [
         {
@@ -50,6 +53,24 @@ const Sidebar: React.FC<any> = () => {
         <div className='fixed'>
             <aside className="w-72" aria-label="Sidebar">
                 <div className="overflow-y-auto py-4 px-3 bg-blue-200 rounded-lg">
+                    <div className='rounded-lg p-2 bg-blue-100 mb-2'>
+                        <div className="flex justify-center cursor-pointer relative">
+                            <img className="w-16 h-16 rounded-full border-blue-200 border-2" src={user.avatar} alt="" />
+                        </div>
+                        <div className="flex items-center gap-2 my-2">
+                            <div className="flex-1 min-w-0 text-center">
+                                <p className="text-lg font-medium text-gray-900 truncate">
+                                    {user.name}
+                                </p>
+                                <p className="text-sm text-gray-500 truncate">
+                                    {user.username}
+                                </p>
+                                <p className="truncate bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1.5 rounded cursor-pointer w-max mx-auto mt-2">
+                                    41k Followers
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                     <ul className="space-y-2">
                         {items.map((item) => (
                             <li>

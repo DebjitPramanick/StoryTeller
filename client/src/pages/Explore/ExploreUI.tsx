@@ -1,5 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search';
-import React, { useState } from 'react'
+import React from 'react'
 import InputField from '../../components/FormFields/InputField'
 import PageLayout from '../../layouts/PageLayout'
 import UserCard from './components/UserCard';
