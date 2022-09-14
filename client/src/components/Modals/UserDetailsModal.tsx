@@ -34,7 +34,7 @@ const UserDetailsModal: React.FC<UIProps> = ({
             </div>
             <div className='mt-4 py-2 grid grid-cols-2 gap-2'>
                 <Button label="Follow" onClick={undefined} />
-                <Button label="Unfollow" onClick={undefined} />
+                <Button label="View" onClick={undefined} />
             </div>
         </div>
     )

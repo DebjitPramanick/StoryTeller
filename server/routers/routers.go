@@ -17,7 +17,7 @@ func Setup(app *fiber.App) {
 	app.Get("/api/user/:userId", controllers.GetUserByID)
 	app.Delete("/api/user/delete/:userId", middleware.IsAuthorized(), controllers.RemoveUserByID)
 	app.Put("/api/user/update/:userId", middleware.IsAuthorized(), controllers.UpdateUserByID)
-	app.Get("/api/user/collection/:username", middleware.IsAuthorized(), controllers.GetUsersByUserName)
+	app.Get("/api/user/collection/:query", middleware.IsAuthorized(), controllers.GetUsersByNameQuery)
 	app.Get("/api/user/check/:username", controllers.CheckUsername)
 	app.Post("/api/user/action/follow", middleware.IsAuthorized(), controllers.FollowUser)
 	app.Post("/api/user/action/unfollow", middleware.IsAuthorized(), controllers.UnfollowUser)

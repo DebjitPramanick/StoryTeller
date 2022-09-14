@@ -197,13 +197,16 @@ func UpdateUserByID(c *fiber.Ctx) error {
 	})
 }
 
-func GetUsersByUserName(c *fiber.Ctx) error {
+func GetUsersByNameQuery(c *fiber.Ctx) error {
 
 	var users []models.User
 
-	username := c.Params("username");
+	query := c.Params("query");
 
-	filter := bson.D{{Key: "username", Value: primitive.Regex{Pattern: username, Options: ""}}}
+	filter := bson.D{
+		{Key: "username", Value: primitive.Regex{Pattern: query, Options: ""}},
+		{Key: "name", Value: primitive.Regex{Pattern: query, Options: ""}},
+	}
 
 	cur, _ := database.Users.Find(context.TODO(), filter)
 

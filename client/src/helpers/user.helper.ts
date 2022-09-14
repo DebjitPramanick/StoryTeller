@@ -56,3 +56,13 @@ export const deleteAcccount = async(userId: string) => {
 
     return res;
 }
+
+export const getUsersByNameQuery = async (query: string) => {
+    const res = await userAPI.get(`/collection/${query}`)
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}
