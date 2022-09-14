@@ -11,8 +11,7 @@ const ExploreUI: React.FC<any> = ({
 }) => {
 
     return (
-        <PageLayout>
-            <h1 className='mb-5 text-2xl font-bold text-gray-900'>Explore</h1>
+        <PageLayout pageTitle="Explore">
             <InputField
                 value={query}
                 setValue={handleQuery}

@@ -10,16 +10,14 @@ const EditorUI: React.FC<any> = ({
 }) => {
 
     return (
-        <PageLayout>
-            <h1 className='mb-5 text-2xl font-bold text-gray-900'>Create Story</h1>
-
+        <PageLayout pageTitle="Publish Story">
             <div className=''>
                 <StoryEditor
                     data={data}
                     handleChangeData={handleChangeData} />
 
                 <div className='mt-2'>
-                    <Button onClick={handleCreateStory} label={"Create"} rightAligned />
+                    <Button onClick={handleCreateStory} label={"Publish"} rightAligned />
                 </div>
             </div>
 

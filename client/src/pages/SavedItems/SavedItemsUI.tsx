@@ -21,8 +21,7 @@ const SavedItemsUI: React.FC<UIProps> = ({
     fetching
 }) => {
     return (
-        <PageLayout>
-            <h1 className='mb-5 text-2xl font-bold text-gray-900'>Saved Items</h1>
+        <PageLayout pageTitle="Saved Items">
             {fetching ? <FeedsLazyLoader /> :
                 feeds.length > 0 ? feeds.map((feed: FeedDetailsType) => (
                     <Feed
