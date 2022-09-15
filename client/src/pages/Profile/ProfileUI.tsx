@@ -5,6 +5,7 @@ import StoriesTab from './components/StoriesTab';
 import EditProfileTab from './components/EditProfileTab';
 import { GlobalUserType } from '../../utils/types';
 import { StoriesDataType } from '.';
+import Button from '../../components/FormFields/Button';
 
 interface UIProps {
     user: GlobalUserType,
@@ -13,7 +14,8 @@ interface UIProps {
     tabs: any[];
     currentTab: number;
     setCurTab: (val: number) => void;
-    fetchingStories: boolean
+    fetchingStories: boolean;
+    isOtherUser: boolean
 }
 
 const ProfileUI: React.FC<UIProps> = ({
@@ -23,16 +25,17 @@ const ProfileUI: React.FC<UIProps> = ({
     tabs,
     currentTab,
     setCurTab,
-    fetchingStories
+    fetchingStories,
+    isOtherUser
 }) => {
 
     const { stories, savedBy, likedBy } = storiesData;
 
+    const filteredTabs = isOtherUser ? tabs.filter(t => t.title !== 'Settings') : tabs
+
     return (
         <PageLayout>
-            <div className='flex flex-col items-center gap-6 shadow px-4 py-4 rounded-lg bg-orange-200'
-            // style={{ background: 'red' }}
-            >
+            <div className={`flex flex-col items-center gap-6 shadow px-4 py-4 rounded-lg relative ${isOtherUser ? 'bg-violet-200' : 'bg-orange-200'}`}>
                 <div style={{ width: 'fit-content' }}>
                     <img className="w-40 h-40 rounded-full border-violet-300 border-2" src={user.avatar} alt="/" />
                 </div>
@@ -47,17 +50,19 @@ const ProfileUI: React.FC<UIProps> = ({
                         </span>
                     </div>
                     <p className='mt-8 text-sm font-normal text-gray-500 max-w-sm italic'>{user.bio}</p>
+                    <div className='mx-auto flex justify-center'>
+                        <Button label={`Follow ${user.name.split(" ")[0]}`} onClick={undefined} />
+                    </div>
                 </div>
             </div>
             <Tab
-                tabs={tabs}
+                tabs={filteredTabs}
                 currentTab={currentTab}
                 selectTab={(index: number) => setCurTab(index)} />
 
             <div className='mt-4 mx-auto w-full'>
                 {currentTab === 0 ?
                     <StoriesTab
-                        user={user}
                         stories={stories}
                         savedBy={savedBy}
                         likedBy={likedBy}

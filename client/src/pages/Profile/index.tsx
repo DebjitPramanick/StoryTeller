@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useUser } from '../../contexts/UserContext'
 import ProfileUI from './ProfileUI'
-import { FeedDetailsType } from '../../utils/types';
+import { FeedDetailsType, GlobalUserType } from '../../utils/types';
 import { getAuthorStories } from '../../helpers/story.helper';
-import { toast } from 'react-toastify';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { popupMessage } from '../../helpers/common.helper';
+import { useParams } from 'react-router-dom';
+import { getUser } from '../../helpers/user.helper';
 
 export interface StoriesDataType {
   stories: FeedDetailsType[],
@@ -17,6 +18,7 @@ export interface StoriesDataType {
 const Profile = () => {
 
   const { user } = useUser()
+  const {id} = useParams();
 
   const [curTab, setCurTab] = useState<number>(0)
   const [storiesData, setStoriesData] = useState<StoriesDataType>({
@@ -25,6 +27,7 @@ const Profile = () => {
     savedBy: {}
   });
   const [fetchingStories, setFetchingStories] = useState<boolean>(false);
+  const [curUser, setCurUser] = useState<GlobalUserType>(user);
 
   const tabs = [
     {
@@ -38,13 +41,25 @@ const Profile = () => {
   ]
 
   useEffect(() => {
+    if(id) fetchUserDetails()
     fetchUserStories()
-  }, [])
+  }, [id])
+
+  const fetchUserDetails = async() => {
+    if(!id) return;
+    try {
+      const res = await getUser(id)
+      setCurUser(res.data)
+    } catch(err: any) {
+      popupMessage("error", err.message)
+    }
+  }
 
   const fetchUserStories = async () => {
     try {
       setFetchingStories(true);
-      const res = await getAuthorStories(user._id)
+      const userId = id || curUser._id;
+      const res = await getAuthorStories(userId)
       setStoriesData({
         stories: res.data.stories || [],
         likedBy: res.data.likedBy,
@@ -59,13 +74,14 @@ const Profile = () => {
 
   return (
     <ProfileUI
-      user={user}
+      user={curUser}
       fetchUserStories={fetchUserStories}
       tabs={tabs}
       currentTab={curTab}
       setCurTab={setCurTab}
       storiesData={storiesData}
-      fetchingStories={fetchingStories} />
+      fetchingStories={fetchingStories}
+      isOtherUser={id ? true : false} />
   )
 }
 

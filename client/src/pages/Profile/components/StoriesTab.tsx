@@ -3,12 +3,12 @@ import Feed from '../../../components/Feed'
 import { FeedsLazyLoader } from '../../../components/Loaders';
 import ConfirmationModal from '../../../components/Modals/ConfirmationModal';
 import StoryEditModal from '../../../components/Modals/StoryEditModal';
+import { useUser } from '../../../contexts/UserContext';
 import { gtCounts, handleCheck, popupMessage } from '../../../helpers/common.helper'
 import { deleteStory } from '../../../helpers/story.helper';
 import { FeedDetailsType, GlobalUserType } from '../../../utils/types'
 
 interface UIProps {
-    user: GlobalUserType;
     stories: FeedDetailsType[];
     savedBy: any;
     likedBy: any;
@@ -17,13 +17,13 @@ interface UIProps {
 }
 
 const StoriesTab: React.FC<UIProps> = ({
-    user,
     stories,
     likedBy,
     savedBy,
     fetchingStories,
     fetchUserStories
 }) => {
+    const {user} = useUser();
     return (
         <div>
             {fetchingStories ? <FeedsLazyLoader /> :

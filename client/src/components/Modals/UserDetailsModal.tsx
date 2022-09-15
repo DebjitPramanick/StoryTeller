@@ -1,9 +1,10 @@
 import React from 'react'
-import { UserDetailsType } from '../../pages/Register';
+import { useNavigate } from 'react-router-dom';
+import { GlobalUserType } from '../../utils/types';
 import Button from '../FormFields/Button';
 
 interface UIProps {
-    author: UserDetailsType,
+    author: GlobalUserType,
     open: boolean
 }
 
@@ -11,6 +12,9 @@ const UserDetailsModal: React.FC<UIProps> = ({
     author,
     open
 }) => {
+
+    const navigate = useNavigate();
+
     return (
         <div className={`z-10 px-4 pt-4 w-72 bg-orange-100 border rounded-lg divide-y divide-gray-100 shadow-xl absolute left-14 top-0 ${!open ? 'hidden' : 'visible'}`}>
             <div className='flex gap-4'>
@@ -34,7 +38,7 @@ const UserDetailsModal: React.FC<UIProps> = ({
             </div>
             <div className='mt-4 py-2 grid grid-cols-2 gap-2'>
                 <Button label="Follow" onClick={undefined} />
-                <Button label="View" onClick={undefined} />
+                <Button label="View" onClick={() => navigate(`/profile/${author._id}`)} />
             </div>
         </div>
     )

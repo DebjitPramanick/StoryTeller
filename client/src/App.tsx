@@ -30,6 +30,11 @@ function App() {
             </ProtectedRoutes>
           } />
 
+          <Route path='/profile/:id' element={
+            <ProtectedRoutes>
+              <Profile />
+            </ProtectedRoutes>
+          } />
           <Route path='/profile' element={
             <ProtectedRoutes>
               <Profile />
