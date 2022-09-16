@@ -200,12 +200,15 @@ func UpdateUserByID(c *fiber.Ctx) error {
 func GetUsersByNameQuery(c *fiber.Ctx) error {
 
 	var users []models.User
+	// var followers []primitive.ObjectID
 
 	query := c.Params("query");
 
-	filter := bson.D{
-		{Key: "username", Value: primitive.Regex{Pattern: query, Options: ""}},
-		{Key: "name", Value: primitive.Regex{Pattern: query, Options: ""}},
+	filter := bson.M{
+		"$or": bson.A{
+			bson.M{"username": primitive.Regex{Pattern: query, Options: "i"}},
+			bson.M{"name": primitive.Regex{Pattern: query, Options: "i"}},
+		},
 	}
 
 	cur, _ := database.Users.Find(context.TODO(), filter)
@@ -325,3 +328,4 @@ func UnfollowUser(c *fiber.Ctx) error {
 		"message": "Unfollowed user successfully.",
 	})
 }
+
