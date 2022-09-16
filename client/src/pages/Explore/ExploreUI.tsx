@@ -7,8 +7,10 @@ import UserCard from './components/UserCard';
 const ExploreUI: React.FC<any> = ({
     query,
     handleQuery,
-    usersList
+    data
 }) => {
+
+    const { users, followers } = data;
 
     return (
         <PageLayout pageTitle="Explore">
@@ -19,8 +21,10 @@ const ExploreUI: React.FC<any> = ({
                 leftIcon={<SearchIcon style={{ color: 'gray' }} />} />
 
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2'>
-                {[1, 2, 3, 4, 5].map((user: any) => (
-                    <UserCard />
+                {users.map((user: any) => (
+                    <UserCard
+                        profileData={user}
+                        followers={followers[user._id]} />
                 ))}
             </div>
         </PageLayout>

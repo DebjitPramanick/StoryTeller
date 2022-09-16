@@ -6,12 +6,15 @@ import ExploreUI from './ExploreUI'
 const Explore = () => {
 
   const [query, setQuery] = useState('')
-  const [usersList, setUsersList] = useState([])
+  const [queryData, setQueryData] = useState({
+    users: [],
+    followers: {}
+  })
 
   useEffect(() => {
     let delay = setTimeout(() => {
       if (query) fetchUsersByQuery()
-    }, 3000)
+    }, 2000)
 
     return () => clearTimeout(delay)
   }, [query])
@@ -19,7 +22,7 @@ const Explore = () => {
   const fetchUsersByQuery = async () => {
     try {
       const res = await getUsersByNameQuery(query)
-      setUsersList(res.data)
+      setQueryData(res.data)
     } catch (err: any) {
       popupMessage('error', err.message)
     }
@@ -30,7 +33,7 @@ const Explore = () => {
     <ExploreUI
       query={query}
       handleQuery={(val: string) => setQuery(val)}
-      usersList={usersList}
+      data={queryData}
     />
   )
 }

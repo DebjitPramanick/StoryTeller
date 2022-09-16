@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
 
     const dangerButton = 'border border-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 text-red-700 hover:text-white';
-    const successButton = 'bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 text-white';
+    const successButton = 'border border-green-400 hover:bg-green-400 focus:ring-4 focus:ring-green-300 text-green-400 hover:text-white';
     const infoButton = 'bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 text-white';
 
     return (
