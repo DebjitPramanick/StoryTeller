@@ -22,10 +22,12 @@ export const updateUser = async (userId: string, data: any) => {
 }
 
 export const followUser = async (target: string, source: string) => {
-    const res = await userAPI.put('/action/follow', {
+    const data = {
         following: target,
         follower: source
-    })
+    }
+    console.log(data)
+    const res = await userAPI.post('/action/follow', data)
         .catch(err => {
             const error = getError(err);
             throw new Error(error);
@@ -35,10 +37,12 @@ export const followUser = async (target: string, source: string) => {
 }
 
 export const unfollowUser = async (target: string, source: string) => {
-    const res = await userAPI.put('/action/unfollow', {
+    const data = {
         following: target,
         follower: source
-    })
+    }
+    console.log(data)
+    const res = await userAPI.post('/action/unfollow', data)
         .catch(err => {
             const error = getError(err);
             throw new Error(error);

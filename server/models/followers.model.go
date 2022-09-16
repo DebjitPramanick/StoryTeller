@@ -8,7 +8,7 @@ import (
 
 type Followers struct {
 	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Following primitive.ObjectID `json:"follower,omitempty" bson:"follower,omitempty"`
-	Follower  primitive.ObjectID `json:"following,omitempty" bson:"following,omitempty"`
+	Following primitive.ObjectID `json:"following,omitempty" bson:"following,omitempty"`
+	Follower  primitive.ObjectID `json:"follower,omitempty" bson:"follower,omitempty"`
 	CreatedAt time.Time          `json:"created_at" bson:"created_at"`
 }

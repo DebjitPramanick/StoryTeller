@@ -200,7 +200,7 @@ func UpdateUserByID(c *fiber.Ctx) error {
 func GetUsersByNameQuery(c *fiber.Ctx) error {
 
 	var users []models.User
-	// var followers []primitive.ObjectID
+	var followers = make(map[primitive.ObjectID][]primitive.ObjectID)
 
 	query := c.Params("query");
 
@@ -222,6 +222,7 @@ func GetUsersByNameQuery(c *fiber.Ctx) error {
 			})
 		}
 		users = append(users, user)
+		followers[user.ID] = GetFollowersHelper(user.ID)
 	}
 
 	if err := cur.Err(); err != nil {
@@ -232,7 +233,12 @@ func GetUsersByNameQuery(c *fiber.Ctx) error {
 
 	defer cur.Close(context.TODO())
 
-	return c.JSON(users)
+	result := fiber.Map{
+		"users":   users,
+		"followers": followers,
+	}
+
+	return c.JSON(result)
 }
 
 func CheckUsername(c *fiber.Ctx) error {
@@ -271,16 +277,20 @@ func FollowUser(c *fiber.Ctx) error {
 	follower, _ := primitive.ObjectIDFromHex(data["follower"])
 	following, _ := primitive.ObjectIDFromHex(data["following"])
 
+	fmt.Println("FLW Data", data, follower, following)
+
 	if follower == following {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "User cannot follow himself/herself.",
 		})
 	}
 
+	fmt.Println("FLW Data", data, follower, following)
+
 	followData := models.Followers{
 		ID:      primitive.NewObjectID(),
-		Follower: follower,
 		Following:  following,
+		Follower: follower,
 	}
 
 	_, insertErr := database.Followers.InsertOne(context.TODO(), followData)
@@ -329,3 +339,30 @@ func UnfollowUser(c *fiber.Ctx) error {
 	})
 }
 
+func GetFollowersHelper(userId primitive.ObjectID) []primitive.ObjectID {
+	var results = []primitive.ObjectID{}
+
+	cur, queryError := database.Followers.Find(context.TODO(), bson.M{"following": userId})
+	
+	fmt.Println(queryError, userId)
+
+	if queryError == mongo.ErrNoDocuments {
+		return results
+	}
+
+	for cur.Next(context.TODO()) {
+		var data models.Followers
+		err := cur.Decode(&data)
+		if err != nil {
+			return results
+		}
+		fmt.Println(data)
+		results = append(results, data.Follower)
+	}
+
+	if err := cur.Err(); err != nil {
+		return results
+	}
+
+	return results
+}

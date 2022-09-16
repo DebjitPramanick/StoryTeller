@@ -7,7 +7,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { popupMessage } from '../../helpers/common.helper';
 import { useParams } from 'react-router-dom';
-import { getUser } from '../../helpers/user.helper';
+import { followUser, getUser } from '../../helpers/user.helper';
 
 export interface StoriesDataType {
   stories: FeedDetailsType[],
@@ -72,6 +72,16 @@ const Profile = () => {
     }
   }
 
+  const handleFollowUser = async() => {
+    try {
+      const targetUserID = id || '';
+      await followUser(targetUserID, user._id);
+      popupMessage("success", "Followed successfully.")
+    } catch(err: any) {
+      popupMessage('error', err.message)
+    }
+  }
+
   return (
     <ProfileUI
       user={curUser}
@@ -81,7 +91,8 @@ const Profile = () => {
       setCurTab={setCurTab}
       storiesData={storiesData}
       fetchingStories={fetchingStories}
-      isOtherUser={id ? true : false} />
+      isOtherUser={id ? true : false}
+      handleFollowUser={handleFollowUser} />
   )
 }
 

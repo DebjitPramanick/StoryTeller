@@ -15,7 +15,8 @@ interface UIProps {
     currentTab: number;
     setCurTab: (val: number) => void;
     fetchingStories: boolean;
-    isOtherUser: boolean
+    isOtherUser: boolean;
+    handleFollowUser: () => void
 }
 
 const ProfileUI: React.FC<UIProps> = ({
@@ -26,7 +27,8 @@ const ProfileUI: React.FC<UIProps> = ({
     currentTab,
     setCurTab,
     fetchingStories,
-    isOtherUser
+    isOtherUser,
+    handleFollowUser
 }) => {
 
     const { stories, savedBy, likedBy } = storiesData;
@@ -51,7 +53,7 @@ const ProfileUI: React.FC<UIProps> = ({
                     </div>
                     <p className='mt-8 text-sm font-normal text-gray-500 max-w-sm italic'>{user.bio}</p>
                     <div className='mx-auto flex justify-center'>
-                        <Button label={`Follow ${user.name.split(" ")[0]}`} onClick={undefined} />
+                        <Button label={`Follow ${user.name.split(" ")[0]}`} onClick={handleFollowUser} />
                     </div>
                 </div>
             </div>
