@@ -10,8 +10,17 @@ const Explore = () => {
     users: [],
     followers: {}
   })
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    if (query) setLoading(true);
+    else {
+      setLoading(false);
+      setQueryData({
+        users: [],
+        followers: {}
+      })
+    }
     let delay = setTimeout(() => {
       if (query) fetchUsersByQuery()
     }, 2000)
@@ -22,9 +31,14 @@ const Explore = () => {
   const fetchUsersByQuery = async () => {
     try {
       const res = await getUsersByNameQuery(query)
-      setQueryData(res.data)
+      if (res.data) {
+        setQueryData(res.data);
+      }
+
+      setLoading(false)
     } catch (err: any) {
       popupMessage('error', err.message)
+      setLoading(false)
     }
   }
 
@@ -34,6 +48,7 @@ const Explore = () => {
       query={query}
       handleQuery={(val: string) => setQuery(val)}
       data={queryData}
+      loading={loading}
     />
   )
 }
