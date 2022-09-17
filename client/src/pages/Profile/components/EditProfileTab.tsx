@@ -15,7 +15,7 @@ interface EditUserDetailsType {
   avatar: string,
   dob: string,
   gender: 'M' | 'F',
-  location: string
+  country: string
 }
 
 const EditProfileTab: React.FC<any> = ({
@@ -31,7 +31,7 @@ const EditProfileTab: React.FC<any> = ({
     bio: user.bio,
     email: user.email,
     avatar: user.avatar,
-    location: user.location,
+    country: user.country,
     dob: user.dob,
     gender: user.gender
   })
@@ -97,10 +97,10 @@ const EditProfileTab: React.FC<any> = ({
             setDate={(val: string) => handleChangeData('dob', val)} />
 
           <InputField
-            label='Your location'
-            placeholder='Enter location'
-            value={data.location}
-            setValue={(val: string) => handleChangeData('location', val)}
+            label='Your country'
+            placeholder='Enter country'
+            value={data.country}
+            setValue={(val: string) => handleChangeData('country', val)}
             type='text'
           />
 

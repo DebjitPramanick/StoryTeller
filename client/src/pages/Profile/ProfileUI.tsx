@@ -6,6 +6,7 @@ import EditProfileTab from './components/EditProfileTab';
 import { GlobalUserType } from '../../utils/types';
 import { StoriesDataType } from '.';
 import Button from '../../components/FormFields/Button';
+import PlaceIcon from '@mui/icons-material/Place';
 
 interface UIProps {
     user: GlobalUserType,
@@ -37,23 +38,28 @@ const ProfileUI: React.FC<UIProps> = ({
 
     return (
         <PageLayout>
-            <div className={`flex flex-col items-center gap-6 shadow px-4 py-4 rounded-lg relative ${isOtherUser ? 'bg-violet-200' : 'bg-orange-200'}`}>
+            <div className={`flex items-center gap-10 shadow px-4 py-4 rounded-lg relative ${isOtherUser ? 'bg-violet-200' : 'bg-orange-200'}`}>
                 <div style={{ width: 'fit-content' }}>
                     <img className="w-40 h-40 rounded-full border-violet-300 border-2" src={user.avatar} alt="/" />
                 </div>
-                <div style={{ width: 'fit-content' }} className='text-center'>
-                    <p className='text-2xl font-bold'>{user.name}</p>
-                    <div className='mt-4'>
+                <div style={{width: 'calc(100% - 200px)'}}>
+                    <p className='text-2xl font-bold flex items-center gap-3'>
+                        {user.name}
                         <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-2.5 rounded cursor-pointer">
                             @{user.username}
                         </span>
-                        <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-2.5 rounded cursor-pointer">
-                            {user.email}
-                        </span>
+                    </p>
+                    <div className='mt-2 flex items-center gap-1'>
+                        <p className='text-sm font-normal text-black max-w-sm'>44k Followers</p>
                     </div>
-                    <p className='mt-8 text-sm font-normal text-gray-500 max-w-sm italic'>{user.bio}</p>
-                    <div className='mx-auto flex justify-center'>
-                        <Button label={`Follow ${user.name.split(" ")[0]}`} onClick={handleFollowUser} />
+                    <div className='mt-2 flex items-center gap-1'>
+                        <PlaceIcon style={{color: 'grey', fontSize: '16px'}} />
+                        <p className='text-sm font-normal text-gray-500 max-w-sm'>{user.country}</p>
+                    </div>
+                    <p className='mt-4 text-sm font-normal text-gray-500 max-w-sm italic'>{user.bio}</p>
+                    <div className='mt-4 mx-auto flex justify-center gap-2'>
+                        {isOtherUser && <Button label={`Follow ${user.name.split(" ")[0]}`} onClick={handleFollowUser} fullWidth/>}
+                        <Button label={`More About ${user.name.split(" ")[0]}`} onClick={undefined} fullWidth/>
                     </div>
                 </div>
             </div>
