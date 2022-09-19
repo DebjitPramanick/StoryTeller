@@ -51,7 +51,7 @@ export const unfollowUser = async (target: string, source: string) => {
     return res;
 }
 
-export const deleteAcccount = async(userId: string) => {
+export const deleteAcccount = async (userId: string) => {
     const res = await userAPI.delete(`/delete/${userId}`)
         .catch(err => {
             const error = getError(err);
@@ -73,6 +73,20 @@ export const getUsersByNameQuery = async (query: string) => {
 
 export const getFollowersByUserID = async (userId: string) => {
     const res = await userAPI.get(`/${userId}/followers`)
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}
+
+export const checkIfFollowing = async (targetUserId: string, sourceUserId: string) => {
+    const payload: any = {
+        target: targetUserId,
+        source: sourceUserId
+    }
+    const res = await userAPI.post(`following/check`, payload)
         .catch(err => {
             const error = getError(err);
             throw new Error(error);

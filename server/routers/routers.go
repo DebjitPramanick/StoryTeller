@@ -22,6 +22,7 @@ func Setup(app *fiber.App) {
 	app.Post("/api/user/action/follow", middleware.IsAuthorized(), controllers.FollowUser)
 	app.Post("/api/user/action/unfollow", middleware.IsAuthorized(), controllers.UnfollowUser)
 	app.Get("/api/user/:userId/followers", middleware.IsAuthorized(), controllers.GetFollowersByUserID)
+	app.Post("/api/user/following/check", middleware.IsAuthorized(), controllers.CheckIfFollowing)
 
 	// Story APIs
 	app.Post("/api/story/create/:authorId", middleware.IsAuthorized(), controllers.CreateStory)

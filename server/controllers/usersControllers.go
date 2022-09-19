@@ -362,6 +362,39 @@ func GetFollowersByUserID(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
+func CheckIfFollowing(c *fiber.Ctx) error {
+
+	var data map[string]string
+
+	err := c.BodyParser(&data)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	target, _ := primitive.ObjectIDFromHex(data["target"])
+	source, _ := primitive.ObjectIDFromHex(data["source"])
+	var info models.Followers
+
+	filter := bson.M{"follower": source, "following": target}
+
+	queryError := database.Followers.FindOne(context.TODO(), filter).Decode(&info)
+
+	if queryError == mongo.ErrNoDocuments {
+		return c.JSON(fiber.Map{
+			"message": "User is not following.",
+			"isFollowing": false,
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "User is following.",
+		"isFollowing": true,
+	})
+}
+
 func GetFollowersIDHelper(userId primitive.ObjectID) []primitive.ObjectID {
 	var results = []primitive.ObjectID{}
 

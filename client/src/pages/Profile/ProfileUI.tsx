@@ -18,7 +18,8 @@ interface UIProps {
     fetchingStories: boolean;
     isOtherUser: boolean;
     handleFollowUser: () => void;
-    followers: any
+    followers: any;
+    isFollowing: boolean
 }
 
 const ProfileUI: React.FC<UIProps> = ({
@@ -31,7 +32,8 @@ const ProfileUI: React.FC<UIProps> = ({
     fetchingStories,
     isOtherUser,
     handleFollowUser,
-    followers
+    followers,
+    isFollowing
 }) => {
 
     const { stories, savedBy, likedBy } = storiesData;
@@ -44,7 +46,7 @@ const ProfileUI: React.FC<UIProps> = ({
                 <div style={{ width: 'fit-content' }}>
                     <img className="w-40 h-40 rounded-full border-violet-300 border-2" src={user.avatar} alt="/" />
                 </div>
-                <div style={{width: 'calc(100% - 200px)'}}>
+                <div style={{ width: 'calc(100% - 200px)' }}>
                     <p className='text-2xl font-bold flex items-center gap-3'>
                         {user.name}
                         <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-2.5 rounded cursor-pointer">
@@ -55,13 +57,16 @@ const ProfileUI: React.FC<UIProps> = ({
                         <p className='text-sm font-normal text-black max-w-sm'>{followers.count} Followers</p>
                     </div>
                     <div className='mt-2 flex items-center gap-1'>
-                        <PlaceIcon style={{color: 'grey', fontSize: '16px'}} />
+                        <PlaceIcon style={{ color: 'grey', fontSize: '16px' }} />
                         <p className='text-sm font-normal text-gray-500 max-w-sm'>{user.country}</p>
                     </div>
                     <p className='mt-4 text-sm font-normal text-gray-500 max-w-sm italic'>{user.bio}</p>
                     <div className='mt-4 mx-auto flex justify-center gap-2'>
-                        {isOtherUser && <Button label={`Follow ${user.name.split(" ")[0]}`} onClick={handleFollowUser} fullWidth/>}
-                        <Button label={`More About ${user.name.split(" ")[0]}`} onClick={undefined} fullWidth/>
+                        {isOtherUser && <>
+                            {!isFollowing ? (<Button label={`Follow ${user.name.split(" ")[0]}`} onClick={handleFollowUser} fullWidth />)
+                                : (<Button label={`Unfollow ${user.name.split(" ")[0]}`} variant="danger" onClick={handleFollowUser} fullWidth />)}
+                        </>}
+                        <Button label={`More About ${user.name.split(" ")[0]}`} onClick={undefined} fullWidth />
                     </div>
                 </div>
             </div>

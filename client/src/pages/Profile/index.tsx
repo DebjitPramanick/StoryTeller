@@ -7,7 +7,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { popupMessage } from '../../helpers/common.helper';
 import { useParams } from 'react-router-dom';
-import { followUser, getFollowersByUserID, getUser } from '../../helpers/user.helper';
+import { checkIfFollowing, followUser, getFollowersByUserID, getUser, unfollowUser } from '../../helpers/user.helper';
 
 export interface StoriesDataType {
   stories: FeedDetailsType[],
@@ -18,7 +18,7 @@ export interface StoriesDataType {
 const Profile = () => {
 
   const { user } = useUser()
-  const {id} = useParams();
+  const { id } = useParams();
 
   const [curTab, setCurTab] = useState<number>(0)
   const [storiesData, setStoriesData] = useState<StoriesDataType>({
@@ -28,10 +28,11 @@ const Profile = () => {
   });
   const [fetchingStories, setFetchingStories] = useState<boolean>(false);
   const [curUser, setCurUser] = useState<GlobalUserType>(user);
-  const [followers, setFollowers] = useState({
+  const [followers, setFollowers] = useState<{count: number, users: GlobalUserType[]}>({
     count: 0,
     users: []
   });
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const tabs = [
     {
@@ -45,17 +46,20 @@ const Profile = () => {
   ]
 
   useEffect(() => {
-    if(id) fetchUserDetails()
+    if (id) {
+      fetchUserDetails()
+      handleCheckIfFollowing()
+    }
     fetchUserStories()
     fetchFollowers()
   }, [id])
 
-  const fetchUserDetails = async() => {
-    if(!id) return;
+  const fetchUserDetails = async () => {
+    if (!id) return;
     try {
       const res = await getUser(id)
       setCurUser(res.data)
-    } catch(err: any) {
+    } catch (err: any) {
       popupMessage("error", err.message)
     }
   }
@@ -81,20 +85,58 @@ const Profile = () => {
     try {
       const userId = id || curUser._id;
       const res = await getFollowersByUserID(userId)
-      if(res.data.followers) {
-        setFollowers(res.data)
+      if (res.data.followers) {
+        setFollowers({
+          count: res.data.count,
+          users: res.data.followers
+        })
       }
     } catch (err: any) {
       popupMessage('error', err.message);
     }
   }
 
-  const handleFollowUser = async() => {
+  const handleCheckIfFollowing = async () => {
+    if (!id) return;
+    try {
+      const res = await checkIfFollowing(id, user._id)
+      if (res.data.isFollowing) {
+        setIsFollowing(true)
+      } else {
+        setIsFollowing(false);
+      }
+    } catch (err: any) {
+      popupMessage('error', err.message);
+    }
+  }
+
+  console.log("FOLLOWERS ==> ", followers)
+
+  const handleFollowUser = async () => {
     try {
       const targetUserID = id || '';
-      await followUser(targetUserID, user._id);
-      popupMessage("success", "Followed successfully.")
-    } catch(err: any) {
+      if(!isFollowing) {
+        await followUser(targetUserID, user._id);
+        popupMessage("success", "Followed successfully.")
+        setIsFollowing(true);
+        let newFollowers = followers.users;
+        newFollowers.push(user);
+        setFollowers({
+          count: followers.count + 1,
+          users: newFollowers
+        })
+      } else {
+        await unfollowUser(targetUserID, user._id);
+        popupMessage("success", "Unfollowed successfully.")
+        setIsFollowing(false);
+        let newFollowers = followers.users.filter((u: any) => u._id !== user._id);
+        newFollowers.push(user);
+        setFollowers({
+          count: followers.count - 1,
+          users: newFollowers,
+        })
+      }
+    } catch (err: any) {
       popupMessage('error', err.message)
     }
   }
@@ -110,7 +152,8 @@ const Profile = () => {
       fetchingStories={fetchingStories}
       isOtherUser={id ? true : false}
       handleFollowUser={handleFollowUser}
-      followers={followers} />
+      followers={followers} 
+      isFollowing={isFollowing} />
   )
 }
 
