@@ -110,8 +110,6 @@ const Profile = () => {
     }
   }
 
-  console.log("FOLLOWERS ==> ", followers)
-
   const handleFollowUser = async () => {
     try {
       const targetUserID = id || '';
