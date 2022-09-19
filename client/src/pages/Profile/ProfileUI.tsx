@@ -17,7 +17,8 @@ interface UIProps {
     setCurTab: (val: number) => void;
     fetchingStories: boolean;
     isOtherUser: boolean;
-    handleFollowUser: () => void
+    handleFollowUser: () => void;
+    followers: any
 }
 
 const ProfileUI: React.FC<UIProps> = ({
@@ -29,7 +30,8 @@ const ProfileUI: React.FC<UIProps> = ({
     setCurTab,
     fetchingStories,
     isOtherUser,
-    handleFollowUser
+    handleFollowUser,
+    followers
 }) => {
 
     const { stories, savedBy, likedBy } = storiesData;
@@ -49,8 +51,8 @@ const ProfileUI: React.FC<UIProps> = ({
                             @{user.username}
                         </span>
                     </p>
-                    <div className='mt-2 flex items-center gap-1'>
-                        <p className='text-sm font-normal text-black max-w-sm'>44k Followers</p>
+                    <div className='mt-2 flex items-center gap-1 cursor-pointer'>
+                        <p className='text-sm font-normal text-black max-w-sm'>{followers.count} Followers</p>
                     </div>
                     <div className='mt-2 flex items-center gap-1'>
                         <PlaceIcon style={{color: 'grey', fontSize: '16px'}} />

@@ -222,7 +222,7 @@ func GetUsersByNameQuery(c *fiber.Ctx) error {
 			})
 		}
 		users = append(users, user)
-		followers[user.ID] = GetFollowersHelper(user.ID)
+		followers[user.ID] = GetFollowersIDHelper(user.ID)
 	}
 
 	if err := cur.Err(); err != nil {
@@ -277,15 +277,11 @@ func FollowUser(c *fiber.Ctx) error {
 	follower, _ := primitive.ObjectIDFromHex(data["follower"])
 	following, _ := primitive.ObjectIDFromHex(data["following"])
 
-	fmt.Println("FLW Data", data, follower, following)
-
 	if follower == following {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "User cannot follow himself/herself.",
 		})
 	}
-
-	fmt.Println("FLW Data", data, follower, following)
 
 	followData := models.Followers{
 		ID:      primitive.NewObjectID(),
@@ -339,7 +335,34 @@ func UnfollowUser(c *fiber.Ctx) error {
 	})
 }
 
-func GetFollowersHelper(userId primitive.ObjectID) []primitive.ObjectID {
+func GetFollowersByUserID(c *fiber.Ctx) error {
+
+	var followers []models.User
+	var ids []primitive.ObjectID
+
+	userID, _ := primitive.ObjectIDFromHex(c.Params("userId"));
+
+	ids = GetFollowersIDHelper(userID);
+	filter := bson.M{"_id": bson.M{"$in": ids}}
+
+	cur, _ := database.Users.Find(context.TODO(), filter)
+
+	err := cur.All(context.TODO(), &followers)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	result := fiber.Map{
+		"followers":   followers,
+		"count": len(followers),
+	}
+
+	return c.JSON(result)
+}
+
+func GetFollowersIDHelper(userId primitive.ObjectID) []primitive.ObjectID {
 	var results = []primitive.ObjectID{}
 
 	cur, queryError := database.Followers.Find(context.TODO(), bson.M{"following": userId})
@@ -366,3 +389,5 @@ func GetFollowersHelper(userId primitive.ObjectID) []primitive.ObjectID {
 
 	return results
 }
+
+

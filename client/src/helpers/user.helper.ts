@@ -70,3 +70,13 @@ export const getUsersByNameQuery = async (query: string) => {
 
     return res;
 }
+
+export const getFollowersByUserID = async (userId: string) => {
+    const res = await userAPI.get(`/${userId}/followers`)
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}

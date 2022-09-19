@@ -7,7 +7,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { popupMessage } from '../../helpers/common.helper';
 import { useParams } from 'react-router-dom';
-import { followUser, getUser } from '../../helpers/user.helper';
+import { followUser, getFollowersByUserID, getUser } from '../../helpers/user.helper';
 
 export interface StoriesDataType {
   stories: FeedDetailsType[],
@@ -28,6 +28,10 @@ const Profile = () => {
   });
   const [fetchingStories, setFetchingStories] = useState<boolean>(false);
   const [curUser, setCurUser] = useState<GlobalUserType>(user);
+  const [followers, setFollowers] = useState({
+    count: 0,
+    users: []
+  });
 
   const tabs = [
     {
@@ -43,6 +47,7 @@ const Profile = () => {
   useEffect(() => {
     if(id) fetchUserDetails()
     fetchUserStories()
+    fetchFollowers()
   }, [id])
 
   const fetchUserDetails = async() => {
@@ -72,6 +77,18 @@ const Profile = () => {
     }
   }
 
+  const fetchFollowers = async () => {
+    try {
+      const userId = id || curUser._id;
+      const res = await getFollowersByUserID(userId)
+      if(res.data.followers) {
+        setFollowers(res.data)
+      }
+    } catch (err: any) {
+      popupMessage('error', err.message);
+    }
+  }
+
   const handleFollowUser = async() => {
     try {
       const targetUserID = id || '';
@@ -92,7 +109,8 @@ const Profile = () => {
       storiesData={storiesData}
       fetchingStories={fetchingStories}
       isOtherUser={id ? true : false}
-      handleFollowUser={handleFollowUser} />
+      handleFollowUser={handleFollowUser}
+      followers={followers} />
   )
 }
 
