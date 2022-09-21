@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
-import Button from '../../../components/FormFields/Button';
-import { useUser } from '../../../contexts/UserContext'
-import { popupMessage } from '../../../helpers/common.helper';
-import { followUser, unfollowUser } from '../../../helpers/user.helper';
+import Button from '../../../../components/FormFields/Button';
+import { useUser } from '../../../../contexts/UserContext'
+import { popupMessage } from '../../../../helpers/common.helper';
+import { followUser, unfollowUser } from '../../../../helpers/user.helper';
 
 const UserCard: React.FC<any> = ({ profileData, followers }) => {
     const { user } = useUser();

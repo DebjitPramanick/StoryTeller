@@ -1,6 +1,12 @@
 import React from 'react'
 
-const Tab: React.FC<any> = ({
+interface TabProps {
+    tabs: any[],
+    currentTab: number,
+    selectTab: (val: number) => void
+}
+
+const Tab: React.FC<TabProps> = ({
     tabs,
     currentTab,
     selectTab

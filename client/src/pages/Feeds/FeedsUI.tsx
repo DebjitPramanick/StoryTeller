@@ -25,13 +25,6 @@ const FeedsUI: React.FC<FeedsUIProps> = ({
 
     return (
         <PageLayout pageTitle="Feeds">
-            <div className='flex items-center gap-2 justify-end'>
-                <InputField
-                    value={''}
-                    setValue={(val) => { }}
-                    placeholder="Search feeds"
-                    leftIcon={<SearchIcon style={{ color: 'gray' }} />} />
-            </div>
             {fetching ? <FeedsLazyLoader /> :
                 feeds.length > 0 ? feeds.map((feed: FeedDetailsType) => (
                     <Feed
