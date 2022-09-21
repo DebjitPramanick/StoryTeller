@@ -30,3 +30,13 @@ export const deleteStory = async (storyId: string) => {
 
     return res;
 }
+
+export const searchStories = async (query: string) => {
+    const res = await storyAPI.get(`/collection/${query}`)
+        .catch(err => {
+            const error = getError(err);
+            throw new Error(error);
+        })
+
+    return res;
+}

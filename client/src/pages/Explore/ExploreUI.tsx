@@ -40,7 +40,7 @@ const ExploreUI: React.FC<any> = ({
             {currentTab === 0 ? (
                 <UserResults query={query}/>
             ) : currentTab === 1 ? (
-                <StoryResults />
+                <StoryResults query={query}/>
             ) : null}
         </PageLayout>
     )

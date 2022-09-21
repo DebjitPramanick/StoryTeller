@@ -8,6 +8,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Button from '../../components/FormFields/Button';
+import { useUser } from '../../contexts/UserContext';
 
 const FeedPageUI: React.FC<any> = ({
     feed,
@@ -20,6 +21,8 @@ const FeedPageUI: React.FC<any> = ({
     handleFollowUser,
     isFollowing
 }) => {
+
+    const {user} = useUser();
 
     const contentRef = useRef<HTMLDivElement | null>(null);
 
@@ -37,6 +40,7 @@ const FeedPageUI: React.FC<any> = ({
         }
     }, [feed])
 
+    const isCurUser = feed?.author._id === user._id
 
     return (
         <PageLayout>
@@ -110,11 +114,11 @@ const FeedPageUI: React.FC<any> = ({
                                 {feed.author.username} | {getFeedTime(feed.created_at)}
                             </p>
                         </div>
-                        {isFollowing ? (
+                        {!isCurUser && isFollowing ? (
                             <Button label='Unfollow' onClick={handleFollowUser} variant="danger" />
-                        ) : (
+                        ) : !isCurUser ? (
                             <Button label='Follow' onClick={handleFollowUser} />
-                        )}
+                        ) : null}
 
                     </div>
                 </div>

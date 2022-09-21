@@ -1,23 +1,22 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
+import { ExploreResultsLoader } from '../../../../components/Loaders';
 import { popupMessage } from '../../../../helpers/common.helper';
+import { searchStories } from '../../../../helpers/story.helper';
 import { FeedDetailsType, GlobalUserType } from '../../../../utils/types';
+import StoryCard from './StoryCard';
 
 const StoryResults: React.FC<any> = ({
     query
 }) => {
 
-    const [data, setData] = useState<{ stories: FeedDetailsType[] }>({
-        stories: [],
-    })
+    const [data, setData] = useState<FeedDetailsType[] >([])
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (query) setLoading(true);
         else {
             setLoading(false);
-            setData({
-                stories: [],
-            })
+            setData([])
         }
         let delay = setTimeout(() => {
             if (query) fetchStoriesByQuery()
@@ -28,10 +27,10 @@ const StoryResults: React.FC<any> = ({
 
     const fetchStoriesByQuery = async () => {
         try {
-            // const res = await getUsersByNameQuery(query)
-            // if (res.data) {
-            //     setData(res.data);
-            // }
+            const res = await searchStories(query)
+            if (res.data) {
+                setData(res.data);
+            }
 
             setLoading(false)
         } catch (err: any) {
@@ -41,7 +40,15 @@ const StoryResults: React.FC<any> = ({
     }
 
     return (
-        <div className='mt-4'></div>
+        <div className='mt-4'>
+            {loading ? <ExploreResultsLoader /> :
+                <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2'>
+                    {data.map((story: FeedDetailsType) => (
+                        <StoryCard story={story}/>
+                    ))}
+                </div>
+            }
+        </div>
     )
 }
 
