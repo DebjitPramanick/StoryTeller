@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react'
 import PageLayout from '../../layouts/PageLayout'
-import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import moment from 'moment';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -12,15 +11,14 @@ import Button from '../../components/FormFields/Button';
 
 const FeedPageUI: React.FC<any> = ({
     feed,
-    savedBy,
-    likedBy,
-    fetchingFeed,
     handleLikeFeed,
     handleSaveFeed,
     isLiked,
     isSaved,
     likesCount,
-    savesCount
+    savesCount,
+    handleFollowUser,
+    isFollowing
 }) => {
 
     const contentRef = useRef<HTMLDivElement | null>(null);
@@ -112,7 +110,12 @@ const FeedPageUI: React.FC<any> = ({
                                 {feed.author.username} | {getFeedTime(feed.created_at)}
                             </p>
                         </div>
-                        <Button label='Follow' onClick={undefined}/>
+                        {isFollowing ? (
+                            <Button label='Unfollow' onClick={handleFollowUser} variant="danger" />
+                        ) : (
+                            <Button label='Follow' onClick={handleFollowUser} />
+                        )}
+
                     </div>
                 </div>
             )}

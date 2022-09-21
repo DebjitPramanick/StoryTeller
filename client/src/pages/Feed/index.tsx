@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useUser } from '../../contexts/UserContext';
 import { popupMessage } from '../../helpers/common.helper';
 import { dislikeFeed, getFeedById, likeFeed, removeFeed, saveFeed } from '../../helpers/feeds.helper';
+import { checkIfFollowing, followUser, unfollowUser } from '../../helpers/user.helper';
 import PageLayout from '../../layouts/PageLayout'
 import { FeedDetailsType } from '../../utils/types';
 import FeedPageUI from './FeedPageUI';
@@ -20,10 +21,17 @@ const Story = () => {
   const [localSavesCount, setLocalSavesCount] = useState<number>(0);
   const [localIsLiked, setLocalIsLiked] = useState<boolean>(false);
   const [localIsSaved, setLocalIsSaved] = useState<boolean>(false);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     fetchFeed()
   }, [])
+
+  useEffect(() => {
+    if(feed?.author) {
+      handleCheckIfFollowing()
+    }
+  }, [feed])
 
 
   const fetchFeed = async () => {
@@ -42,7 +50,6 @@ const Story = () => {
       setLocalSavesCount(saves.length)
       setLocalIsLiked(likes.includes(user._id));
       setLocalIsSaved(saves.includes(user._id));
-      console.log(likes, user._id)
     } catch (err: any) {
       popupMessage("error", err.message);
       setFetchingFeed(false);
@@ -50,7 +57,7 @@ const Story = () => {
   }
 
   const handleLikeFeed = async () => {
-    if(!feed) return;
+    if (!feed) return;
     try {
       if (!localIsLiked) {
         await likeFeed(user._id, feed._id)
@@ -66,7 +73,7 @@ const Story = () => {
   }
 
   const handleSaveFeed = async () => {
-    if(!feed) return;
+    if (!feed) return;
     try {
       if (!localIsSaved) {
         await saveFeed(user._id, feed._id);
@@ -81,6 +88,40 @@ const Story = () => {
     }
   }
 
+  const handleCheckIfFollowing = async () => {
+    const author = feed?.author;
+    if (!author) return;
+    try {
+      const res = await checkIfFollowing(author._id, user._id)
+      if (res.data.isFollowing) {
+        setIsFollowing(true)
+      } else {
+        setIsFollowing(false);
+      }
+    } catch (err: any) {
+      popupMessage('error', err.message);
+    }
+  }
+
+  const handleFollowUser = async () => {
+    const author = feed?.author;
+    if (!author) return;
+    try {
+      const targetUserID = author._id;
+      if (!isFollowing) {
+        await followUser(targetUserID, user._id);
+        popupMessage("success", "Followed successfully.")
+        setIsFollowing(true);
+      } else {
+        await unfollowUser(targetUserID, user._id);
+        popupMessage("success", "Unfollowed successfully.")
+        setIsFollowing(false);
+      }
+    } catch (err: any) {
+      popupMessage('error', err.message)
+    }
+  }
+
   return (
     <FeedPageUI
       feed={feed}
@@ -92,7 +133,9 @@ const Story = () => {
       isLiked={localIsLiked}
       isSaved={localIsSaved}
       likesCount={localLikesCount}
-      savesCount={localSavesCount} />
+      savesCount={localSavesCount}
+      isFollowing={isFollowing}
+      handleFollowUser={handleFollowUser} />
   )
 }
 

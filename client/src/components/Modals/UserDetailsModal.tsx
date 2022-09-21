@@ -25,9 +25,11 @@ const UserDetailsModal: React.FC<UIProps> = ({
     });
 
     useEffect(() => {
-        fetchFollowers();
-        handleCheckIfFollowing();
-    }, [])
+        if (open) {
+            fetchFollowers();
+            handleCheckIfFollowing();
+        }
+    }, [open])
 
 
     const fetchFollowers = async () => {
@@ -105,7 +107,7 @@ const UserDetailsModal: React.FC<UIProps> = ({
                 </div>
             </div>
             <div className='mt-4 py-2 grid grid-cols-2 gap-2'>
-                {isFollowing ? (<Button label="Unfollow" onClick={handleFollowUser} variant="danger"/>)
+                {isFollowing ? (<Button label="Unfollow" onClick={handleFollowUser} variant="danger" />)
                     : (<Button label="Follow" onClick={handleFollowUser} />)}
                 <Button label="View" onClick={() => navigate(`/profile/${author._id}`)} />
             </div>
