@@ -31,6 +31,7 @@ func Setup(app *fiber.App) {
 	app.Delete("/api/story/delete/:storyId", middleware.IsAuthorized(), controllers.DeleteStory)
 	app.Delete("/api/story/delete/all/:userId", middleware.IsAuthorized(), controllers.DeleteAllUserStories)
 	app.Put("/api/story/update/:storyId", middleware.IsAuthorized(), controllers.UpdateStory)
+	app.Get("/api/story/collection/:query", middleware.IsAuthorized(), controllers.SearchStories)
 
 	// Feed APIs
 	app.Get("/api/feeds", controllers.GetFeeds)

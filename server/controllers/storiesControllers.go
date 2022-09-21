@@ -105,6 +105,41 @@ func GetAuthorStories(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
+func SearchStories(c *fiber.Ctx) error {
+	var stories []models.Story
+
+	query := c.Params("query");
+
+	filter := bson.M{
+		"$or": bson.A{
+			bson.M{"title": primitive.Regex{Pattern: query, Options: "i"}},
+		},
+	}
+
+	cur, _ := database.Stories.Find(context.TODO(), filter)
+
+	for cur.Next(context.TODO()) {
+		var story models.Story
+		err := cur.Decode(&story)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Something went wrong. Please try again later.",
+			})
+		}
+		stories = append(stories, story)
+	}
+
+	if err := cur.Err(); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Something went wrong. Please try again later.",
+		})
+	}
+
+	defer cur.Close(context.TODO())
+
+	return c.JSON(stories)
+}
+
 func GetStoryByID(c *fiber.Ctx) error {
 	storyID, _ := primitive.ObjectIDFromHex(c.Params("storyId"))
 	var story models.Story

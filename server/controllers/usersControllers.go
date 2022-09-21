@@ -135,7 +135,7 @@ func RemoveUserByID(c *fiber.Ctx) error {
 	}
 
 	res, _ := database.Stories.DeleteMany(context.Background(), bson.M{"author._id": userID})
-	fmt.Println(res)
+	fmt.Println(res.DeletedCount)
 
 	return c.JSON(fiber.Map{
 		"message": "Removed user successfully.",
@@ -399,8 +399,6 @@ func GetFollowersIDHelper(userId primitive.ObjectID) []primitive.ObjectID {
 	var results = []primitive.ObjectID{}
 
 	cur, queryError := database.Followers.Find(context.TODO(), bson.M{"following": userId})
-	
-	fmt.Println(queryError, userId)
 
 	if queryError == mongo.ErrNoDocuments {
 		return results
