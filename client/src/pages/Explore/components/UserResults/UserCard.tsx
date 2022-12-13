@@ -1,9 +1,10 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Button from '../../../../components/FormFields/Button';
 import { useUser } from '../../../../contexts/UserContext'
 import { popupMessage } from '../../../../helpers/common.helper';
 import { followUser, unfollowUser } from '../../../../helpers/user.helper';
+import { formatFollowers } from '../../../../utils/user.utils';
 
 const UserCard: React.FC<any> = ({ profileData, followers }) => {
     const { user } = useUser();
@@ -15,15 +16,15 @@ const UserCard: React.FC<any> = ({ profileData, followers }) => {
     const handleFollowUser = async () => {
         try {
             const targetUserID = profileData._id;
-            if(isFollowing) {
+            if (isFollowing) {
                 await unfollowUser(targetUserID, user._id)
                 setIsFollowing(false)
-                setFollowersCount(followersCount-1)
+                setFollowersCount(followersCount - 1)
                 popupMessage("success", "Unfollowed successfully.")
             } else {
                 await followUser(targetUserID, user._id);
                 setIsFollowing(true)
-                setFollowersCount(followersCount+1)
+                setFollowersCount(followersCount + 1)
                 popupMessage("success", "Followed successfully.")
             }
         } catch (err: any) {
@@ -45,13 +46,13 @@ const UserCard: React.FC<any> = ({ profileData, followers }) => {
                         {profileData.username}
                     </p>
                     <p className="truncate bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1.5 rounded cursor-pointer w-max mx-auto mt-2">
-                        {followersCount} Followers
+                        {formatFollowers(followersCount)}
                     </p>
                 </div>
             </div>
             {user._id === profileData._id ? (
                 <div className='mt-4 py-2'>
-                    <Button label="Go To Profile" onClick={() => navigate(`/profile`)} fullWidth variant='success'/>
+                    <Button label="Go To Profile" onClick={() => navigate(`/profile`)} fullWidth variant='success' />
                 </div>
             ) : (
                 <div className='mt-4 py-2 grid grid-cols-2 gap-2'>

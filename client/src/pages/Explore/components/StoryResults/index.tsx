@@ -46,6 +46,7 @@ const StoryResults: React.FC<any> = ({
                     {data.map((story: FeedDetailsType) => (
                         <StoryCard story={story}/>
                     ))}
+                    {query !== '' && data.length === 0 && "No user found."}
                 </div>
             }
         </div>

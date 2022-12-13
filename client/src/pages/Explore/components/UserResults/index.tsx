@@ -34,7 +34,7 @@ const UserResults: React.FC<any> = ({
     const fetchUsersByQuery = async () => {
         try {
             const res = await getUsersByNameQuery(query)
-            if (res.data) {
+            if (res.data && res.data.users && res.data.followers) {
                 setData(res.data);
             }
 
@@ -54,6 +54,7 @@ const UserResults: React.FC<any> = ({
                             profileData={user}
                             followers={data.followers[user._id]} />
                     ))}
+                    {query !== '' && data.users.length === 0 && "No user found."}
                 </div>
             }
         </div>

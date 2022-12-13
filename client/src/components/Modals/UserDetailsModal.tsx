@@ -88,6 +88,8 @@ const UserDetailsModal: React.FC<UIProps> = ({
         }
     }
 
+    const isCurUser = user._id === author._id;
+
     return (
         <div className={`z-10 px-4 pt-4 w-72 bg-orange-100 border rounded-lg divide-y divide-gray-100 shadow-xl absolute left-14 top-0 ${!open ? 'hidden' : 'visible'}`}>
             <div className='flex gap-4'>
@@ -106,9 +108,13 @@ const UserDetailsModal: React.FC<UIProps> = ({
                     </p>
                 </div>
             </div>
-            <div className='mt-4 py-2 grid grid-cols-2 gap-2'>
-                {isFollowing ? (<Button label="Unfollow" onClick={handleFollowUser} variant="danger" />)
-                    : (<Button label="Follow" onClick={handleFollowUser} />)}
+            <div className={`mt-4 py-2 grid ${isCurUser ? 'grid-cols-1' : 'grid-cols-2 gap-2'}`}>
+                {!isCurUser && (
+                    <>
+                        {isFollowing ? (<Button label="Unfollow" onClick={handleFollowUser} variant="danger" />)
+                            : (<Button label="Follow" onClick={handleFollowUser} />)}
+                    </>
+                )}
                 <Button label="View" onClick={() => navigate(`/profile/${author._id}`)} />
             </div>
         </div>

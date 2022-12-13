@@ -30,12 +30,13 @@ const ExploreUI: React.FC<any> = ({
             <InputField
                 value={query}
                 setValue={handleQuery}
-                placeholder="Search users by username or name"
+                placeholder={currentTab === 0 ? "Search users" : "Search stories"}
                 leftIcon={<SearchIcon style={{ color: 'gray' }} />} />
 
             <Tab tabs={tabs}
                 currentTab={currentTab}
-                selectTab={(val) => setCurrentTab(val)} />
+                selectTab={(val) => setCurrentTab(val)}
+                align='left' />
 
             {currentTab === 0 ? (
                 <UserResults query={query}/>

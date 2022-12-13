@@ -7,6 +7,7 @@ import { GlobalUserType } from '../../utils/types';
 import { StoriesDataType } from '.';
 import Button from '../../components/FormFields/Button';
 import PlaceIcon from '@mui/icons-material/Place';
+import { formatFollowers } from '../../utils/user.utils';
 
 interface UIProps {
     user: GlobalUserType,
@@ -54,7 +55,7 @@ const ProfileUI: React.FC<UIProps> = ({
                         </span>
                     </p>
                     <div className='mt-2 flex items-center gap-1 cursor-pointer'>
-                        <p className='text-sm font-normal text-black max-w-sm'>{followers.count} Followers</p>
+                        <p className='text-sm font-normal text-black max-w-sm'>{formatFollowers(followers.count)}</p>
                     </div>
                     <div className='mt-2 flex items-center gap-1'>
                         <PlaceIcon style={{ color: 'grey', fontSize: '16px' }} />
