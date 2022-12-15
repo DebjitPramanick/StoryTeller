@@ -115,7 +115,7 @@ const UserDetailsModal: React.FC<UIProps> = ({
                             : (<Button label="Follow" onClick={handleFollowUser} />)}
                     </>
                 )}
-                <Button label="View" onClick={() => navigate(`/profile/${author._id}`)} />
+                <Button label="View" onClick={() => user._id === author._id ? navigate(`/profile`) : navigate(`/profile/${author._id}`)} />
             </div>
         </div>
     )

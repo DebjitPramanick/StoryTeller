@@ -148,7 +148,7 @@ const Profile = () => {
       setCurTab={setCurTab}
       storiesData={storiesData}
       fetchingStories={fetchingStories}
-      isOtherUser={id ? true : false}
+      isOtherUser={id && id !== user._id ? true : false}
       handleFollowUser={handleFollowUser}
       followers={followers} 
       isFollowing={isFollowing} />
