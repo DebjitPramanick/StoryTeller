@@ -36,7 +36,7 @@ const Register = () => {
   const handleRegister = async (e: any) => {
     e.preventDefault();
     try {
-      data.avatar = `https://api.multiavatar.com/${data.username}`
+      data.avatar = `https://api.multiavatar.com/${data.username}.png`
       await registerUser(data);
       window.location.href = "/login"
     } catch (err: any) {

@@ -165,6 +165,16 @@ func DeleteStory(c *fiber.Ctx) error {
 			"message": "Story not found",
 		})
 	}
+
+	_, likedDBErr := database.FeedLikes.DeleteMany(context.Background(), bson.M{"feedId": storyID})
+	_, savedDBErr := database.FeedLikes.DeleteMany(context.Background(), bson.M{"feedId": storyID})
+
+	if likedDBErr == mongo.ErrNoDocuments || savedDBErr == mongo.ErrNoDocuments {
+		return c.JSON(fiber.Map{
+			"message": "Deleted story successfully.",
+		})
+	}
+
 	return c.JSON(fiber.Map{
 		"message": "Deleted story successfully.",
 	})
