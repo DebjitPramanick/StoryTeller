@@ -134,8 +134,14 @@ func RemoveUserByID(c *fiber.Ctx) error {
 		})
 	}
 
-	res, _ := database.Stories.DeleteMany(context.Background(), bson.M{"author._id": userID})
-	fmt.Println(res.DeletedCount)
+	storiesDel, _ := database.Stories.DeleteMany(context.Background(), bson.M{"author._id": userID})
+	followingDel, _ := database.Followers.DeleteMany(context.Background(), bson.M{"following": userID})
+	followersDel, _ := database.Followers.DeleteMany(context.Background(), bson.M{"follower": userID})
+	likesDel, _ := database.FeedLikes.DeleteMany(context.Background(), bson.M{"userId": userID})
+	savesDel, _ := database.SavedFeeds.DeleteMany(context.Background(), bson.M{"userId": userID})
+
+	fmt.Println("Total delete count: ", 
+	storiesDel.DeletedCount+likesDel.DeletedCount+savesDel.DeletedCount+followersDel.DeletedCount+followingDel.DeletedCount+1)
 
 	return c.JSON(fiber.Map{
 		"message": "Removed user successfully.",

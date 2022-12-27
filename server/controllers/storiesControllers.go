@@ -166,14 +166,10 @@ func DeleteStory(c *fiber.Ctx) error {
 		})
 	}
 
-	_, likedDBErr := database.FeedLikes.DeleteMany(context.Background(), bson.M{"feedId": storyID})
-	_, savedDBErr := database.FeedLikes.DeleteMany(context.Background(), bson.M{"feedId": storyID})
+	likesDel, _ := database.FeedLikes.DeleteMany(context.Background(), bson.M{"feedId": storyID})
+	savesDel, _ := database.SavedFeeds.DeleteMany(context.Background(), bson.M{"feedId": storyID})
 
-	if likedDBErr == mongo.ErrNoDocuments || savedDBErr == mongo.ErrNoDocuments {
-		return c.JSON(fiber.Map{
-			"message": "Deleted story successfully.",
-		})
-	}
+	fmt.Println("Total delete count: ", likesDel.DeletedCount+savesDel.DeletedCount)
 
 	return c.JSON(fiber.Map{
 		"message": "Deleted story successfully.",
