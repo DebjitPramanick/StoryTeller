@@ -86,7 +86,7 @@ const FeedUI: React.FC<FeedUIProps> = ({
         <div className='mb-4 max-w-4xl bg-white rounded-lg border border-gray-200 shadow-md'>
             <div className="flex items-center gap-2 px-4 py-2">
                 <div className="flex-shrink-0 cursor-pointer relative">
-                    <img className="w-12 h-12 rounded-full" src={feed.author.avatar} alt="" onClick={toggleAuthorPopup}/>
+                    <img className="w-12 h-12 rounded-full" src={feed.author.avatar} alt="" onClick={toggleAuthorPopup} />
                     <UserDetailsModal
                         author={feed.author}
                         open={feed._id === showAuthor} />
@@ -148,19 +148,23 @@ const FeedUI: React.FC<FeedUIProps> = ({
                 <div>
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{feed.title}</h5>
                 </div>
-                <div className="mb-3" ref={contentRef}>
+                <div className="mb-3 max-h-60 overflow-hidden relative">
+                    <div className='from-white bg-gradient-to-t absolute bottom-0 w-full z-10 read-more-overlay'></div>
+                    <div ref={contentRef}>
+                    </div>
                 </div>
-                <Link to={`/feed/${feed._id}`} className="inline-flex items-center py-3 px-3 text-sm font-medium text-center text-black bg-blue-200 rounded hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300">
-                    Read more
+                <Link to={`/feed/${feed._id}`} className="inline-flex items-center py-2 px-5 text-sm font-medium text-center text-black bg-blue-200 rounded hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300">
+                    More
                     <svg aria-hidden="true" className="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                 </Link>
+
             </div>
 
             <StoryEditModal
                 open={isEditting === feed._id}
                 closeModal={toggleEditModal}
                 feed={feed}
-                fetchUserStories={refetchUserStories ? refetchUserStories : () => {}}
+                fetchUserStories={refetchUserStories ? refetchUserStories : () => { }}
             />
 
             <ConfirmationModal

@@ -67,7 +67,7 @@ const ProfileUI: React.FC<UIProps> = ({
                             {!isFollowing ? (<Button label={`Follow ${user.name.split(" ")[0]}`} onClick={handleFollowUser} fullWidth />)
                                 : (<Button label={`Unfollow ${user.name.split(" ")[0]}`} variant="danger" onClick={handleFollowUser} fullWidth />)}
                         </>}
-                        <Button label={`More About ${user.name.split(" ")[0]}`} onClick={undefined} fullWidth />
+                        {/* <Button label={`More About ${user.name.split(" ")[0]}`} onClick={undefined} fullWidth /> */}
                     </div>
                 </div>
             </div>

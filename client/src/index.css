@@ -38,3 +38,7 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #7e7e7e; 
 }
+
+.read-more-overlay{
+  height: calc(100% - 20px);
+}
