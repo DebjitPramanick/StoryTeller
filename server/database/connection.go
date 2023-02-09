@@ -18,11 +18,18 @@ var SavedFeeds *mongo.Collection
 var FeedLikes *mongo.Collection
 
 func ConnectDB() {
-	// connectionURL := helpers.GetEnvVariable("MONGO_URI")
-	// dbName := helpers.GetEnvVariable("DB_NAME")
 
 	connectionURL := os.Getenv("MONGO_URI")
 	dbName := os.Getenv("DB_NAME")
+
+
+	if connectionURL == "" {
+		connectionURL = helpers.GetEnvVariable("MONGO_URI")
+	}
+
+	if dbName == ""{
+		dbName = helpers.GetEnvVariable("DB_NAME")
+	}
 
 	clientOption := options.Client().ApplyURI(connectionURL)
 	client, err := mongo.Connect(context.TODO(), clientOption)
