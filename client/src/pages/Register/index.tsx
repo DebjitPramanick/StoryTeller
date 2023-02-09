@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useUser } from '../../contexts/UserContext'
 import { registerUser } from '../../helpers/auth.helper'
+import { popupMessage } from '../../helpers/common.helper'
 import RegitserUI from './RegitserUI'
 
 export interface UserDetailsType {
@@ -29,32 +30,36 @@ const initialData: UserDetailsType = {
 
 const Register = () => {
 
-  const {isLoggedIn} = useUser();
+  const { isLoggedIn } = useUser();
 
   const [data, setData] = useState<UserDetailsType>(initialData)
+  const [loading, setLoading] = useState(false)
 
   const handleRegister = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
     try {
       data.avatar = `https://api.multiavatar.com/${data.username}.png`
       await registerUser(data);
       window.location.href = "/login"
     } catch (err: any) {
-      alert(err.message)
+      popupMessage('error', err.message);
+      setLoading(false);
     }
   }
 
   const handleChangeData = (field: string, value: string) => {
-    setData({...data, [field]: value})
+    setData({ ...data, [field]: value })
   }
 
-  if(isLoggedIn) return <Navigate to={"/"}/>
+  if (isLoggedIn) return <Navigate to={"/"} />
 
   return (
     <RegitserUI
       handleRegister={handleRegister}
       data={data}
-      handleChangeData={handleChangeData} />
+      handleChangeData={handleChangeData}
+      loading={loading} />
   )
 }
 

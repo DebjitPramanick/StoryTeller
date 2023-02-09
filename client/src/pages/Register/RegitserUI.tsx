@@ -8,7 +8,8 @@ import FormLayout from '../../layouts/FormLayout'
 const RegitserUI: React.FC<any> = ({
     handleRegister,
     data,
-    handleChangeData
+    handleChangeData,
+    loading
 }) => {
 
     return (
@@ -54,7 +55,8 @@ const RegitserUI: React.FC<any> = ({
                         required={true}
                     />
 
-                    <Button label="Register" type="submit" rightAligned={true} onClick={(e: any) => handleRegister(e)}/>
+                    <Button label="Register" type="submit" rightAligned={true} onClick={(e: any) => handleRegister(e)}
+                    loading={loading}/>
 
                     <Link to="/login" className='block mt-4 text-sm'>Already an user? Login</Link>
                 </form>

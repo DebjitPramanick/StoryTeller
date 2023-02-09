@@ -8,7 +8,8 @@ import FormLayout from '../../layouts/FormLayout'
 const LoginUI: React.FC<any> = ({
     data,
     handleLogin,
-    handleChangeData
+    handleChangeData,
+    loading
 }) => {
 
     return (
@@ -24,7 +25,7 @@ const LoginUI: React.FC<any> = ({
                         type='text'
                         required={true}
                     />
-                    
+
                     <InputField
                         label='Your password'
                         placeholder='Enter password'
@@ -34,7 +35,8 @@ const LoginUI: React.FC<any> = ({
                         required={true}
                     />
 
-                    <Button label="Login" type="submit" rightAligned={true} onClick={(e: any) => handleLogin(e)}/>
+                    <Button label="Login" type="submit" rightAligned={true} onClick={(e: any) => handleLogin(e)}
+                        loading={loading} />
 
                     <Link to="/register" className='block mt-4 text-sm'>Not an user? Register</Link>
                 </form>
