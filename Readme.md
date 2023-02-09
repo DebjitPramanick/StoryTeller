@@ -1,11 +1,11 @@
 <h1 align="center">StoryTeller - Publish Stories</h1>
   <p align="center">
     A web platform for authors to write  stories and publish. <br />
-    <a href="https://hotel-booking-app-2022.netlify.app/">Live Site</a>
+    <a href="https://story-teller-pi.vercel.app/">Live Site</a>
     .
-    <a href="https://github.com/DebjitPramanick/Hotel-Booking-Web-App/issues">Report Bug</a>
+    <a href="https://github.com/DebjitPramanick/StoryTeller/issues">Report Bug</a>
     ·
-    <a href="https://github.com/DebjitPramanick/Hotel-Booking-Web-App/issues">Request Feature</a>
+    <a href="https://github.com/DebjitPramanick/StoryTeller/issues">Request Feature</a>
   </p>
 </p>
 
