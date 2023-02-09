@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://127.0.0.1:4000'
+const BASE_URL = 'https://storyteller-be.onrender.com'
 const USER_TOKEN = localStorage.getItem('story-teller-user-token')
 
 export const authAPI = axios.create({

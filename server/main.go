@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"server/database"
 	"server/routers"
 
@@ -12,7 +13,13 @@ import (
 
 func main() {
 	fmt.Println("--- Starting server ---")
-	
+
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "8080"
+	}
+
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
@@ -25,5 +32,7 @@ func main() {
 
 	routers.Setup(app)
 
-	app.Listen(":4000")
+	app.Listen(port)
+
+	fmt.Println("==> Listening: "+port)
 }
