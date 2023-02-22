@@ -45,7 +45,7 @@ const UserCard: React.FC<any> = ({ profileData, followers }) => {
                     <p className="text-sm text-gray-500 truncate">
                         {profileData.username}
                     </p>
-                    <p className="truncate bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1.5 rounded cursor-pointer w-max mx-auto mt-2">
+                    <p className="truncate bg-green-300 text-grey-800 text-xs font-semibold px-2.5 py-1.5 rounded cursor-pointer w-max mx-auto mt-2">
                         {formatFollowers(followersCount)}
                     </p>
                 </div>
