@@ -1,0 +1,21 @@
+.mobile-menu-container{
+    display: none;
+}
+
+@media (max-width: 700px) {
+    .mobile-menu-container{
+        display: block;
+    }
+
+    .mobile-menu-container.open{
+        height: calc(100vh - 64px);
+        overflow-y: scroll;
+        transition: 0.5s;
+    }
+
+    .mobile-menu-container.close{
+        height: 0;
+        overflow: hidden;
+        transition: 0.5s;
+    }
+}

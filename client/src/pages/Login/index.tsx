@@ -26,7 +26,7 @@ const Login: React.FC<any> = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const hasEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data.name_email)
+      const hasEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(data.name_email)
       const payload = hasEmail ? {email: data.name_email, password: data.password} 
       : {username: data.name_email, password: data.password};
       const res = await loginUser(payload);

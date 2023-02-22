@@ -1,0 +1,8 @@
+@media (max-width: 700px) {
+    .blank-layout-space{
+        display: none;
+    }
+    .content-layout{
+        width: 100% !important;
+    }
+}
