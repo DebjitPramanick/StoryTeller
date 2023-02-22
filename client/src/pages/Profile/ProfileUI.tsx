@@ -8,6 +8,7 @@ import { StoriesDataType } from '.';
 import Button from '../../components/FormFields/Button';
 import PlaceIcon from '@mui/icons-material/Place';
 import { formatFollowers } from '../../utils/user.utils';
+import "./profile.css"
 
 interface UIProps {
     user: GlobalUserType,
@@ -43,25 +44,31 @@ const ProfileUI: React.FC<UIProps> = ({
 
     return (
         <PageLayout>
-            <div className={`flex items-center gap-10 shadow px-4 py-4 rounded-lg relative ${isOtherUser ? 'bg-violet-200' : 'bg-orange-200'}`}>
+            <div className={`flex items-center sm:gap-10 gap-4 shadow px-4 py-4 rounded-lg relative ${isOtherUser ? 'bg-violet-200' : 'bg-orange-200'} profile-top-card`}>
                 <div style={{ width: 'fit-content' }}>
-                    <img className="w-40 h-40 rounded-full border-violet-300 border-2" src={user.avatar} alt="/" />
+                    <img className="sm:w-40 sm:h-40 w-28 h-28 rounded-full border-violet-300 border-2" src={user.avatar} alt="/" />
                 </div>
-                <div style={{ width: 'calc(100% - 200px)' }}>
-                    <p className='text-2xl font-bold flex items-center gap-3'>
+                <div style={{ width: 'calc(100% - 200px)' }} className="profile-card-details">
+                    <p className='text-2xl font-bold truncate'>
                         {user.name}
-                        <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-2.5 rounded cursor-pointer">
+                    </p>
+                    <div className='mt-2 mb-6'>
+                        <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-2.5 rounded cursor-pointer ">
                             @{user.username}
                         </span>
-                    </p>
-                    <div className='mt-2 flex items-center gap-1 cursor-pointer'>
-                        <p className='text-sm font-normal text-black max-w-sm'>{formatFollowers(followers.count)}</p>
                     </div>
-                    <div className='mt-2 flex items-center gap-1'>
-                        <PlaceIcon style={{ color: 'grey', fontSize: '16px' }} />
-                        <p className='text-sm font-normal text-gray-500 max-w-sm'>{user.country}</p>
+
+                    <div className='flex items-center mt-2 gap-4'>
+                        <div className='flex items-center gap-1 cursor-pointer'>
+                            <p className='text-sm font-normal text-black max-w-sm'>{formatFollowers(followers.count)}</p>
+                        </div>
+                        <div className='flex items-center gap-1'>
+                            <PlaceIcon style={{ color: 'grey', fontSize: '16px' }} />
+                            <p className='text-sm font-normal text-gray-500 max-w-sm'>{user.country}</p>
+                        </div>
                     </div>
-                    <p className='mt-4 text-sm font-normal text-gray-500 max-w-sm italic'>{user.bio}</p>
+
+                    <p className='mt-4 text-sm font-normal text-gray-500 max-w-sm italic truncate'>{user.bio}</p>
                     <div className='mt-4 mx-auto flex justify-center gap-2'>
                         {isOtherUser && <>
                             {!isFollowing ? (<Button label={`Follow ${user.name.split(" ")[0]}`} onClick={handleFollowUser} fullWidth />)
