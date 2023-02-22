@@ -91,7 +91,8 @@ const UserDetailsModal: React.FC<UIProps> = ({
     const isCurUser = user._id === author._id;
 
     return (
-        <div className={`z-10 px-4 pt-4 w-72 bg-orange-100 border rounded-lg divide-y divide-gray-100 shadow-xl absolute left-14 top-0 ${!open ? 'hidden' : 'visible'}`}>
+        <div className={`z-10 px-4 pt-4 w-72 border rounded-lg divide-y divide-gray-100 shadow-xl absolute left-14 top-0 ${!open ? 'hidden' : 'visible'}`}
+        style={{background: "#c5fbd3"}}>
             <div className='flex gap-4'>
                 <div className="flex-shrink-0 cursor-pointer">
                     <img className="w-20 h-20 rounded-full" src={author.avatar} alt="" />

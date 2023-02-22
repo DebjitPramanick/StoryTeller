@@ -89,7 +89,7 @@ const StoryEditor: React.FC<EditorProps> = ({
             <div className='mb-6'>
                 <label className="block mb-2 text-sm font-medium text-gray-900 ">Enter tags</label>
                 <div className='flex align-center p-2 rounded-lg flex-wrap gap-2'
-                    style={{ background: '#fff5e4' }}>
+                    style={{ background: '#f1f1f1' }}>
                     {data.tags.map((tag: any, index: number) => (
                         <span key={index} className="inline-flex items-center py-1 px-2 text-sm font-medium text-blue-800 bg-blue-100 rounded">
                             {tag}
@@ -102,10 +102,10 @@ const StoryEditor: React.FC<EditorProps> = ({
 
                     <input
                         type="text"
-                        className='border-0 text-black text-xsl rounded focus:ring-0 focus:border-0 p-0 block w-full bg-orange-50 flex-1'
+                        className='border-0 text-black text-xsl rounded focus:ring-0 focus:border-0 p-0 block w-full flex-1'
                         value={newTag}
                         onChange={(e) => addNewTag(e.target.value)}
-                        style={{ background: '#fff5e4' }}
+                        style={{ background: '#f1f1f1' }}
                     ></input>
                 </div>
             </div>

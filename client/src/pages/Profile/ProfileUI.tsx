@@ -69,7 +69,7 @@ const ProfileUI: React.FC<UIProps> = ({
                         </div>
                     </div>
 
-                    <p className='mt-4 text-sm font-normal text-gray-500 max-w-sm italic truncate'>{user.bio}</p>
+                    <p className='mt-4 text-sm font-normal text-gray-500 italic truncate' style={{maxWidth: '80%'}}>{user.bio}</p>
                     <div className='mt-4 mx-auto flex justify-center gap-2'>
                         {isOtherUser && <>
                             {!isFollowing ? (<Button label={`Follow ${user.name.split(" ")[0]}`} onClick={handleFollowUser} fullWidth />)

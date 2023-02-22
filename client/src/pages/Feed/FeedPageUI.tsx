@@ -102,7 +102,7 @@ const FeedPageUI: React.FC<any> = ({
                         ))}
                     </div>
 
-                    <div className="mt-4 flex items-center gap-2 px-4 py-2 bg-orange-100 rounded-lg">
+                    <div className="mt-4 flex items-center gap-2 px-4 py-2 rounded-lg" style={{background: '#c5fbd3'}}>
                         <div className="flex-shrink-0 cursor-pointer">
                             <img className="w-12 h-12 rounded-full" src={feed.author.avatar} alt="" />
                         </div>
