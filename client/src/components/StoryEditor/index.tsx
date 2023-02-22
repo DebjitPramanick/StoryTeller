@@ -76,7 +76,7 @@ const StoryEditor: React.FC<EditorProps> = ({
                         editorStyle={{
                             height: '50vh',
                             padding: '0 10px',
-                            background: '#fff5e4',
+                            background: '#f1f1f1',
                             borderRadius: '6px'
                         }}
                         toolbarStyle={{

@@ -26,6 +26,8 @@ const EditProfileTab: React.FC<any> = ({
   const { refetchUser } = useUser();
   const navigate = useNavigate();
 
+  const [isUpdating, setIsUpdating] = useState(false)
+
   const [data, setData] = useState<EditUserDetailsType>({
     name: user.name,
     bio: user.bio,
@@ -38,13 +40,16 @@ const EditProfileTab: React.FC<any> = ({
 
   const handleUpdate = async (e: any) => {
     e.preventDefault();
+    setIsUpdating(true)
     try {
       await updateUser(user._id, data);
       await refetchUser();
       await fetchUserStories()
       popupMessage("success", "Updated user successfully.")
+      setIsUpdating(false)
     } catch (err: any) {
       popupMessage('error', err.message);
+      setIsUpdating(false)
     }
   }
 
@@ -111,7 +116,7 @@ const EditProfileTab: React.FC<any> = ({
             placeholder="Enter bio"
           />
 
-          <Button label="Updte User" type="submit" rightAligned={true} onClick={(e: any) => handleUpdate(e)} />
+          <Button label="Updte User" type="submit" rightAligned={true} onClick={(e: any) => handleUpdate(e)} loading={isUpdating}/>
         </form>
       </div>
       <div className='border-b border-gray-200 my-4 w-full'></div>

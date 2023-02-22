@@ -14,8 +14,9 @@ const PageLayout: React.FC<any> = ({ pageTitle, children }) => {
             <Sidebar />
             <div className='bg-white rounded-lg overflow-hidden content-layout'
                 style={{ width: isAuthPage ? '100%' : 'calc(100% - 256px)', height: 'calc(100vh - 96px)' }}>
-                {pageTitle && (<h1 className='text-2xl font-bold text-gray-500 bg-orange-200 p-2'>{pageTitle}</h1>)}
-                <div className='px-4 py-4 overflow-y-scroll' style={{height: 'calc(100% - 40px)'}}>{children}</div>
+                {pageTitle && (<h1 className='text-2xl font-bold text-white bg-green-300 p-2'>{pageTitle}</h1>)}
+
+                <div className='px-4 py-4 overflow-y-scroll content-items' style={{height: 'calc(100% - 40px)'}}>{children}</div>
             </div>
         </div>
     )

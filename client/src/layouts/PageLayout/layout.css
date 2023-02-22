@@ -5,4 +5,8 @@
     .content-layout{
         width: 100% !important;
     }
+    .content-items{
+        padding-left: 0;
+        padding-right: 0;
+    }
 }

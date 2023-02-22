@@ -52,10 +52,10 @@ const Sidebar: React.FC<any> = () => {
     return (
         <div className='fixed sidebar'>
             <aside className="w-72" aria-label="Sidebar">
-                <div className="overflow-y-auto py-4 px-3 bg-blue-200 rounded-lg">
-                    <div className='rounded-lg p-2 bg-blue-100 mb-2'>
+                <div className="overflow-y-auto py-4 px-3 rounded-lg" style={{ background: '#c5fbd3' }}>
+                    <div className='rounded-lg p-2 bg-green-300 mb-2'>
                         <div className="flex justify-center cursor-pointer relative">
-                            <img className="w-16 h-16 rounded-full border-blue-200 border-2" src={user.avatar} alt="" />
+                            <img className="w-16 h-16 rounded-full border-green-200 border-2" src={user.avatar} alt="" />
                         </div>
                         <div className="flex items-center gap-2 my-2">
                             <div className="flex-1 min-w-0 text-center">
@@ -72,7 +72,7 @@ const Sidebar: React.FC<any> = () => {
                         {items.map((item) => (
                             <li>
                                 <Link to={item.path}
-                                    className={`flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-blue-100 ${isCurrent(item.path) ? 'bg-blue-300' : ''}`}>
+                                    className={`flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-green-200 ${isCurrent(item.path) ? 'bg-green-300 hover:bg-green-300' : ''}`}>
                                     <span>{item.icon}</span>
                                     <span className="ml-3">{item.name}</span>
                                 </Link>

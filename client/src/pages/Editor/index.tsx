@@ -24,17 +24,21 @@ const Editor = () => {
   const { user } = useUser();
   const navigate = useNavigate();
 
+  const [isPublishing, setIsPublishing] = useState(false)
   const [data, setData] = useState<StoryDetailsType>(initialData);
 
   const handleCreateStory = async (e: any) => {
     e.preventDefault();
+    setIsPublishing(true)
     try {
       const authorId = user._id;
       await createStory(data, authorId);
       popupMessage('success', "Story created successfully.");
+      setIsPublishing(false)
       navigate("/profile")
     } catch (err: any) {
       popupMessage('error', err.message);
+      setIsPublishing(false)
     }
   }
 
@@ -46,7 +50,8 @@ const Editor = () => {
     <EditorUI
       handleChangeData={handleChangeData}
       handleCreateStory={handleCreateStory}
-      data={data} />
+      data={data}
+      isPublishing={isPublishing} />
   )
 }
 

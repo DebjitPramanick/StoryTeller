@@ -6,7 +6,8 @@ import StoryEditor from '../../components/StoryEditor';
 const EditorUI: React.FC<any> = ({
     handleCreateStory,
     handleChangeData,
-    data
+    data,
+    isPublishing
 }) => {
 
     return (
@@ -17,7 +18,7 @@ const EditorUI: React.FC<any> = ({
                     handleChangeData={handleChangeData} />
 
                 <div className='mt-2'>
-                    <Button onClick={handleCreateStory} label={"Publish"} rightAligned />
+                    <Button onClick={handleCreateStory} label={"Publish"} rightAligned loading={isPublishing}/>
                 </div>
             </div>
 

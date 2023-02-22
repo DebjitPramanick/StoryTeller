@@ -44,7 +44,8 @@ const ProfileUI: React.FC<UIProps> = ({
 
     return (
         <PageLayout>
-            <div className={`flex items-center sm:gap-10 gap-4 shadow px-4 py-4 rounded-lg relative ${isOtherUser ? 'bg-violet-200' : 'bg-orange-200'} profile-top-card`}>
+            <div className={`flex items-center sm:gap-10 gap-4 shadow px-4 py-4 rounded-lg relative ${isOtherUser ? 'bg-blue-200' : ''} profile-top-card`}
+            style={!isOtherUser? {background: '#c5fbd3'} : {}}>
                 <div style={{ width: 'fit-content' }}>
                     <img className="sm:w-40 sm:h-40 w-28 h-28 rounded-full border-violet-300 border-2" src={user.avatar} alt="/" />
                 </div>
@@ -53,7 +54,7 @@ const ProfileUI: React.FC<UIProps> = ({
                         {user.name}
                     </p>
                     <div className='mt-2 mb-6'>
-                        <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-2.5 rounded cursor-pointer ">
+                        <span className="bg-green-300 text-grey-800 text-xs font-semibold px-2.5 py-2.5 rounded cursor-pointer ">
                             @{user.username}
                         </span>
                     </div>
